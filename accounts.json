@@ -1,0 +1,17 @@
+[
+    {
+        "type": "OO",
+        "number": "11223344",
+        "balance": 100
+    },
+    {
+        "type": "OE",
+        "number": "11224455",
+        "balance": 200
+    },
+    {
+        "type": "SM",
+        "number": "11225566",
+        "balance": -100
+    }
+]
