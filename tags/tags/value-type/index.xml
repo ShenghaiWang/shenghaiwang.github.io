@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Value Type on Coding life</title>
+    <link>https://timwang.au/tags/value-type/</link>
+    <description>Recent content in Value Type on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 23 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/value-type/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Differences Between Value Types and Reference Types in Swift</title>
+      <link>https://timwang.au/posts/the-differences-between-value-types-and-reference-types-in-swift/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/the-differences-between-value-types-and-reference-types-in-swift/</guid>
+      <description>&lt;p&gt;Swift is a powerful and intuitive programming language that combines safety and performance. One of the key concepts that Swift developers encounter is the distinction between &lt;strong&gt;value types&lt;/strong&gt; and &lt;strong&gt;reference types&lt;/strong&gt;. Understanding these two types is crucial to further develop our Swift skills.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

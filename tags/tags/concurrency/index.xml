@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Concurrency on Coding life</title>
+    <link>https://timwang.au/tags/concurrency/</link>
+    <description>Recent content in Concurrency on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 26 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/concurrency/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Swift Actors</title>
+      <link>https://timwang.au/posts/swift-actors/</link>
+      <pubDate>Fri, 26 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/swift-actors/</guid>
+      <description>&lt;p&gt;The &lt;strong&gt;actor model&lt;/strong&gt; is a popular model for concurrency computing. Swift adopts this model and adds actor as an integral part of Swift concurrency since Swift 5.5. Swift actors encapsulate state variables and operations that defined upon states to ensure mutually exclusive access to these states. In this article, we are going to explore how to utilise this feature.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

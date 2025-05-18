@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Property Observer on Coding life</title>
+    <link>https://timwang.au/tags/property-observer/</link>
+    <description>Recent content in Property Observer on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 26 Aug 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/property-observer/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The beauty of Swift Language — Property Observer</title>
+      <link>https://timwang.au/posts/the-beauty-of-swift-language--property-observer/</link>
+      <pubDate>Sat, 26 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/the-beauty-of-swift-language--property-observer/</guid>
+      <description>&lt;p&gt;Swift is one of my favourite computer languages. I would like to write a series of articles to demonstrate its beauty by comparing it with some other languages(C#, Kotlin) in areas like &lt;code&gt;Property Observation&lt;/code&gt; , &lt;code&gt;Property wrapper&lt;/code&gt;, &lt;code&gt;Builders&lt;/code&gt;, &lt;code&gt;Macros&lt;/code&gt; , &lt;code&gt;Structured concurrency&lt;/code&gt; etc. This article , as the first of this series, will focus on the Property Observation.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

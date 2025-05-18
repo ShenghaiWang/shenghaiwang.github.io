@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Test Coverage on Coding life</title>
+    <link>https://timwang.au/tags/test-coverage/</link>
+    <description>Recent content in Test Coverage on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 23 May 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/test-coverage/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The standard of good codebases</title>
+      <link>https://timwang.au/posts/good-codebases/</link>
+      <pubDate>Tue, 23 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/good-codebases/</guid>
+      <description>&lt;p&gt;As software engineers, it’s no surprise that we often find ourselves in a conversation talking about working on a bad codebase or seldomly a good one. But what makes a good codebase exactly? I will summarise my opinion here and please comment below if you have different thoughts.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

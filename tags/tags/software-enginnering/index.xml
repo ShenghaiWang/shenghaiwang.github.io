@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Software Enginnering on Coding life</title>
+    <link>https://timwang.au/tags/software-enginnering/</link>
+    <description>Recent content in Software Enginnering on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 23 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/software-enginnering/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Local Reasoning</title>
+      <link>https://timwang.au/posts/local-reasoning/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/local-reasoning/</guid>
+      <description>&lt;h1 id=&#34;understanding-local-reasoning&#34;&gt;Understanding Local Reasoning&lt;/h1&gt;&#xA;&lt;p&gt;Local reasoning is a principle in software development that allows programmers to understand and modify code by focusing on small, isolated sections without needing to comprehend the entire system simultaneously.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Good Codebases on Coding life</title>
+    <link>http://localhost:1313/tags/good-codebases/</link>
+    <description>Recent content in Good Codebases on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 23 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/good-codebases/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The standard of good codebases</title>
+      <link>http://localhost:1313/posts/good-codebases/</link>
+      <pubDate>Sat, 23 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/good-codebases/</guid>
+      <description>&lt;p&gt;==============================&lt;/p&gt;&#xA;&lt;p&gt;[&lt;img src=&#34;https://miro.medium.com/v2/resize:fill:64:64/1*kAxpuQGx_mzNh4e0l7uQTg@2x.jpeg&#34; alt=&#34;Tim Wang&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;](&lt;a href=&#34;https://medium.com/@tim_wang?source=post_page---byline--2caae18f5e71---------------------------------------)%5BTim&#34;&gt;https://medium.com/@tim_wang?source=post_page---byline--2caae18f5e71---------------------------------------)[Tim&lt;/a&gt; Wang](&lt;a href=&#34;https://medium.com/@tim_wang?source=post_page---byline--2caae18f5e71---------------------------------------&#34;&gt;https://medium.com/@tim_wang?source=post_page---byline--2caae18f5e71---------------------------------------&lt;/a&gt;)&lt;/p&gt;&#xA;&lt;p&gt;Follow3 min read·Nov 8, 2023&lt;/p&gt;&#xA;&lt;p&gt;--&lt;/p&gt;&#xA;&lt;p&gt;Listen&lt;/p&gt;&#xA;&lt;p&gt;Share&lt;/p&gt;&#xA;&lt;p&gt;As software engineers, it’s no surprise that we often find ourselves in a conversation talking about working on a bad codebase or seldomly a good one. But what makes a good codebase exactly? I will summarise my opinion here and please comment below if you have different thoughts.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

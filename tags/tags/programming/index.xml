@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Programming on Coding life</title>
+    <link>https://timwang.au/tags/programming/</link>
+    <description>Recent content in Programming on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 10 Jan 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/programming/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DRY - Don’t Repeat Yourself</title>
+      <link>https://timwang.au/posts/dry---dont-repeat-yourself/</link>
+      <pubDate>Tue, 10 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/dry---dont-repeat-yourself/</guid>
+      <description>&lt;p&gt;DRY(&lt;strong&gt;D&lt;/strong&gt;on’t &lt;strong&gt;R&lt;/strong&gt;epeat &lt;strong&gt;Y&lt;/strong&gt;ourself) aims at reducing the repetition of code chunks and patterns, which was first defined in the book The Pragmatic Programmer as “every piece of knowledge must have a single, unambiguous, authoritative representation within a system.” In this article, we are going to discuss this principle in details.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

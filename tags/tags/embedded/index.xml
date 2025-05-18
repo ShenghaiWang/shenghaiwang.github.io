@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Embedded on Coding life</title>
+    <link>https://timwang.au/tags/embedded/</link>
+    <description>Recent content in Embedded on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 23 Aug 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/embedded/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Unlocking the Power of Embedded Swift: Your Step-by-Step Roadmap</title>
+      <link>https://timwang.au/posts/unlocking-the-power-of-embedded-swift-your-step-by-step-roadmap/</link>
+      <pubDate>Fri, 23 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/unlocking-the-power-of-embedded-swift-your-step-by-step-roadmap/</guid>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;&#xA;&lt;p&gt;Swift, the general-purpose programming language beloved by Apple developers, is expanding its reach into the embedded systems world. While this feature hasn’t been officially released yet, it’s already demonstrating significant potential. Much like Swift’s move into server-side development a few years ago, this expansion could open up exciting new opportunities for Swift developers.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

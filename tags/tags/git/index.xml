@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Git on Coding life</title>
+    <link>https://timwang.au/tags/git/</link>
+    <description>Recent content in Git on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 23 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Git credential helper using Swift</title>
+      <link>https://timwang.au/posts/git-credential-helper-using-swift/</link>
+      <pubDate>Sat, 23 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/git-credential-helper-using-swift/</guid>
+      <description>&lt;h1 id=&#34;whats-git-credential-helper&#34;&gt;What’s git credential helper&lt;/h1&gt;&#xA;&lt;p&gt;Git needs a way to know the credentials if we use it to access the repos that are not public. If using repo&amp;rsquo;s &lt;code&gt;ssh&lt;/code&gt; address, configuring &lt;code&gt;ssh&lt;/code&gt; key is enough. For repos address that are in https url format, &lt;code&gt;username&lt;/code&gt; and &lt;code&gt;password&lt;/code&gt; are needed, where password can be personal access token or OAuth access token depending on the server configuration.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

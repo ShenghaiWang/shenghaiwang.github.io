@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Structured Concurrency on Coding life</title>
+    <link>https://timwang.au/tags/structured-concurrency/</link>
+    <description>Recent content in Structured Concurrency on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 26 Sep 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/structured-concurrency/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Beauty of Swift Language — Structured Concurrency</title>
+      <link>https://timwang.au/posts/the-beauty-of-swift-language--structured-concurrency/</link>
+      <pubDate>Tue, 26 Sep 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/the-beauty-of-swift-language--structured-concurrency/</guid>
+      <description>&lt;p&gt;Modern CPUs usually have multiple cores and some computers even have more than one CPUs, which means they can run multiple instructions in parallel. In order to utilise this hardware feature, we need to structure our code in such way that it can run concurrently. Structured concurrency that exists in many modern languages is invented just for this purpose.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
