@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    Exploring Swift’s Codable Protocol | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/exploring-swifts-codable-protocol/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    In the previous article, we explored techniques for modifying key names when working with the Codable protocol in Swift. This article will focus on customizing the values within JSON data. The desired transformations can be accomplished by implementing custom encode/decode methods. Specifically, within these methods, we can leverage the Keyed Container, Unkeyed Container, and Single Value Container types to handle encoding values into and decoding values from JSON data. In this article, we will explore the Keyed Container, leaving the remaining types to be covered in subsequent articles.
+    "
+/>
+<meta property="og:description" content="
+    In the previous article, we explored techniques for modifying key names when working with the Codable protocol in Swift. This article will focus on customizing the values within JSON data. The desired transformations can be accomplished by implementing custom encode/decode methods. Specifically, within these methods, we can leverage the Keyed Container, Unkeyed Container, and Single Value Container types to handle encoding values into and decoding values from JSON data. In this article, we will explore the Keyed Container, leaving the remaining types to be covered in subsequent articles.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/exploring-swifts-codable-protocol/feature.webp" />
+
+
+
+
+<meta property="og:title" content="Exploring Swift’s Codable Protocol" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/exploring-swifts-codable-protocol/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-06-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-06-23T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/exploring-swifts-codable-protocol/feature.webp">
+  <meta name="twitter:title" content="Exploring Swift’s Codable Protocol">
+  <meta name="twitter:description" content="In the previous article, we explored techniques for modifying key names when working with the Codable protocol in Swift. This article will focus on customizing the values within JSON data. The desired transformations can be accomplished by implementing custom encode/decode methods. Specifically, within these methods, we can leverage the Keyed Container, Unkeyed Container, and Single Value Container types to handle encoding values into and decoding values from JSON data. In this article, we will explore the Keyed Container, leaving the remaining types to be covered in subsequent articles.">
+
+
+  <meta itemprop="name" content="Exploring Swift’s Codable Protocol">
+  <meta itemprop="description" content="In the previous article, we explored techniques for modifying key names when working with the Codable protocol in Swift. This article will focus on customizing the values within JSON data. The desired transformations can be accomplished by implementing custom encode/decode methods. Specifically, within these methods, we can leverage the Keyed Container, Unkeyed Container, and Single Value Container types to handle encoding values into and decoding values from JSON data. In this article, we will explore the Keyed Container, leaving the remaining types to be covered in subsequent articles.">
+  <meta itemprop="datePublished" content="2024-06-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-06-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1682">
+  <meta itemprop="image" content="https://timwang.au/posts/exploring-swifts-codable-protocol/feature.webp">
+  <meta itemprop="keywords" content="Swift,Protocol,Codable">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">Exploring Swift’s Codable Protocol</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Jun 23, 2024
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    9 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/protocol"><span
+                                    class="tag bg-dark">Protocol</span></a>
+                            
+                            <a href="https://timwang.au/tags/codable"><span
+                                    class="tag bg-dark">Codable</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/exploring-swifts-codable-protocol/feature.webp alt="Exploring Swift’s Codable Protocol">
+                        </figure>
+                    
+                
+
+                <p>In the previous article, we explored techniques for modifying key names when working with the Codable protocol in Swift. This article will focus on customizing the values within JSON data. The desired transformations can be accomplished by implementing custom encode/decode methods. Specifically, within these methods, we can leverage the <strong>Keyed Container</strong>, <strong>Unkeyed Container</strong>, and <strong>Single Value Container</strong> types to handle encoding values into and decoding values from JSON data. In this article, we will explore the <strong>Keyed Container</strong>, leaving the remaining types to be covered in subsequent articles.</p>
+<p>The Keyed Container is responsible for handling object data in JSON. There are several approaches we can take to inject custom logic into the encoding and decoding processes.</p>
+<h1 id="customise-encodedecode-methods">Customise encode/decode methods</h1>
+<p>Consider the following <code>Person</code> struct as an example, which has two properties, <code>firstName</code> and <code>lastName</code>. In the customized <code>encode</code> method, these two values are encoded into a single JSON field called <code>name</code>. Conversely, during the decoding process, the <code>decode</code> method constructs a <code>Person</code> instance from the value of the <code>name</code> JSON field.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Person</span>: Codable {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> firstName: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> lastName: String  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(firstName: String, lastName: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.firstName = firstName  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.lastName = lastName  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">CodingKeys</span>: String, CodingKey {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> name  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">encode</span>(to encoder: any Encoder) <span style="color:#66d9ef">throws</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> container = encoder.container(keyedBy: CodingKeys.<span style="color:#66d9ef">self</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> container.encode(firstName <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">+</span> lastName, forKey: .name)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(from decoder: any Decoder) <span style="color:#66d9ef">throws</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> container = <span style="color:#66d9ef">try</span> decoder.container(keyedBy: CodingKeys.<span style="color:#66d9ef">self</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> value = <span style="color:#66d9ef">try</span> container.decode(String.<span style="color:#66d9ef">self</span>, forKey: .name)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> components = value.split(separator: <span style="color:#e6db74">&#34; &#34;</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> components.count == <span style="color:#ae81ff">2</span>,  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> firstName = components.first,  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> lastName = components.last <span style="color:#66d9ef">else</span> {  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> DecodingError  
+</span></span><span style="display:flex;"><span>                .dataCorrupted(.<span style="color:#66d9ef">init</span>(codingPath: [CodingKeys.name],  
+</span></span><span style="display:flex;"><span>                                     debugDescription: <span style="color:#e6db74">&#34;Wrong value format&#34;</span>))  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.firstName = String(firstName)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.lastName = String(lastName)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>With the custom encoding and decoding logic in place, if we encode a <code>Person</code> instance, for example, <code>Person(firstName: &quot;Tim&quot;, lastName: &quot;Wang&quot;)</code>, the resulting JSON string will be <code>{&quot;name&quot;:&quot;Tim Wang&quot;}</code>. Conversely, this JSON string can be decoded back into a <code>Person</code> instance using the custom decoding logic.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> person = Person(firstName: <span style="color:#e6db74">&#34;Tim&#34;</span>, lastName: <span style="color:#e6db74">&#34;Wang&#34;</span>)  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> data = <span style="color:#66d9ef">try</span> JSONEncoder().encode(person)  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> jsonString = String(data: data, encoding: .utf8)  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> newPerson = <span style="color:#66d9ef">try</span> JSONDecoder().decode(Person.<span style="color:#66d9ef">self</span>, from: data)
+</span></span></code></pre></div><h1 id="inject-configurations"><code>Inject configurations</code></h1>
+<p>In the previous example, we hardcoded specific logic within the encoding and decoding methods. The <code>CodableConfiguration</code> property wrapper offers an approach to inject configurations into this process to make it more flexible. In the following example, we leverage this wrapper to inject the <code>TruncatedStringCodableConfiguration</code> during the encoding and decoding process. This configuration is used to truncate string values, with the maximum length being configurable through the <code>TruncatedString</code> type.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Person</span>: Codable {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> firstName: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> lastName: String  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Message</span>: Codable {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> sender: Person  
+</span></span><span style="display:flex;"><span>    @CodableConfiguration(from: TruncatedString.<span style="color:#66d9ef">self</span>) <span style="color:#66d9ef">var</span> content: String = <span style="color:#e6db74">&#34;&#34;</span>  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TruncatedString</span>: DecodingConfigurationProviding, EncodingConfigurationProviding {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">var</span> decodingConfiguration: TruncatedStringCodableConfiguration {  
+</span></span><span style="display:flex;"><span>        TruncatedStringCodableConfiguration(maxLength: <span style="color:#ae81ff">140</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">var</span> encodingConfiguration: TruncatedStringCodableConfiguration {  
+</span></span><span style="display:flex;"><span>        TruncatedStringCodableConfiguration(maxLength: <span style="color:#ae81ff">140</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>@available(macOS <span style="color:#ae81ff">12</span>, iOS <span style="color:#ae81ff">15</span>, tvOS <span style="color:#ae81ff">15</span>, watchOS <span style="color:#ae81ff">8</span>, <span style="color:#f92672">*</span>)  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">String</span>: CodableWithConfiguration {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">init</span>(from decoder: any Decoder, configuration: TruncatedStringCodableConfiguration) <span style="color:#66d9ef">throws</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> container = <span style="color:#66d9ef">try</span> decoder.singleValueContainer()  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span> = <span style="color:#66d9ef">try</span> String(container.decode(String.<span style="color:#66d9ef">self</span>).<span style="color:#66d9ef">prefix</span>(configuration.maxLength))  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">encode</span>(to encoder: any Encoder, configuration: TruncatedStringCodableConfiguration) <span style="color:#66d9ef">throws</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> container = encoder.singleValueContainer()  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> container.encode(<span style="color:#66d9ef">self</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TruncatedStringCodableConfiguration</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> maxLength: Int  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">init</span>(maxLength: Int) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.maxLength = maxLength  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> message = Message(sender: .<span style="color:#66d9ef">init</span>(firstName: <span style="color:#e6db74">&#34;Tim&#34;</span>, lastName: <span style="color:#e6db74">&#34;Wang&#34;</span>), content: <span style="color:#e6db74">&#34;How are you?&#34;</span>)  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> messageData = <span style="color:#66d9ef">try</span> JSONEncoder().encode(message)  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> newMessage = <span style="color:#66d9ef">try</span> JSONDecoder().decode(Message.<span style="color:#66d9ef">self</span>, from: messageData)
+</span></span></code></pre></div><h1 id="other-considerations">Other considerations</h1>
+<h2 id="handling-optional-json-fields">Handling optional JSON fields</h2>
+<p>In JSON, some fields can be optional. To handle these cases, the <code>KeyedEncodingContainer</code> and <code>KeyedDecodingContainer</code> types in Swift provide a group of methods. When dealing with optional fields, we have optional properties and keys corresponding to these JSON fields. For example, consider the following JSON string and <code>Person</code> struct:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> json =  
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{&#34;</span>firstName<span style="color:#e6db74">&#34;: &#34;</span>Tim<span style="color:#e6db74">&#34;}  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Person</span>: Codable {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> firstName: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> lastName: String? <span style="color:#75715e">// Optional  </span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In this example, the <code>lastName</code> field is optional in the <code>Person</code> struct, as it may or may not be present in the JSON data. The corresponding key <code>&quot;lastName&quot;</code> in the JSON object is also optional.</p>
+<p>If we run <code>let person = try JSONDecoder().decode(Person.self, from: json.data(using: .utf8)!)</code>, it will return a <code>Person</code> instance with the <code>name</code> value set to <code>&quot;Tim&quot;</code>, the <code>lastName</code> value set to <code>nil</code>. This behavior is achieved due to the way the Swift compiler generates the <code>decode</code> method for the <code>Person</code> struct. The generated <code>decode</code> method utilizes the <code>decodeIfPresent</code> method to handle optional fields. If we were to change it to use the <code>decode</code> method instead, it would throw an error if the <code>lastName</code> field is missing from the JSON data, as it expects the field to be present. Here&rsquo;s an example of how the generated <code>decode</code> method might look like:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span> <span style="color:#66d9ef">init</span>(from decoder: Decoder) <span style="color:#66d9ef">throws</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> container = <span style="color:#66d9ef">try</span> decoder.container(keyedBy: CodingKeys.<span style="color:#66d9ef">self</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.firstName = <span style="color:#66d9ef">try</span> container.decode(String.<span style="color:#66d9ef">self</span>, forKey: .firstName)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.lastName = <span style="color:#66d9ef">try</span> container.decodeIfPresent(String.<span style="color:#66d9ef">self</span>, forKey: .lastName)  
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>When dealing with optional properties during the encoding and decoding process, Swift provides additional methods to handle <code>nil</code> values explicitly. If you want to set a property to <code>nil</code> during the decoding process, you can use the <code>decodeNil</code> method provided by the <code>KeyedDecodingContainer</code>. This method allows you to differentiate between a missing field and an explicitly set <code>null</code> value in the JSON data.</p>
+<p>Similarly, during the encoding process, you can use the <code>encodeNil</code> method provided by the <code>KeyedEncodingContainer</code> to generate a <code>null</code> value in the JSON output for a property that is <code>nil</code>. This behavior differs from the <code>encodeIfPresent</code> method, which omits the field entirely from the JSON output if the value is <code>nil</code>.</p>
+<p>By leveraging these specialized methods, you gain granular control over how optional properties are handled during the encoding and decoding processes, ensuring accurate representation of <code>nil</code> values in the JSON data.</p>
+<h2 id="tweak-structure">Tweak structure</h2>
+<p>When writing custom <code>encode</code> and <code>decode</code> methods, there may be situations where you need to access values that are nested within the JSON data structure. For example, consider the following JSON data:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> json =  
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{   
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;</span>name<span style="color:#e6db74">&#34;:  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        {  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;</span>firstName<span style="color:#e6db74">&#34;: &#34;</span>Tim<span style="color:#e6db74">&#34;  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        }  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span></code></pre></div><p>In this case, the <code>firstName</code> propertie is part of the nested <code>name</code> object. While it&rsquo;s common to decode these values within a separate <code>Name</code> struct, there may be cases where you need to access them directly from the parent object.</p>
+<p>To handle such scenarios, Swift provides the <code>nestedContainer</code> and <code>nestedUnkeyedContainer</code> methods on the <code>KeyedDecodingContainer</code> and <code>UnkeyedDecodingContainer</code>, respectively. These methods allow you to navigate into nested containers, enabling you to access and decode values at different levels of the JSON hierarchy.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> json =  
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{   
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;</span>name<span style="color:#e6db74">&#34;:  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        {  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;</span>firstName<span style="color:#e6db74">&#34;: &#34;</span>Tim<span style="color:#e6db74">&#34;  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        }  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Name</span>: Codable {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> firstName: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> lastName: String?  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">CodingKeys</span>: String, CodingKey {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> firstName  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> lastName  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Person</span>: Codable {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> name: Name  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(name: Name) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.name = name  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">CodingKeys</span>: String, CodingKey {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> name  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(from decoder: Decoder) <span style="color:#66d9ef">throws</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> container = <span style="color:#66d9ef">try</span> decoder.container(keyedBy: CodingKeys.<span style="color:#66d9ef">self</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Use nestedContainer to access firstName here  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> nestedContainer = <span style="color:#66d9ef">try</span> container.nestedContainer(keyedBy: Name.CodingKeys.<span style="color:#66d9ef">self</span>, forKey: .name)  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#66d9ef">try</span> nestedContainer.decode(String.<span style="color:#66d9ef">self</span>, forKey: .firstName))  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.name = <span style="color:#66d9ef">try</span> container.decode(Name.<span style="color:#66d9ef">self</span>, forKey: .name)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Similarly, the <code>KeyedEncodingContainer</code> provides the <code>nestedContainer</code> and <code>nestedUnkeyedContainer</code> methods, which enable encoding nested values directly at the parent level. These methods offer flexibility and control over the encoding process, allowing developers to customize the behavior as needed, even when dealing with nested data structures. Consider the following example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">encode</span>(to encoder: Encoder) <span style="color:#66d9ef">throws</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> container = encoder.container(keyedBy: CodingKeys.<span style="color:#66d9ef">self</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> nested = container.nestedContainer(keyedBy: Name.CodingKeys.<span style="color:#66d9ef">self</span>, forKey: .name)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> nested.encode(name.firstName, forKey: .firstName)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> nested.encodeIfPresent(name.lastName, forKey: .lastName)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">encode</span>(to encoder: Encoder) <span style="color:#66d9ef">throws</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> container = encoder.container(keyedBy: CodingKeys.<span style="color:#66d9ef">self</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> container.encode(<span style="color:#66d9ef">self</span>.name, forKey: .name)  
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>In the first <code>encode</code> method, the <code>nestedContainer(keyedBy:forKey:)</code> method is used to create a nested <code>KeyedEncodingContainer</code> for the <code>name</code> key. This nested container allows for encoding the <code>firstName</code> and <code>lastName</code> values directly at the parent level, even though they are properties of the nested <code>Name</code> struct. The <code>encodeIfPresent</code> method is used to conditionally encode the <code>lastName</code> property if it has a non-nil value.</p>
+<p>The second <code>encode</code> method leverages the default <code>Codable</code> implementation for the <code>Name</code> struct. It encodes the entire <code>name</code> instance directly using the <code>encode(_:forKey:)</code> method, relying on the conformance of the <code>Name</code> struct to the <code>Codable</code> protocol.</p>
+<p>When the <code>Name</code> struct uses the default <code>Codable</code> implementation, both encoding methods will produce the same JSON output. However, the first method provides greater control over the encoding process, allowing for customizations such as conditionally encoding properties or applying additional logic during encoding.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>In this article, we delved into the techniques of customizing the encode and decode methods using the various methods provided by the <code>KeyedContainer</code> types in Swift&rsquo;s <code>Codable</code> protocol. By encapsulating the mapping logic within custom encode and decode methods, we promote the separation of concerns and keep the logic contained within the appropriate layer of our application.</p>
+<p>Encapsulating this logic offers several benefits. Firstly, it enhances code organization and maintainability by separating the concerns of data transformation from the higher-level business logic. This separation promotes a more modular and extensible codebase, as changes to the data mapping can be made without impacting other layers of the application.</p>
+<p>Secondly, custom encode and decode methods provide greater control and flexibility over the serialization and deserialization processes. Developers can leverage methods such as <code>nestedContainer</code>, <code>nestedUnkeyedContainer</code>, <code>decodeNil</code>, and <code>encodeNil</code> to handle complex data structures, conditionally encode or decode properties, and apply custom logic as needed. This level of control is particularly valuable when working with nested data structures or when conforming to specific data formats.</p>
+<p>Furthermore, by encapsulating the mapping logic within custom methods, higher-level layers of the application can seamlessly leverage the benefits of Swift’s concise and expressive syntax without concern for the underlying transformation details. This abstraction promotes code clarity and readability, as the higher-level logic can focus on the core business requirements rather than being burdened with low-level data transformation details.</p>
+<p>Overall, customizing the encode and decode methods using the <code>KeyedContainer</code> methods in Swift&rsquo;s <code>Codable</code> protocol empowers developers to create robust, maintainable, and extensible solutions for handling data serialization and deserialization. By embracing this approach, developers can effectively manage complex data structures, enhance code organization, and promote a clear separation of concerns within their applications.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fexploring-swifts-codable-protocol%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=Exploring%20Swift%e2%80%99s%20Codable%20Protocol&url=https%3a%2f%2ftimwang.au%2fposts%2fexploring-swifts-codable-protocol%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fexploring-swifts-codable-protocol%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/exploring-swifts-codable-protocol/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fexploring-swifts-codable-protocol%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fexploring-swifts-codable-protocol%2f
+			&title=Exploring%20Swift%e2%80%99s%20Codable%20Protocol&summary=%3cp%3eIn%20the%20previous%20article%2c%20we%20explored%20techniques%20for%20modifying%20key%20names%20when%20working%20with%20the%20Codable%20protocol%20in%20Swift.%20This%20article%20will%20focus%20on%20customizing%20the%20values%20within%20JSON%20data.%20The%20desired%20transformations%20can%20be%20accomplished%20by%20implementing%20custom%20encode%2fdecode%20methods.%20Specifically%2c%20within%20these%20methods%2c%20we%20can%20leverage%20the%20%3cstrong%3eKeyed%20Container%3c%2fstrong%3e%2c%20%3cstrong%3eUnkeyed%20Container%3c%2fstrong%3e%2c%20and%20%3cstrong%3eSingle%20Value%20Container%3c%2fstrong%3e%20types%20to%20handle%20encoding%20values%20into%20and%20decoding%20values%20from%20JSON%20data.%20In%20this%20article%2c%20we%20will%20explore%20the%20%3cstrong%3eKeyed%20Container%3c%2fstrong%3e%2c%20leaving%20the%20remaining%20types%20to%20be%20covered%20in%20subsequent%20articles.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=Exploring%20Swift%e2%80%99s%20Codable%20Protocol&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fexploring-swifts-codable-protocol%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

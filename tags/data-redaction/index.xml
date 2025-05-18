@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Data Redaction on Coding life</title>
+    <link>https://timwang.au/tags/data-redaction/</link>
+    <description>Recent content in Data Redaction on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 23 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/data-redaction/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Swifty Ways to Handle Data Redaction in the UI</title>
+      <link>https://timwang.au/posts/swifty-ways-to-handle-data-redaction-in-the-ui/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/swifty-ways-to-handle-data-redaction-in-the-ui/</guid>
+      <description>&lt;h1 id=&#34;the-problem-redacting-sensitive-info&#34;&gt;The Problem: Redacting Sensitive Info&lt;/h1&gt;&#xA;&lt;p&gt;We’ve all been there — we need to display some sensitive info on the UI, but can’t just show it all. The naive approach? Implementing redaction logic every single time when need it. Yawn. 😴 One step further, we can wrap the logic into some common methods or objects. You know what, we can do even better! There are some seriously cool Swift techniques that can make our life easier.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

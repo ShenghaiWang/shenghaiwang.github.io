@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DRY on Coding life</title>
+    <link>https://timwang.au/tags/dry/</link>
+    <description>Recent content in DRY on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 23 Feb 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/dry/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bad Code Smells: The Silent Killers of Swift Elegance</title>
+      <link>https://timwang.au/posts/bad-codesmells/</link>
+      <pubDate>Sun, 23 Feb 2025 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/bad-codesmells/</guid>
+      <description>&lt;p&gt;Understanding code smells is essential for maintaining clean, efficient, and manageable Swift codebases. This tech blog explains various code smells that should be avoided by us as Swift developers to keep its elegance.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The standard of good codebases</title>
+      <link>https://timwang.au/posts/good-codebases/</link>
+      <pubDate>Tue, 23 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/good-codebases/</guid>
+      <description>&lt;p&gt;As software engineers, it’s no surprise that we often find ourselves in a conversation talking about working on a bad codebase or seldomly a good one. But what makes a good codebase exactly? I will summarise my opinion here and please comment below if you have different thoughts.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

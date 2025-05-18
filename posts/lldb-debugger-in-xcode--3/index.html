@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    LLDB Debugger in Xcode — 3 | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/lldb-debugger-in-xcode--3/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    Manage watchpoints
+From the the first and the second articles of this series, we have known how to set breakpoints to pause the code and explore the app runtime. Apart from breakpoints, LLDB offers another way to pause the code called watchpoint, which will be the topics of this article.
+    "
+/>
+<meta property="og:description" content="
+    Manage watchpoints
+From the the first and the second articles of this series, we have known how to set breakpoints to pause the code and explore the app runtime. Apart from breakpoints, LLDB offers another way to pause the code called watchpoint, which will be the topics of this article.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/lldb-debugger-in-xcode--3/feature.webp" />
+
+
+
+
+<meta property="og:title" content="LLDB debugger in Xcode — 3" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/lldb-debugger-in-xcode--3/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-01-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-01-23T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/lldb-debugger-in-xcode--3/feature.webp">
+  <meta name="twitter:title" content="LLDB debugger in Xcode — 3">
+  <meta name="twitter:description" content="Manage watchpoints From the the first and the second articles of this series, we have known how to set breakpoints to pause the code and explore the app runtime. Apart from breakpoints, LLDB offers another way to pause the code called watchpoint, which will be the topics of this article.">
+
+
+  <meta itemprop="name" content="LLDB debugger in Xcode — 3">
+  <meta itemprop="description" content="Manage watchpoints From the the first and the second articles of this series, we have known how to set breakpoints to pause the code and explore the app runtime. Apart from breakpoints, LLDB offers another way to pause the code called watchpoint, which will be the topics of this article.">
+  <meta itemprop="datePublished" content="2024-01-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-01-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="688">
+  <meta itemprop="image" content="https://timwang.au/posts/lldb-debugger-in-xcode--3/feature.webp">
+  <meta itemprop="keywords" content="Swift,LLDB,IOS,Debugger,Xcode">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">LLDB debugger in Xcode — 3</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Jan 23, 2024
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    4 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/lldb"><span
+                                    class="tag bg-dark">LLDB</span></a>
+                            
+                            <a href="https://timwang.au/tags/ios"><span
+                                    class="tag bg-dark">iOS</span></a>
+                            
+                            <a href="https://timwang.au/tags/debugger"><span
+                                    class="tag bg-dark">Debugger</span></a>
+                            
+                            <a href="https://timwang.au/tags/xcode"><span
+                                    class="tag bg-dark">Xcode</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/lldb-debugger-in-xcode--3/feature.webp alt="LLDB debugger in Xcode — 3">
+                        </figure>
+                    
+                
+
+                <h2 id="manage-watchpoints">Manage watchpoints</h2>
+<p>From the the <a href="https://medium.com/gitconnected/lldb-debugger-in-xcode-1-772dbd9abc9a">first</a> and the <a href="https://medium.com/gitconnected/lldb-debugger-in-xcode-2-05ce80359f78">second</a> articles of this series, we have known how to set breakpoints to pause the code and explore the app runtime. Apart from breakpoints, LLDB offers another way to pause the code called watchpoint, which will be the topics of this article.</p>
+<h1 id="watchpoint">Watchpoint</h1>
+<p>Watchpoint is a memory address that we specify and lldb will pause the app when there’s read or write operation to this address. Please note, unlike the breakpoints, there is usually a limit for the number of watchpoints.</p>
+<h2 id="set-watchpoints-in-xcode">Set watchpoints in Xcode</h2>
+<p>In the Xcode variable viewer, Command-click any variable, we can see a context menu like below:</p>
+<p>If select <code>Watch</code> menu item, this will add a watchpoint to the memory address of this variable, which will cause the code to stop on <code>write</code> operations on this piece of memory.</p>
+<h2 id="lldb-commands-for-watchpoints">LLDB commands for watchpoints</h2>
+<p><strong>1. Set watchpoints</strong></p>
+<pre tabindex="0"><code># Watch memory of variable `a` on write operation  
+(lldb) watch set variable a  
+# Or  
+(lldb) watch set variable -w write a  
+  
+# Watch memory of variable `a` on read operation  
+(lldb) watch set variable -w read a  
+  
+# Watch memory of variable `a` on read &amp; write operation  
+(lldb) watch set variable -w read_write a  
+  
+# For a reference type in Swift, can also use the following command  
+(lldb) watch set expression -- someClassInstance
+</code></pre><p>It will generate the output like this:</p>
+<pre tabindex="0"><code>Watchpoint created: Watchpoint 2: addr = 0x10a01a3c0 size = 8 state = enabled type = w  
+    declare @ &#39;/Users/tim.wang/.../ViewController.swift:74&#39;  
+    watchpoint spec = &#39;a&#39;
+</code></pre><p>Pay attention to the watchpoint number in the output, because we need this number for other operations. Of course. We can also use list command below to retrieve the number in case we forget.</p>
+<p><strong>2. List watchpoints</strong></p>
+<pre tabindex="0"><code>(lldb) watch list
+</code></pre><p>This command will generate output like the following:</p>
+<pre tabindex="0"><code>Current watchpoints:  
+Watchpoint 2: addr = 0x10e0163c0 size = 8 state = enabled type = rw  
+    declare @ &#39;/Users/tim.wang/.../ViewController.swift:74&#39;  
+    watchpoint spec = &#39;a&#39;
+</code></pre><p>As mentioned earlier, we can use this command to retrieve the watchpoint any time needed.</p>
+<p><strong>3. Delete watchpoints</strong></p>
+<pre tabindex="0"><code># Delete all the watchpoints  
+(lldb) watch delete  
+  
+# Delete one watchpoint of the ID  
+(lldb) watch delete 1  
+  
+# Delete two or more watchpoints using ID list  
+(lldb) watch delete 1 2
+</code></pre><p><strong>4. Modify watchpoints</strong></p>
+<p>Like breakpoints, if we only want to pause the execution when some conditions are met. We can use modify command like below:</p>
+<pre tabindex="0"><code># Modify conditions for all watchpoints  
+(lldb) watch modify -c &#39;(a==5)&#39;  
+  
+# Modify conditions for watchpoint of ID or ID list  
+(lldb) watch modify -c &#39;(a==5)&#39; 2  
+(lldb) watch modify -c &#39;(a==5)&#39; 2 3
+</code></pre><p><strong>5. Add commands to watchpoints</strong></p>
+<p>Commands are the code to run when the execution is paused at the watchpoints. We can manage commands for watchpoints in the follow ways:</p>
+<pre tabindex="0"><code># Add command to all watchpoints  
+(lldb) watch command add -o &#39;po a&#39;  
+  
+# Add command to watchpoint of ID  
+(lldb) watch command add -o &#39;po a&#39; 2  
+  
+  
+# List command that attached to the watchpoint of ID  
+(lldb) watch command list 2  
+  
+# Delete command that attached to the watchpoint of ID  
+(lldb) watch command delete 2
+</code></pre><p>This works very similar to the actions for breakpoints. Please note, there is another way to run certain code when execution is paused, which is <code>target stop-hook</code> . Let’s cover this in the future articles.</p>
+<p><strong>6. Disable/Enable/Ignore watchpoints</strong></p>
+<p>Like breakpoints, we can disable/enable and ignore them temporarily using the follow scripts:</p>
+<pre tabindex="0"><code># Disable watchpoint of ID or ID list  
+(lldb) watchpoint disable 1  
+(lldb) watchpoint disable 1 2  
+  
+# Enable watchpoint of ID or ID list  
+(lldb) watchpoint enable 1  
+(lldb) watchpoint enable 1 2  
+  
+# Ignore watchpoint  
+# ignore 5 times on watchpoint 1  
+(lldb) watchpoint ignore -i 5 1   
+  
+# ignore 5 times on watchpoint 1 &amp; 2  
+(lldb) watchpoint ignore -i 5 1 2 
+</code></pre><h1 id="conclusion">Conclusion</h1>
+<p>Breakpoints and watchpoints are great tools in Xcode LLDB, through which, we can explore the execution of our code. To me, not only can they help debug our code, but give me aha moments often that would spice up our coding life. How do you think about them?</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2flldb-debugger-in-xcode--3%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=LLDB%20debugger%20in%20Xcode%20%e2%80%94%203&url=https%3a%2f%2ftimwang.au%2fposts%2flldb-debugger-in-xcode--3%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2flldb-debugger-in-xcode--3%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/lldb-debugger-in-xcode--3/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2flldb-debugger-in-xcode--3%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2flldb-debugger-in-xcode--3%2f
+			&title=LLDB%20debugger%20in%20Xcode%20%e2%80%94%203&summary=%3ch2%20id%3d%22manage-watchpoints%22%3eManage%20watchpoints%3c%2fh2%3e%0a%3cp%3eFrom%20the%20the%20%3ca%20href%3d%22https%3a%2f%2fmedium.com%2fgitconnected%2flldb-debugger-in-xcode-1-772dbd9abc9a%22%3efirst%3c%2fa%3e%20and%20the%20%3ca%20href%3d%22https%3a%2f%2fmedium.com%2fgitconnected%2flldb-debugger-in-xcode-2-05ce80359f78%22%3esecond%3c%2fa%3e%20articles%20of%20this%20series%2c%20we%20have%20known%20how%20to%20set%20breakpoints%20to%20pause%20the%20code%20and%20explore%20the%20app%20runtime.%20Apart%20from%20breakpoints%2c%20LLDB%20offers%20another%20way%20to%20pause%20the%20code%20called%20watchpoint%2c%20which%20will%20be%20the%20topics%20of%20this%20article.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=LLDB%20debugger%20in%20Xcode%20%e2%80%94%203&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2flldb-debugger-in-xcode--3%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

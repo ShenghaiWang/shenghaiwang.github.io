@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    ResultBuilder in Swift | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/resultbuilder-in-swift/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    If you like SwiftUI and appreciate the elegant syntax brought into SwiftUI by @ViewBuilder, you must know and love @resultBuilder in Swift that makes this magic happen. In this article, I would like to review this technology and explore how to create our own builders.
+    "
+/>
+<meta property="og:description" content="
+    If you like SwiftUI and appreciate the elegant syntax brought into SwiftUI by @ViewBuilder, you must know and love @resultBuilder in Swift that makes this magic happen. In this article, I would like to review this technology and explore how to create our own builders.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/resultbuilder-in-swift/feature.webp" />
+
+
+
+
+<meta property="og:title" content="ResultBuilder in Swift" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/resultbuilder-in-swift/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-04-10T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/resultbuilder-in-swift/feature.webp">
+  <meta name="twitter:title" content="ResultBuilder in Swift">
+  <meta name="twitter:description" content="If you like SwiftUI and appreciate the elegant syntax brought into SwiftUI by @ViewBuilder, you must know and love @resultBuilder in Swift that makes this magic happen. In this article, I would like to review this technology and explore how to create our own builders.">
+
+
+  <meta itemprop="name" content="ResultBuilder in Swift">
+  <meta itemprop="description" content="If you like SwiftUI and appreciate the elegant syntax brought into SwiftUI by @ViewBuilder, you must know and love @resultBuilder in Swift that makes this magic happen. In this article, I would like to review this technology and explore how to create our own builders.">
+  <meta itemprop="datePublished" content="2023-04-10T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-04-10T00:00:00+00:00">
+  <meta itemprop="wordCount" content="943">
+  <meta itemprop="image" content="https://timwang.au/posts/resultbuilder-in-swift/feature.webp">
+  <meta itemprop="keywords" content="Swift,ResultBuilder">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">ResultBuilder in Swift</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Apr 10, 2023
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    5 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/resultbuilder"><span
+                                    class="tag bg-dark">ResultBuilder</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/resultbuilder-in-swift/feature.webp alt="ResultBuilder in Swift">
+                        </figure>
+                    
+                
+
+                <p>If you like SwiftUI and appreciate the elegant syntax brought into SwiftUI by <code>@ViewBuilder</code>, you must know and love <code>@resultBuilder</code> in Swift that makes this magic happen. In this article, I would like to review this technology and explore how to create our own builders.</p>
+<h1 id="what-is-a-resultbuilder">What is a resultBuilder</h1>
+<p>In Swift, resultBuilder is a special <code>struct</code> that allows us to implement a DSL(Domain Specific Language) to build a value from multiple values. Like <code>@ViewBuilder</code> builds a <code>view</code> from different <code>views</code> , where we just need to stack views together like below. The syntax is simple and declarative thanks to this DSL.</p>
+<pre tabindex="0"><code>VStack {  
+    Image(systemName: &#34;globe&#34;)  
+    Text(&#34;Hello, world!&#34;)  
+}
+</code></pre><h1 id="where-should-resultbuilder-be-used">Where should resultBuilder be used</h1>
+<p>While <code>@ViewBuilder</code> in SwiftUI is a great use of this language feature, we, as developer, can also develop our own builders. But what problem it solves and when we should consider using this technology?</p>
+<p>As its name implies, this technology is a builder pattern that builds final products from source materials. So anywhere we need to build a value from many other values and can benefit from this simplified, declarative syntax, we can consider adopting this technology.</p>
+<p>Please note, if we purely want to build a value from multiple values, sometimes, creating an <code>initialiser</code> of the final value type is enough. For example, if we want to build a value of <code>DateComponents</code> , we can use <a href="https://developer.apple.com/documentation/foundation/datecomponents/1948879-init">this init method</a>. However, it does seem not as elegant and flexible as resultBuild DSL method because we have to follow the exact order of the parameters etc. Feel free to have a look at this <a href="https://github.com/ShenghaiWang/SwiftMacros/blob/main/Sources/SwiftMacros/DateBuilder.swift">DateBuilder</a> to gain more understanding of this.</p>
+<h1 id="how-to-develop-a-resultbuilder">How to develop a resultBuilder</h1>
+<p>If we make mind to develop a builder, let’s look at how to design and implement one.</p>
+<h2 id="building-materialscomponents">Building materials(components)</h2>
+<p>Firstly, think about building materials, which is what other value types needed for the final value.</p>
+<p>Take the <a href="https://github.com/ShenghaiWang/SwiftMacros/blob/main/Sources/SwiftMacros/DateBuilder.swift">DateBuilder</a> as an example, we want to build a <code>Date</code> value, for which, we need to know the <code>Year</code>, <code>Month</code>, <code>Day</code>, <code>Time,</code> <code>Local,</code> <code>Calendar</code> etc. We also might want to build a <code>date</code> directly from a <code>String</code> value that stands for a <code>date</code> already. All of those are the possible building components. In order to handle these with ease, we create a protocol to group these types together as our building materials like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">DateComponent</span> {}  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Calendar</span>: DateComponent {}  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">TimeZone</span>: DateComponent {}  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Date</span>: DateComponent {}  
+</span></span><span style="display:flex;"><span>...  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// extracted from https://github.com/ShenghaiWang/SwiftMacros/blob/main/Sources/SwiftMacros/DateBuilder.swift</span>
+</span></span></code></pre></div><h2 id="building-methods">Building methods</h2>
+<p>Swift result builder offers the following methods. All of these methods do is to collect building materials, which is to collect values that needed for building the final value.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span> <span style="color:#75715e">// Extracted from https://github.com/apple/swift-evolution/blob/main/proposals/0289-result-builders.md  </span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/// Required by every result builder to build combined results from  </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/// statement blocks.  </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildBlock</span>(<span style="color:#66d9ef">_</span> components: Component...) -&gt; Component { ... }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/// If declared, provides contextual type information for statement  </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/// expressions to translate them into partial results.  </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildExpression</span>(<span style="color:#66d9ef">_</span> expression: Expression) -&gt; Component { ... }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/// Enables support for `if` statements that do not have an `else`.  </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildOptional</span>(<span style="color:#66d9ef">_</span> component: Component?) -&gt; Component { ... }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/// With buildEither(second:), enables support for &#39;if-else&#39; and &#39;switch&#39;  </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/// statements by folding conditional results into a single result.  </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildEither</span>(first component: Component) -&gt; Component { ... }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/// With buildEither(first:), enables support for &#39;if-else&#39; and &#39;switch&#39;  </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/// statements by folding conditional results into a single result.  </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildEither</span>(second component: Component) -&gt; Component { ... }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/// Enables support for &#39;for..in&#39; loops by combining the  </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/// results of all iterations into a single result.  </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildArray</span>(<span style="color:#66d9ef">_</span> components: [Component]) -&gt; Component { ... }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/// If declared, this will be called on the partial result of an &#39;if  </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/// #available&#39; block to allow the result builder to erase type  </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/// information.  </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildLimitedAvailability</span>(<span style="color:#66d9ef">_</span> component: Component) -&gt; Component { ... }
+</span></span></code></pre></div><p>Among all of them, <code>buildBlock</code> is the only method that all resultBuilders need to implement. Others are optional depending on the needs. Our <a href="https://github.com/ShenghaiWang/SwiftMacros/blob/main/Sources/SwiftMacros/DateBuilder.swift">DateBuilder</a> only implemented two of them.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildBlock</span>(<span style="color:#66d9ef">_</span> parts: [DateComponent]...) -&gt; [DateComponent] {  
+</span></span><span style="display:flex;"><span>    parts.flatMap { $0 }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildExpression</span>(<span style="color:#66d9ef">_</span> expression: DateComponent) -&gt; [DateComponent] {  
+</span></span><span style="display:flex;"><span>    [expression]  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="building-result">Building result</h2>
+<p>Once we have collected all the building component, the final step is to build the final value based upon them, which is optional too. If not provided, the collected materials are the final result.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span> <span style="color:#75715e">/// If declared, this will be called on the partial result from the outermost  </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/// block statement to produce the final returned result.  </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildFinalResult</span>(<span style="color:#66d9ef">_</span> component: Component) -&gt; FinalResult { ... }
+</span></span></code></pre></div><p>In our <a href="https://github.com/ShenghaiWang/SwiftMacros/blob/main/Sources/SwiftMacros/DateBuilder.swift">DateBuilder</a> case, if we ignored this method, the final result would be <code>[DateComponent]</code> , which is not what we expected. So, we provide one implementation for this method like below and we get the final <code>Date</code> value from this builder.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildFinalResult</span>(<span style="color:#66d9ef">_</span> components: [DateComponent]) -&gt; Date? {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> dateComponents = DateComponents()  
+</span></span><span style="display:flex;"><span>        components.forEach { component <span style="color:#66d9ef">in</span>  
+</span></span><span style="display:flex;"><span>            ...  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> dateComponents.date  
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><h1 id="conclusion">Conclusion</h1>
+<p>Swift resultBuilder is a great language feature that is not only powering SwiftUI, can also help in our codebase. With the <a href="https://github.com/ShenghaiWang/SwiftMacros/blob/main/Sources/SwiftMacros/DateBuilder.swift">DateBuilder</a> we built, we can now generate date like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> date = buildDate {  
+</span></span><span style="display:flex;"><span>    DateString(<span style="color:#e6db74">&#34;03/05/2003&#34;</span>, dateFormat: <span style="color:#e6db74">&#34;MM/dd/yyyy&#34;</span>)  
+</span></span><span style="display:flex;"><span>    Month(<span style="color:#ae81ff">10</span>)  
+</span></span><span style="display:flex;"><span>    Year(<span style="color:#ae81ff">1909</span>)  
+</span></span><span style="display:flex;"><span>    Hour(<span style="color:#ae81ff">12</span>)  
+</span></span><span style="display:flex;"><span>    Minute(<span style="color:#ae81ff">30</span>)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>As you can see, we firstly use a string to generate a date, then overwrite its <code>month</code>, <code>year</code>, <code>hour</code>, <code>minute</code> using a specified value.</p>
+<p>You might think this is not useful and efficient at all. To some extent this is not a great builder. But as an example, I hope it helped to understand the concept of Swift result builder.</p>
+<p>For your reference, feel free to check out <a href="https://github.com/ShenghaiWang/SwiftMacros/blob/main/Sources/SwiftMacros/URLBuilder.swift">URLBuilder</a> and <a href="https://github.com/ShenghaiWang/SwiftMacros/blob/main/Sources/SwiftMacros/URLRequestBuilder.swift">URLRequestBuilder</a>.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fresultbuilder-in-swift%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=ResultBuilder%20in%20Swift&url=https%3a%2f%2ftimwang.au%2fposts%2fresultbuilder-in-swift%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fresultbuilder-in-swift%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/resultbuilder-in-swift/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fresultbuilder-in-swift%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fresultbuilder-in-swift%2f
+			&title=ResultBuilder%20in%20Swift&summary=%3cp%3eIf%20you%20like%20SwiftUI%20and%20appreciate%20the%20elegant%20syntax%20brought%20into%20SwiftUI%20by%20%3ccode%3e%40ViewBuilder%3c%2fcode%3e%2c%20you%20must%20know%20and%20love%20%3ccode%3e%40resultBuilder%3c%2fcode%3e%20in%20Swift%20that%20makes%20this%20magic%20happen.%20In%20this%20article%2c%20I%20would%20like%20to%20review%20this%20technology%20and%20explore%20how%20to%20create%20our%20own%20builders.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=ResultBuilder%20in%20Swift&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fresultbuilder-in-swift%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

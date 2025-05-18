@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    Unlocking the Power of Embedded Swift: Your Step-by-Step Roadmap | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/unlocking-the-power-of-embedded-swift-your-step-by-step-roadmap/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    Introduction
+Swift, the general-purpose programming language beloved by Apple developers, is expanding its reach into the embedded systems world. While this feature hasn’t been officially released yet, it’s already demonstrating significant potential. Much like Swift’s move into server-side development a few years ago, this expansion could open up exciting new opportunities for Swift developers.
+    "
+/>
+<meta property="og:description" content="
+    Introduction
+Swift, the general-purpose programming language beloved by Apple developers, is expanding its reach into the embedded systems world. While this feature hasn’t been officially released yet, it’s already demonstrating significant potential. Much like Swift’s move into server-side development a few years ago, this expansion could open up exciting new opportunities for Swift developers.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/unlocking-the-power-of-embedded-swift-your-step-by-step-roadmap/feature.webp" />
+
+
+
+
+<meta property="og:title" content="Unlocking the Power of Embedded Swift: Your Step-by-Step Roadmap" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/unlocking-the-power-of-embedded-swift-your-step-by-step-roadmap/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-08-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-08-23T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/unlocking-the-power-of-embedded-swift-your-step-by-step-roadmap/feature.webp">
+  <meta name="twitter:title" content="Unlocking the Power of Embedded Swift: Your Step-by-Step Roadmap">
+  <meta name="twitter:description" content="Introduction Swift, the general-purpose programming language beloved by Apple developers, is expanding its reach into the embedded systems world. While this feature hasn’t been officially released yet, it’s already demonstrating significant potential. Much like Swift’s move into server-side development a few years ago, this expansion could open up exciting new opportunities for Swift developers.">
+
+
+  <meta itemprop="name" content="Unlocking the Power of Embedded Swift: Your Step-by-Step Roadmap">
+  <meta itemprop="description" content="Introduction Swift, the general-purpose programming language beloved by Apple developers, is expanding its reach into the embedded systems world. While this feature hasn’t been officially released yet, it’s already demonstrating significant potential. Much like Swift’s move into server-side development a few years ago, this expansion could open up exciting new opportunities for Swift developers.">
+  <meta itemprop="datePublished" content="2024-08-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-08-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1075">
+  <meta itemprop="image" content="https://timwang.au/posts/unlocking-the-power-of-embedded-swift-your-step-by-step-roadmap/feature.webp">
+  <meta itemprop="keywords" content="Swift,Embedded">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">Unlocking the Power of Embedded Swift: Your Step-by-Step Roadmap</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Aug 23, 2024
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    6 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/embedded"><span
+                                    class="tag bg-dark">Embedded</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/unlocking-the-power-of-embedded-swift-your-step-by-step-roadmap/feature.webp alt="Unlocking the Power of Embedded Swift: Your Step-by-Step Roadmap">
+                        </figure>
+                    
+                
+
+                <h1 id="introduction">Introduction</h1>
+<p>Swift, the general-purpose programming language beloved by Apple developers, is expanding its reach into the embedded systems world. While this feature hasn’t been officially released yet, it’s already demonstrating significant potential. Much like Swift’s move into server-side development a few years ago, this expansion could open up exciting new opportunities for Swift developers.</p>
+<p>This development is both thrilling and somewhat intimidating. The environment for embedded development is markedly different from the familiar territory of mobile app development, presenting a new set of challenges and learning curves.</p>
+<p>In this article, we’ll explore this emerging domain and provide a practical guide to help interested developers get started with embedded Swift. Whether you’re an experienced Swift programmer looking to broaden your skills or a curious newcomer, we’ll walk you through the essentials to help you navigate this new frontier.</p>
+<h1 id="hardware-setup">Hardware setup</h1>
+<p>This tutorial focuses on the Raspberry Pi Pico W microcontroller. While the steps are tailored for this specific model, users with different microcontrollers can adapt the instructions as needed.</p>
+<p>When connecting your microcontroller to a computer, ensure you’re using a data-capable Micro USB cable. Some cables are designed for charging only and won’t allow data transfer, which is crucial for our setup process.</p>
+<p>To flash new firmware or copy files to your Pico W:</p>
+<ol>
+<li>
+<p>Locate the <code>BOOTSEL</code> button on your microcontroller like below:</p>
+</li>
+<li>
+<p>Press and hold the <code>BOOTSEL</code> button while connecting the Pico W to the computer.</p>
+</li>
+<li>
+<p>Once connected, the device should appear as a USB mass storage drive and we can copy file onto it.</p>
+</li>
+</ol>
+<p><strong><em>Compatibility Note</em></strong><em>: Recent macOS versions may have issues recognizing the Pico W in boot mode or having difficulties copying file onto it. If you encounter problems, consider using a Windows machine for this step.</em></p>
+<h1 id="setup-development-environment">Setup development environment</h1>
+<h2 id="install-swift-toolchain">Install Swift Toolchain</h2>
+<p>Download <a href="https://download.swift.org/swift-6.0-branch/xcode/swift-6.0-DEVELOPMENT-SNAPSHOT-2024-08-22-a/swift-6.0-DEVELOPMENT-SNAPSHOT-2024-08-22-a-osx.pkg">Swift release/6.0 Development Snapshots package</a> and install it. We can also consider installing other versions of Swift that support embedded Swift. Check out more versions <a href="https://www.swift.org/install/macos/">here</a>.</p>
+<p>After installation, run the following command to export <code>TOOLCHAINS</code> environment variable that will be used in the compiling step.</p>
+<pre tabindex="0"><code># Please modify &lt;toolchain name&gt; accordingly, which you can find in this folder /Library/Developer/Toolchains/  
+export TOOLCHAINS=$(plutil -extract CFBundleIdentifier raw /Library/Developer/Toolchains/&lt;toolchain name&gt;.xctoolchain/Info.plist)
+</code></pre><h2 id="clone-pico-sdk-repo-with-submodules">Clone pico-sdk repo with submodules</h2>
+<pre tabindex="0"><code>git clone --recursive https://github.com/raspberrypi/pico-sdk.git
+</code></pre><h2 id="install-cmake">Install CMake</h2>
+<p>In terminal, use <code>brew</code> to install <code>cmake</code> .</p>
+<pre tabindex="0"><code>brew install cmake
+</code></pre><p>If don’t have <code>brew</code> command installed, need to install <code>Homebrew</code> first by running the following command. More details can be found <a href="https://brew.sh/">here</a>.</p>
+<pre tabindex="0"><code>/bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&#34;
+</code></pre><h2 id="install-arm-embedded-toolchain">Install Arm Embedded Toolchain</h2>
+<p>Go to the <a href="https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads">Arm Embedded Toolchain</a> website and download the right tar file for the system.</p>
+<p>For Apple silicon laptops, download <a href="https://developer.arm.com/-/media/Files/downloads/gnu/13.3.rel1/binrel/arm-gnu-toolchain-13.3.rel1-darwin-arm64-arm-none-eabi.tar.xz">this one</a> and <a href="https://developer.arm.com/-/media/Files/downloads/gnu/13.3.rel1/binrel/arm-gnu-toolchain-13.3.rel1-darwin-x86_64-arm-none-eabi.tar.xz">this one</a> for Apple Intel chip laptops. Simply extract them into a folder, which will be used in the following steps.</p>
+<h1 id="clone-code-repos">Clone code repos</h1>
+<h2 id="clone-the-sample-code">Clone the sample code</h2>
+<p>Apple provided an embedded swift sample project <a href="https://github.com/apple/swift-embedded-examples">here</a> and we are going to compile and run <a href="https://github.com/apple/swift-embedded-examples/tree/main/pico-w-blink-sdk">the one for Pico W</a> project in this repo. Clone the whole repo first using the following command.</p>
+<pre tabindex="0"><code>git clone https://github.com/apple/swift-embedded-examples.git
+</code></pre><h2 id="clone-pico-examples-repooptional">Clone pico-examples repo(optional)</h2>
+<p>In the readme of the above sample code repo, this sample code repo was mentioned in order to verify the environment setup. If we just want to try the embedded Swift sample project, we can ignore this step.</p>
+<pre tabindex="0"><code>git clone https://github.com/raspberrypi/pico-examples.git
+</code></pre><h1 id="compile--run-the-sample-projects">Compile &amp; run the sample projects</h1>
+<p>As mentioned in the readme, run the following command to compile the project.</p>
+<pre tabindex="0"><code>$ cd pico-w-blink-sdk # This is under the sample code folder from Apple  
+$ export TOOLCHAINS=&#39;&lt;toolchain-name&gt;&#39; # This is done in the installing Swift toolchain step  
+$ export PICO_BOARD=pico_w # This is your microcontroller type  
+$ export PICO_SDK_PATH=&#39;&lt;path-to-your-pico-sdk&gt;&#39; # This is the folder of the pic-sdk  
+$ export PICO_TOOLCHAIN_PATH=&#39;&lt;path-to-the-arm-toolchain&gt;&#39; # This is the folder of Arm Embedded Toolchain  
+$ cmake -B build -G Ninja .  
+$ cmake --build build
+</code></pre><p>Please note, I had encountered the following error when I checked out the sample code at this commit <code>0783cc14f97b085e4e1c00df22cde50ca2c18eee</code> .</p>
+<p>My solution to it was to add this <code>#define PICO_RP2040 1</code> into the bridge header.</p>
+<p>When all went well, we would get the <code>swift-blinky.uf2</code> file in the following folder. The next step is to copy this file onto our microcontrollers as mentioned in the <code>Hardware setup</code> section. Once finished copying, the microcontroller would automatically reboot and the LED would start flashing!</p>
+<h1 id="going-further">Going further</h1>
+<p>Congratulations! Now we are able to using Swift to program microcontrollers just using the Swift syntax that we all are familiar with.</p>
+<p>The following example is to use <code>[ws2812_program](http://Pico-Sensor-Kit-Code.zip)</code> to drive a RGB LED. Also please refer to the code repo <a href="https://github.com/ShenghaiWang/swift-pico-w">here</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">PIO</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">let</span> pio0: UnsafeMutablePointer&lt;pio_hw_t&gt; = UnsafeMutablePointer(bitPattern: <span style="color:#ae81ff">0x50200000</span>)<span style="color:#f92672">!</span>  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>@main  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Main</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> WS2812_PIN: UInt32 = <span style="color:#ae81ff">22</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> sm: UInt32 = <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> program = ws2812_program  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> offset = pio_add_program(PIO.pio0, &amp;program)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        stdio_init_all()  
+</span></span><span style="display:flex;"><span>        ws2812_program_init(PIO.pio0, sm, UInt32(offset), WS2812_PIN, <span style="color:#ae81ff">800000</span>, <span style="color:#66d9ef">true</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">true</span> {  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> cnt <span style="color:#66d9ef">in</span> UInt32(<span style="color:#ae81ff">0</span>)...<span style="color:#ae81ff">0xff</span> {  
+</span></span><span style="display:flex;"><span>                put_rgb(red: cnt, green: <span style="color:#ae81ff">0xff</span> <span style="color:#f92672">-</span> cnt, blue: <span style="color:#ae81ff">0</span>);  
+</span></span><span style="display:flex;"><span>                sleep_ms(<span style="color:#ae81ff">3</span>)  
+</span></span><span style="display:flex;"><span>            }  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> cnt <span style="color:#66d9ef">in</span> UInt32(<span style="color:#ae81ff">0</span>)...<span style="color:#ae81ff">0xff</span> {  
+</span></span><span style="display:flex;"><span>                put_rgb(red: <span style="color:#ae81ff">0xff</span> <span style="color:#f92672">-</span> cnt, green: <span style="color:#ae81ff">0</span>, blue: cnt)  
+</span></span><span style="display:flex;"><span>                sleep_ms(<span style="color:#ae81ff">3</span>)  
+</span></span><span style="display:flex;"><span>            }  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> cnt <span style="color:#66d9ef">in</span> UInt32(<span style="color:#ae81ff">0</span>)...<span style="color:#ae81ff">0xff</span> {  
+</span></span><span style="display:flex;"><span>                put_rgb(red: <span style="color:#ae81ff">0</span>, green: cnt, blue: <span style="color:#ae81ff">0xff</span> <span style="color:#f92672">-</span> cnt)  
+</span></span><span style="display:flex;"><span>                sleep_ms(<span style="color:#ae81ff">3</span>);  
+</span></span><span style="display:flex;"><span>            }  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">put_rgb</span>(red: UInt32, green: UInt32, blue: UInt32) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> mask = (green <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">16</span>) <span style="color:#f92672">|</span> (red <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">|</span> (blue <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">0</span>)  
+</span></span><span style="display:flex;"><span>        pio_sm_put_blocking(PIO.pio0, <span style="color:#ae81ff">0</span>, mask <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">8</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Please note, embedded Swift only supports a subset of the full Swift language feature. More details on this can be found <a href="https://github.com/swiftlang/swift/blob/main/docs/EmbeddedSwift/UserManual.md">here</a>.</p>
+<p>Of course, running sample projects is only the start. In order to develop more features using embedded Swift, Visual Studio Code and some of its extensions might be helpful.</p>
+<h2 id="visual-studio-code">Visual Studio Code</h2>
+<p>Follow the installation guide to install Visual Studio Code <a href="https://code.visualstudio.com/download">here</a>.</p>
+<h2 id="swift-extension">Swift extension</h2>
+<p>Swift extension to Visual Studio Code gives us many cool features including code completion etc., which makes the development process just as smooth as working with Xcode.</p>
+<h2 id="raspberry-pi-pico-extension">Raspberry Pi Pico extension</h2>
+<p>This extension gives us the functionalities(shown in the below screenshot). For simplicity, we are not going to cover all these functionaries in this article.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Comparing writing programs for microcontroller using C, embedded Swift really shines due to its high level language features and the result is so amazing as we can see that the binary files it generates is just as good as what C can do. I hope this article will trigger your interest in this area and help you start your own cool projects with microcontrollers using embeded Swift.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2funlocking-the-power-of-embedded-swift-your-step-by-step-roadmap%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=Unlocking%20the%20Power%20of%20Embedded%20Swift%3a%20Your%20Step-by-Step%20Roadmap&url=https%3a%2f%2ftimwang.au%2fposts%2funlocking-the-power-of-embedded-swift-your-step-by-step-roadmap%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2funlocking-the-power-of-embedded-swift-your-step-by-step-roadmap%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/unlocking-the-power-of-embedded-swift-your-step-by-step-roadmap/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2funlocking-the-power-of-embedded-swift-your-step-by-step-roadmap%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2funlocking-the-power-of-embedded-swift-your-step-by-step-roadmap%2f
+			&title=Unlocking%20the%20Power%20of%20Embedded%20Swift%3a%20Your%20Step-by-Step%20Roadmap&summary=%3ch1%20id%3d%22introduction%22%3eIntroduction%3c%2fh1%3e%0a%3cp%3eSwift%2c%20the%20general-purpose%20programming%20language%20beloved%20by%20Apple%20developers%2c%20is%20expanding%20its%20reach%20into%20the%20embedded%20systems%20world.%20While%20this%20feature%20hasn%e2%80%99t%20been%20officially%20released%20yet%2c%20it%e2%80%99s%20already%20demonstrating%20significant%20potential.%20Much%20like%20Swift%e2%80%99s%20move%20into%20server-side%20development%20a%20few%20years%20ago%2c%20this%20expansion%20could%20open%20up%20exciting%20new%20opportunities%20for%20Swift%20developers.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=Unlocking%20the%20Power%20of%20Embedded%20Swift%3a%20Your%20Step-by-Step%20Roadmap&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2funlocking-the-power-of-embedded-swift-your-step-by-step-roadmap%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

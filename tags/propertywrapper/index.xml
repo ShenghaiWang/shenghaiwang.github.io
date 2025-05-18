@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PropertyWrapper on Coding life</title>
+    <link>https://timwang.au/tags/propertywrapper/</link>
+    <description>Recent content in PropertyWrapper on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 10 Mar 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/propertywrapper/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>PropertyWrapper in Swift</title>
+      <link>https://timwang.au/posts/propertywrapper-in-swift/</link>
+      <pubDate>Fri, 10 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/propertywrapper-in-swift/</guid>
+      <description>&lt;p&gt;Recently, I had some queries about property-wrapper in Swift. While I recommended them to had a read of &lt;a href=&#34;https://medium.com/@tim_wang/use-swift-propertywrapper-to-simply-subject-publisher-pattern-e5bdea3e5155&#34;&gt;this article&lt;/a&gt;, I also prepared a swift playground, which I would like to share here.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

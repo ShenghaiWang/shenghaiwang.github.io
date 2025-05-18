@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Intialisers on Coding life</title>
+    <link>http://localhost:1313/tags/intialisers/</link>
+    <description>Recent content in Intialisers on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 23 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/intialisers/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Swift Object Creation: Why Initializers are the Preferred Choice</title>
+      <link>http://localhost:1313/posts/swift-object-creation-why-initializers-are-the-preferred-choice/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/swift-object-creation-why-initializers-are-the-preferred-choice/</guid>
+      <description>&lt;p&gt;Photo by &lt;a href=&#34;https://unsplash.com/@jakubzerdzicki?utm_source=medium&amp;amp;utm_medium=referral&#34;&gt;Jakub Żerdzicki&lt;/a&gt; on &lt;a href=&#34;https://unsplash.com/?utm_source=medium&amp;amp;utm_medium=referral&#34;&gt;Unsplash&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;In Swift programming, creating objects is a fundamental task that developers perform regularly. While there are multiple ways to instantiate objects, initializers stand out as the preferred and most idiomatic approach. This article explores why initializers should be your go-to method for object creation in Swift, while also touching on alternatives like static methods.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

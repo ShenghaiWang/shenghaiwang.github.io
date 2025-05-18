@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    Passkey — Passwordless Solution for Authentication | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/passkey--passwordless-solution-for-authentication/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    Passkey is a passwordless solution from FIDO alliance to resolve the global password problem. It provides a simple user experience with phishing-resistant security and can be adopted in mobile and web applications. In this article, we are going to investigate this solution and discuss a how to implement it on iOS platform.
+    "
+/>
+<meta property="og:description" content="
+    Passkey is a passwordless solution from FIDO alliance to resolve the global password problem. It provides a simple user experience with phishing-resistant security and can be adopted in mobile and web applications. In this article, we are going to investigate this solution and discuss a how to implement it on iOS platform.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/passkey--passwordless-solution-for-authentication/feature.webp" />
+
+
+
+
+<meta property="og:title" content="Passkey — Passwordless solution for authentication" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/passkey--passwordless-solution-for-authentication/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-01-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-01-23T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/passkey--passwordless-solution-for-authentication/feature.webp">
+  <meta name="twitter:title" content="Passkey — Passwordless solution for authentication">
+  <meta name="twitter:description" content="Passkey is a passwordless solution from FIDO alliance to resolve the global password problem. It provides a simple user experience with phishing-resistant security and can be adopted in mobile and web applications. In this article, we are going to investigate this solution and discuss a how to implement it on iOS platform.">
+
+
+  <meta itemprop="name" content="Passkey — Passwordless solution for authentication">
+  <meta itemprop="description" content="Passkey is a passwordless solution from FIDO alliance to resolve the global password problem. It provides a simple user experience with phishing-resistant security and can be adopted in mobile and web applications. In this article, we are going to investigate this solution and discuss a how to implement it on iOS platform.">
+  <meta itemprop="datePublished" content="2024-01-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-01-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1228">
+  <meta itemprop="image" content="https://timwang.au/posts/passkey--passwordless-solution-for-authentication/feature.webp">
+  <meta itemprop="keywords" content="Authentication,Passkey,Password">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">Passkey — Passwordless solution for authentication</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Jan 23, 2024
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    7 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/authentication"><span
+                                    class="tag bg-dark">Authentication</span></a>
+                            
+                            <a href="https://timwang.au/tags/passkey"><span
+                                    class="tag bg-dark">Passkey</span></a>
+                            
+                            <a href="https://timwang.au/tags/password"><span
+                                    class="tag bg-dark">password</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/passkey--passwordless-solution-for-authentication/feature.webp alt="Passkey — Passwordless solution for authentication">
+                        </figure>
+                    
+                
+
+                <p>Passkey is a passwordless solution from <a href="https://fidoalliance.org/">FIDO alliance</a> to resolve the global password problem. It provides a simple user experience with phishing-resistant security and can be adopted in mobile and web applications. In this article, we are going to investigate this solution and discuss a how to implement it on iOS platform.</p>
+<p>If you are not familiar with passkey technology yet and want to experience it before diving in, please go to <a href="https://webauthn.io/">https://webauthn.io/</a> or <a href="https://passkeys-demo.appspot.com/">https://passkeys-demo.appspot.com/</a> to try it out.</p>
+<blockquote>
+<p><a href="https://medium.com/@tim_wang#:~:text=Coding%20life-,Follow,-Help">Follow me</a> if you are interested in topics like this.</p></blockquote>
+<h1 id="benefits-of-using-passkeys">Benefits of using passkeys</h1>
+<p>Before we dive into the implementation, let’s check how we can benefit from adopting this solution. Compared with the other common ways to authenticate users in this digital world, passkeys stand out as shown in the slide below(Sourced from one WWDC session <a href="https://developer.apple.com/videos/play/wwdc2022/10092/">here</a>).</p>
+<h1 id="how-passkeys-work">How passkeys work</h1>
+<p>Passkeys rely on standard <a href="https://en.wikipedia.org/wiki/Public-key_cryptography">public key cryptography</a> techniques. In essence, passkeys are a pair of private key and public key, where the public key is stored on the server and associated with a user account and the private key is stored locally for future authentications.</p>
+<p>During the authentication process, the client app generates a signature using private key and the server verifies its authenticity using the public key stored on server like below:</p>
+<p>(Sourced from one WWDC session <a href="https://developer.apple.com/videos/play/wwdc2022/10092/">here</a>)</p>
+<p>The platforms that support passkeys rely on local authentication methods such as biometrics, local PIN etc. to work with the above passkeys flow. Users can only register their passkeys or select passkeys to authenticate when they pass the local authentication. If biometrics authentication method is used, the whole process does not involve any passwords, which provides a smooth and effective authentication flow. To be noted, some websites like GitHub have already brought this into practice where we can really benefit from this innovative technology.</p>
+<h1 id="server-side-logic">Server side logic</h1>
+<p>Passkey solution requires certain logics to be implemented on both client and server applications. The minimum requirement on the server side are the following:</p>
+<p>When registering a passkey, the server needs to provide parameters like challenge etc. After client app provides the public key of the passkeys and signature of the challenge data, the server verifies the created public key credential sent from the client and stores the public key in the database.</p>
+<p>At the beginning of the authenticating process, the server issue a challenge again. Then the client app sign it with its private key, the server validates verify the signature to decide if let the user sign in.</p>
+<p>I have created a stub server for reference purpose, which can be found <a href="https://github.com/ShenghaiWang/passkeyServer">here</a>. The registration related APIs are done at endpoints <code>/register/start</code> and <code>/register/finish</code> and the authentication related APIs are done at endpoints <code>/authenticate/start</code> and <code>/authenticate/finish</code> in the sample code.</p>
+<p>There are some open source libraries that can be used if don’t want to implement all these from scratch. Please check out the following links:</p>
+<blockquote>
+<p><a href="https://passkeys.dev/docs/tools-libraries/libraries/">https://passkeys.dev/docs/tools-libraries/libraries/</a></p>
+<p><a href="https://webauthn.io/">https://webauthn.io/</a></p>
+<p><a href="https://github.com/herrjemand/awesome-webauthn/blob/main/README.md">https://github.com/herrjemand/awesome-webauthn/blob/main/README.md</a></p>
+<p><a href="https://fidoalliance.org/certification/fido-certified-products/">https://fidoalliance.org/certification/fido-certified-products/</a></p></blockquote>
+<h1 id="implement-passkey-for-ios-applications">Implement passkey for iOS applications</h1>
+<p>Since iOS 15, Apple provides support for passkeys. The main steps of implementing passkey on iOS applications are:</p>
+<h2 id="1-setup-associated-domain"><strong>1. Setup Associated Domain</strong></h2>
+<p>The url here should be perfixed with <code>webcredentials</code> and the server side should have the <code>.well-known/apple-app-site-association</code> file like below:</p>
+<pre tabindex="0"><code>{  
+    &#34;webcredentials&#34;: {  
+        &#34;apps&#34;: [  
+            &#34;HBBLSCM2ZS.com.timwang.PasskeyAppiOSDemo&#34;  
+        ]  
+    }  
+}
+</code></pre><p>Please note, if using a server that cannot be accessed from internet, we need to add <code>?mode=developer</code> suffix to indicate the server is private.</p>
+<h2 id="2-register-passkeys">2. Register passkeys</h2>
+<p>The registration passkeys flow are like below. Firstly get <code>userID</code> and <code>challenge</code> data from server(for example <code>/register/start</code> api), the create registrationRequest using method <code>createCredentialRegistrationRequest</code> of <code>ASAuthorizationPlatformPublicKeyCredentialProvider</code>. Lastly, create an instance of <code>ASAuthorizationController</code> and setup <code>delegate</code> and <code>presentationContextProvider</code> and call <code>performRequests</code> method to start registration flow.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">register</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> publicKeyCredentialProvider = ASAuthorizationPlatformPublicKeyCredentialProvider(relyingPartyIdentifier: domain)  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Call register/start api to get challenge &amp; user ID  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> challenge: Data = ... <span style="color:#75715e">// returned from /register/start api  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> userID: String = ...  <span style="color:#75715e">// returned from /register/start api  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> registrationRequest = publicKeyCredentialProvider.createCredentialRegistrationRequest(challenge: challenge,  
+</span></span><span style="display:flex;"><span>                                                                                              userID: userID)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> authController = ASAuthorizationController(authorizationRequests: <span style="color:#960050;background-color:#1e0010">\</span>[registrationRequest<span style="color:#960050;background-color:#1e0010">\</span>])  
+</span></span><span style="display:flex;"><span>    authController.delegate = <span style="color:#66d9ef">self</span>  
+</span></span><span style="display:flex;"><span>    authController.presentationContextProvider = <span style="color:#66d9ef">self</span>  
+</span></span><span style="display:flex;"><span>    authController.performRequests()  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The UI flow are like below. In order to finish this flow properly, we need to handle delegate events, which will be covered in <code>Handle events in delegate</code> section.</p>
+<h2 id="3-signin-using-passkeys">3. SignIn using passkeys</h2>
+<p>To sign in using passkeys, similarly, we need to create an instance of <code>ASAuthorizationController</code> , but this time, we need <code>assertionRequest</code> , which is created using <code>createCredentialAssertionRequest</code> method of ASAuthorizationPlatformPublicKeyCredentialProvider.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">signIn</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> publicKeyCredentialProvider = ASAuthorizationPlatformPublicKeyCredentialProvider(relyingPartyIdentifier: domain)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> challenge = Challenge(user: user).challenge <span style="color:#75715e">// Note: Demo only. Should call authentication/start api to get this challenge  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> assertionRequest = publicKeyCredentialProvider.createCredentialAssertionRequest(challenge: challenge)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> authController = ASAuthorizationController(authorizationRequests: <span style="color:#960050;background-color:#1e0010">\</span>[assertionRequest<span style="color:#960050;background-color:#1e0010">\</span>])  
+</span></span><span style="display:flex;"><span>    authController.delegate = <span style="color:#66d9ef">self</span>  
+</span></span><span style="display:flex;"><span>    authController.presentationContextProvider = <span style="color:#66d9ef">self</span>  
+</span></span><span style="display:flex;"><span>    authController.performRequests()  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The UI flow of signing in are like below. Similarly, we also need to handle delegate events.</p>
+<h2 id="4-popup-autofill-sheet-and-sign-in">4. Popup autofill sheet and sign in</h2>
+<p>To improve user experience, iOS platform provides an autofill sheet to allow users to select passkeys to sign in. This flow is usually starts after user inputs user name.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">autoFillAssistedPasskeySignIn</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> publicKeyCredentialProvider = ASAuthorizationPlatformPublicKeyCredentialProvider(relyingPartyIdentifier: domain)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> challenge = Challenge(user: user).challenge <span style="color:#75715e">// Note: Demo only. Should call authentication/start api to get this challenge  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> assertionRequest = publicKeyCredentialProvider.createCredentialAssertionRequest(challenge: challenge)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> authController = ASAuthorizationController(authorizationRequests: <span style="color:#960050;background-color:#1e0010">\</span>[assertionRequest<span style="color:#960050;background-color:#1e0010">\</span>])  
+</span></span><span style="display:flex;"><span>    authController.delegate = <span style="color:#66d9ef">self</span>  
+</span></span><span style="display:flex;"><span>    authController.presentationContextProvider = <span style="color:#66d9ef">self</span>  
+</span></span><span style="display:flex;"><span>    authController.performAutoFillAssistedRequests()  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The UI flow of selecting passkeys are shown below:</p>
+<h2 id="5-handle-events-in-delegate">5. Handle events in delegate</h2>
+<p>All the above flows that using <code>ASAuthorizationController</code> to perform requests, we need to handle the events in the delegate like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">authorizationController</span>(controller: ASAuthorizationController,   
+</span></span><span style="display:flex;"><span>                             didCompleteWithAuthorization authorization: ASAuthorization) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> credential = authorization.credential <span style="color:#66d9ef">as</span>? ASAuthorizationPlatformPublicKeyCredentialRegistration {  
+</span></span><span style="display:flex;"><span>       <span style="color:#75715e">// Call register/finish api to verify the attestationObject and clientDataJSON of credential  </span>
+</span></span><span style="display:flex;"><span>       <span style="color:#75715e">// save attestationObject(the public key) to server and sign in the user with the new account if passed verification  </span>
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> credential = authorization.credential <span style="color:#66d9ef">as</span>? ASAuthorizationPlatformPublicKeyCredentialAssertion {  
+</span></span><span style="display:flex;"><span>       <span style="color:#75715e">// Call authentication/finish api to verify the signature and clientDataJSON on the server for the given userID.  </span>
+</span></span><span style="display:flex;"><span>       <span style="color:#75715e">// Sign in the user with the new account if passed verification  </span>
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {  
+</span></span><span style="display:flex;"><span>       print(<span style="color:#e6db74">&#34;Other logging in cases such as Sign in with Apple etc.&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>A sample implementation can be found in <a href="https://github.com/ShenghaiWang/PasskeyAppiOSDemo">this repo</a>.</p>
+<h1 id="other-considerations">Other considerations</h1>
+<p>We have explored some basic aspects of adopting passkeys in a system. In order to fully adopt this solution, we might need to consider more scenarios:</p>
+<ol>
+<li>Allow existing users to add passkeys so that they can leverage this new solution in the future.</li>
+<li>Allow user to add more than one passkeys, which adds flexibilities for users to use multiple devices to log in the system and also make them easier to upgrade their devices.</li>
+<li>Allow user to delete some passkeys, which can be very useful when they lost their devices. Even though it might not be a risk as new holder of the devices cannot pass the local authorisation to use the passkeys. However, allowing user to delete the passkeys that are not used any more, will give users better experiences.</li>
+<li>Be ware of the fact that passkeys can be shared across devices. This can be done in various ways: Firstly, the iOS system relies on iCloud Keychain to sync passkeys onto different devices that logged in with same apple ID account. Also, user actively share passkey to others in settings app.</li>
+<li>Passkeys solution supports <code>Signing in using Nearby Devices</code>, which, in my opinion, is a very effective way to sign users in web applications using their mobile devices.</li>
+</ol>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fpasskey--passwordless-solution-for-authentication%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=Passkey%20%e2%80%94%20Passwordless%20solution%20for%20authentication&url=https%3a%2f%2ftimwang.au%2fposts%2fpasskey--passwordless-solution-for-authentication%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fpasskey--passwordless-solution-for-authentication%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/passkey--passwordless-solution-for-authentication/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fpasskey--passwordless-solution-for-authentication%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fpasskey--passwordless-solution-for-authentication%2f
+			&title=Passkey%20%e2%80%94%20Passwordless%20solution%20for%20authentication&summary=%3cp%3ePasskey%20is%20a%20passwordless%20solution%20from%20%3ca%20href%3d%22https%3a%2f%2ffidoalliance.org%2f%22%3eFIDO%20alliance%3c%2fa%3e%20to%20resolve%20the%20global%20password%20problem.%20It%20provides%20a%20simple%20user%20experience%20with%20phishing-resistant%20security%20and%20can%20be%20adopted%20in%20mobile%20and%20web%20applications.%20In%20this%20article%2c%20we%20are%20going%20to%20investigate%20this%20solution%20and%20discuss%20a%20how%20to%20implement%20it%20on%20iOS%20platform.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=Passkey%20%e2%80%94%20Passwordless%20solution%20for%20authentication&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fpasskey--passwordless-solution-for-authentication%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

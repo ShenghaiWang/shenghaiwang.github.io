@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    The Beauty of Swift Language – Protocol | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/the-beauty-of-swift-language--protocol/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    Swift promotes protocol oriented programming and the protocol in Swift is designed to provide rich functionalities to support this goal. Conceptually, it is like interface in Kotlin and C# but with many syntax and functionality differences. In this article, we are going to focus on the wonderful design of the protocol in Swift.
+    "
+/>
+<meta property="og:description" content="
+    Swift promotes protocol oriented programming and the protocol in Swift is designed to provide rich functionalities to support this goal. Conceptually, it is like interface in Kotlin and C# but with many syntax and functionality differences. In this article, we are going to focus on the wonderful design of the protocol in Swift.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/the-beauty-of-swift-language--protocol/feature.webp" />
+
+
+
+
+<meta property="og:title" content="The beauty of Swift Language – protocol" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/the-beauty-of-swift-language--protocol/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-01-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-01-26T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/the-beauty-of-swift-language--protocol/feature.webp">
+  <meta name="twitter:title" content="The beauty of Swift Language – protocol">
+  <meta name="twitter:description" content="Swift promotes protocol oriented programming and the protocol in Swift is designed to provide rich functionalities to support this goal. Conceptually, it is like interface in Kotlin and C# but with many syntax and functionality differences. In this article, we are going to focus on the wonderful design of the protocol in Swift.">
+
+
+  <meta itemprop="name" content="The beauty of Swift Language – protocol">
+  <meta itemprop="description" content="Swift promotes protocol oriented programming and the protocol in Swift is designed to provide rich functionalities to support this goal. Conceptually, it is like interface in Kotlin and C# but with many syntax and functionality differences. In this article, we are going to focus on the wonderful design of the protocol in Swift.">
+  <meta itemprop="datePublished" content="2024-01-26T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-01-26T00:00:00+00:00">
+  <meta itemprop="wordCount" content="2274">
+  <meta itemprop="image" content="https://timwang.au/posts/the-beauty-of-swift-language--protocol/feature.webp">
+  <meta itemprop="keywords" content="Swift,Protocol">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">The beauty of Swift Language – protocol</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Jan 26, 2024
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    13 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/protocol"><span
+                                    class="tag bg-dark">protocol</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/the-beauty-of-swift-language--protocol/feature.webp alt="The beauty of Swift Language – protocol">
+                        </figure>
+                    
+                
+
+                <p>Swift promotes protocol oriented programming and the protocol in Swift is designed to provide rich functionalities to support this goal. Conceptually, it is like interface in Kotlin and C# but with many syntax and functionality differences. In this article, we are going to focus on the wonderful design of the protocol in Swift.</p>
+<h1 id="1-define-protocol-requirement">1. Define protocol requirement</h1>
+<p>As mentioned earlier, the protocol defines some requirements regarding properties and functions like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">SampleProtocol</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> sampleProperty: Int { <span style="color:#66d9ef">get</span> <span style="color:#66d9ef">set</span> } <span style="color:#75715e">// Define a property requirement  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sampleFunction</span>() <span style="color:#75715e">// Define a method requirement  </span>
+</span></span><span style="display:flex;"><span>} 
+</span></span></code></pre></div><h2 id="property-requirements">Property requirements</h2>
+<p>It always uses <code>var</code> to declare a property requirement. To further specify its readability and writability, use <code>set</code> /<code>get</code> to do so. Please note, the property should be always readable, which means we should always put get inside the <code>{}</code> and optionally add <code>set</code> depending on the needs.</p>
+<p>It is possible to specify a <code>static</code> property requirement too. For this, we just need to add <code>static</code> before the <code>var</code> keyword.</p>
+<h2 id="method-requirements">Method requirements</h2>
+<p>To define a method requirement, just provide the method signature without method body like the sample above. Swift allows to specify various method requirements like mutating methods, static/class methods etc like below. In order to satisfy a<code>static</code> method requirement, we can define either a <code>static</code> method or a <code>class</code> method.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">SampleProtocol</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">mutating</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sampleFunction</span>() <span style="color:#75715e">// Define a mutating method requirement  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sampleFunction</span>() <span style="color:#75715e">// Define a static method requirement  </span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Similarly, we can also define <code>Initializer Requirements</code> like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">SampleProtocol</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>() <span style="color:#75715e">// Define an Initializer Requirement  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>?(a: Int) <span style="color:#75715e">// Define a Failable Initializer Requirement  </span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="class-only-protocols">Class-Only Protocols</h2>
+<p>If we want the protocol can only be applied to classes, which is common for delegate patterns, use <code>AnyObject</code> to mark it like below.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">// AnyObject here marks the protocol can only be applied to classes  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">SampleProtocol</span>: AnyObject { }
+</span></span></code></pre></div><h2 id="optional-requirements">Optional requirements</h2>
+<p>If want to define some optional requirements, there are two ways to achieve this goal: using <code>optional</code> keyword and providing default implementation.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">@objc</span> <span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">SampleProtocol</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">@objc</span> <span style="color:#66d9ef">optional</span> <span style="color:#66d9ef">var</span> property1: Int { <span style="color:#66d9ef">get</span> }  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">@objc</span> <span style="color:#66d9ef">optional</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">optionalFunc</span>()  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The keyword <code>optional</code> can only be used with <code>@objc</code> attribute, which also marks protocol as class only protocol. The more swifty way of making requirement optional is to provide default implementation like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">SampleProtocol</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> property1: Int { <span style="color:#66d9ef">get</span> }  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">optionalFunc</span>()  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">SampleProtocol</span> { <span style="color:#75715e">// Providing default implementation  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> property1: Int { <span style="color:#ae81ff">0</span> }  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">optionalFunc</span>() {}  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// This is ok as all requirements in the SampleProtocol have default implementation  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SampleStruct</span>: SampleProtocol {} 
+</span></span></code></pre></div><h2 id="type-requirements-associate-types">Type requirements (Associate types)</h2>
+<p>Like generics, if want a protocol to be able to handle different types, use associated types. For example, we can define a <code>Stack</code> protocol and make <code>IntStack</code> class conform to it like below.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Stack</span> {  
+</span></span><span style="display:flex;"><span>    associatedtype Element  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">push</span>(e: Element)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">pop</span>() -&gt; Element?  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">IntStack</span>: Stack {  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Use typealias to specify the concrete type of this Element  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">typealias</span> Element = Int  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> elements: [Int] = []  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">push</span>(e: Int) {  
+</span></span><span style="display:flex;"><span>        elements.insert(e, at: <span style="color:#ae81ff">0</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">pop</span>() -&gt; Int? {  
+</span></span><span style="display:flex;"><span>        elements.removeFirst()  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> stack = IntStack()  
+</span></span><span style="display:flex;"><span>stack.push(e: <span style="color:#ae81ff">1</span>)  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> e = stack.pop()
+</span></span></code></pre></div><p>In order to conform to a protocol that with associated types, we use <code>typealias</code> in the conforming type to specify the concrete type of this associated type. Most of times, we can ignore this and leave the complier to infer the concrete type.</p>
+<p>Since the <code>Stack</code> protocol only requires an <code>associatedtype</code> <code>Element</code> , like <code>IntStack</code> handles <code>Int</code> type <code>Element</code>, we can also create a type that support other types like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StringStack</span>: Stack {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> elements: [String] = []  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">push</span>(e: String) {  
+</span></span><span style="display:flex;"><span>        elements.insert(e, at: <span style="color:#ae81ff">0</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">pop</span>() -&gt; String? {  
+</span></span><span style="display:flex;"><span>        elements.removeFirst()  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Or we can create a generic type to conform to this protocol like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GenericStack</span>&lt;E: Any&gt;: Stack {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> elements: [E] = []  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">push</span>(e: E) {  
+</span></span><span style="display:flex;"><span>        elements.insert(e, at: <span style="color:#ae81ff">0</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">pop</span>() -&gt; E? {  
+</span></span><span style="display:flex;"><span>        elements.removeFirst()  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>If needed, we can further specify requirement for the associated types like below, where we not only require the associated type <code>Iterator</code> to conform to <code>IteratorProtocol</code> , but its <code>Element</code> is as same as the associated Element type of this <code>Sequence</code> protocol.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Sequence</span> {  
+</span></span><span style="display:flex;"><span>  associatedtype Element  
+</span></span><span style="display:flex;"><span>  associatedtype Iterator: IteratorProtocol <span style="color:#66d9ef">where</span> Element == Iterator.Element  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Since Swift 5.7, it also allows us to specify primary associated types for protocols using a syntax like generic parameter like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Stack</span>&lt;Element&gt; {  
+</span></span><span style="display:flex;"><span>    associatedtype Element  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">push</span>(e: Element)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">pop</span>() -&gt; Element?  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>With this new version of the definition of <code>Stack</code> protocol, we can use it the same way as the previous version. However, the new version enables the following new usage:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">isTopElementEqual</span>(first: any Stack&lt;Int&gt;, second: any Stack&lt;Int&gt;) -&gt; Bool {  
+</span></span><span style="display:flex;"><span>    first.pop() == second.pop()  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// This is basically equal to the following method but more readable  </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// func isTopElementEqual&lt;S: Stack&gt;(first: S, second: S) -&gt; Bool where S.Element == Int {  </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//    first.pop() == second.pop()  </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//}</span>
+</span></span></code></pre></div><p>As mentioned in the <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0346-light-weight-same-type-syntax.md">proposal</a>, primary associated types are intended to be used for associated types which are usually provided by the caller. It provides a more readable syntax for these use cases.</p>
+<h1 id="2-object-orientated-features-of-protocols">2. Object Orientated features of Protocols</h1>
+<p>To some extent, protocol is just an abstract type definitions that separates type interface from its implementation and this separation offers flexibility. Like other types in Swift, protocols also have object oriented features like inheritance, extension etc.</p>
+<h2 id="protocol-inheritance">Protocol inheritance</h2>
+<p>A good example of Swift protocol inheritance is <code>Error</code> protocol. It inherits <code>Sendable</code> protocol. Similarly, we can also define our protocol inheritance as needed like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Nameable</span>: Identifiable {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> name: String { <span style="color:#66d9ef">get</span> }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Animal</span>: Nameable {  
+</span></span><span style="display:flex;"><span>    associatedtype Food  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">eat</span>(food: Food)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Plant</span>: Nameable {  
+</span></span><span style="display:flex;"><span>    associatedtype Food  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">harvest</span>() -&gt; Food  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In this example, we have <code>Nameable</code> that inherit <code>[Identifiable](https://developer.apple.com/documentation/swift/identifiable)</code> protocol that requires a <code>id</code> property. The <code>Nameable</code> protocol define a <code>name</code> property requirement. Both <code>Animal</code> and <code>Plant</code> protocol inherit from <code>Nameable</code> , which mean, they both require <code>id</code> and <code>name</code> properties that defined in their parent protocols <code>Nameable</code> and <code>Identifiable</code> .</p>
+<h2 id="protocol-extensions">Protocol Extensions</h2>
+<p>Like type extensions, we can define protocol extensions. The declarations in the protocol extension are shared by all the types that conform to this protocol. For example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">AProtocol</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> property: Int { <span style="color:#66d9ef">get</span> }  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sampleFunc</span>()  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">AProtocol</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Default implementation of property  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> property: Int {  
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Default implementation of function  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sampleFunc</span>() {  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Define a new property(or a func) that is not part of protocol requirement  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> isFromAProtocol: Bool {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">true</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="conditional-extensions">Conditional Extensions</h2>
+<p>If we want to limit the declarations in extension to part of types that conform to this protocol, we can use <a href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/generics/#Generic-Where-Clauses">generic where clause</a> to do so.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">AProtocol</span> <span style="color:#66d9ef">where</span> <span style="color:#66d9ef">Self</span>: UIViewController {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">alert</span>(title: String? = <span style="color:#66d9ef">nil</span>, message: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> alert = UIAlertController(title: title, message: message, preferredStyle: .alert)  
+</span></span><span style="display:flex;"><span>        present(alert, animated: <span style="color:#66d9ef">true</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In the above example, we add <code>alert</code> function only to the types that conform to <code>AProtocol</code> and are subclasses of <code>UIViewController</code> . Since this func is only visible to subclasses of <code>UIViewController</code> , we can call <code>present</code> method of <code>UIViewController</code> in this method.</p>
+<h2 id="protocol-composition">Protocol composition</h2>
+<p>In Swift, we can combine requirements of two or more protocols together using <code>&amp;</code> . One example of this is <code>Codable</code> protocol, which is acutally a type alias of protocol composition of <code>DeCodable</code> and <code>EnCodable</code> . For example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">typealias</span> Codable = Decodable <span style="color:#f92672">&amp;</span> Encodable  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">A</span>: Codable {}  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Or  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">A</span>: Encodable, Decodable {}  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Or  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">A</span>: Encodable <span style="color:#f92672">&amp;</span> Decodable {}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">process</span>(item: Codable) {}  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Or  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">process</span>(item: Encodable <span style="color:#f92672">&amp;</span> Decodable) {}
+</span></span></code></pre></div><h1 id="3-conforming-to-protocols">3. Conforming to protocols</h1>
+<p>To make a type conform to a protocol, we need to implement all the requirements of the protocol for the type. It’s recommended to create a extension of that type and conform to the protocol in the extension like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Tracing</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">log</span>()  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">AStruct</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> property: Int  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">AStruct</span>: Tracing {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">log</span>() {  
+</span></span><span style="display:flex;"><span>        ...  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="conditionally-conforming-to-a-protocol">Conditionally Conforming to a Protocol</h2>
+<p>For generic types, we can make it conform to certain protocol under some conditions. For instance, we make <code>Int</code> Array to conform to <code>Averageable</code> protocol like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Averageable</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> average: Float { <span style="color:#66d9ef">get</span> }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Array</span>: Averageable <span style="color:#66d9ef">where</span> Element == Int {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> average: Float {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> count <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">else</span> { <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span> }  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Float(reduce(<span style="color:#ae81ff">0</span>, <span style="color:#f92672">+</span>)) <span style="color:#f92672">/</span> Float(count)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="declaring-protocol-adoption-with-an-extension">Declaring Protocol Adoption with an Extension</h2>
+<p>It’s a recommended style to conform a protocol using type extension because it helps group code into smaller pieces like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Nameable</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> name: String { <span style="color:#66d9ef">get</span> }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Person</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> firstName: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> lastName: String  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Person</span>: Nameable {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> name: String {  
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">\(</span>firstName<span style="color:#e6db74">)</span><span style="color:#e6db74"> </span><span style="color:#e6db74">\(</span>lastName<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>When all of the requirements of the protocol have their default implementations, or the type has met all the requirements, we can simply declare the protocol conformance by an empty extension.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Titled</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> title: String? { <span style="color:#66d9ef">get</span> }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HomeViewController</span>: UIViewController {}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">HomeViewController</span>: Titled {}
+</span></span></code></pre></div><p>Since there is a <code>title</code> of <code>String?</code> type in type <code>UIViewController</code> , we can just simply declare this <code>Titled</code> protocol conformance with an empty extension.</p>
+<h2 id="using-synthesized-implementations">Using Synthesized Implementations</h2>
+<p>In particular, Swift compiler can generate conformance code to some types for protocols like <code>Equatable</code>, <code>Hashable</code>, <code>Comparable</code> <code>Encodable</code> and <code>DeCodable</code> etc. To use this feature, we can just simply declare protocol conformance with an empty extension like below.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Status</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> on  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> off  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Status</span>: Equatable, Codable, Comparable, Hashable {}
+</span></span></code></pre></div><h2 id="checking-for-protocol-conformance">Checking for Protocol Conformance</h2>
+<p>In runtime, if we want to check if a type conform to a protocol or not, use <a href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/typecasting">type casting syntax</a> like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> a = Person(firstName: <span style="color:#e6db74">&#34;T&#34;</span>, lastName: <span style="color:#e6db74">&#34;W&#34;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> a <span style="color:#66d9ef">is</span> Nameable {  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;A Nameable indeed&#34;</span>)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> nameable = a <span style="color:#66d9ef">as</span>? Nameable {  
+</span></span><span style="display:flex;"><span>    print(nameable.name)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="4-using-protocols-as-types">4. Using protocols as types</h1>
+<p>When it comes to protocols used as types, there are three major use cases.</p>
+<h2 id="as-generic-constraints">As generic constraints</h2>
+<p>This is the most common way to use a protocol as a type. In this case, the concrete type is made clear on caller side. In the example below, even though in the method body of <code>printNames</code> , we are not sure about the what concrete types it handles, but on the caller side of this method, we call this method with concrete types.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Thing</span>: Identifiable {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> name: String { <span style="color:#66d9ef">get</span> }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Array</span> <span style="color:#66d9ef">where</span> Element: Thing {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">printNames</span>() {  
+</span></span><span style="display:flex;"><span>        forEach {  
+</span></span><span style="display:flex;"><span>            print($0.name)  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Object</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> name: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> id: UUID = UUID()  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Object</span>: Thing {}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> objects: [Object] = [.<span style="color:#66d9ef">init</span>(name: <span style="color:#e6db74">&#34;Laptop&#34;</span>), .<span style="color:#66d9ef">init</span>(name: <span style="color:#e6db74">&#34;Camera&#34;</span>)]  
+</span></span><span style="display:flex;"><span>objects.printNames()
+</span></span></code></pre></div><h2 id="existential-type--any">Existential type — any</h2>
+<p>This is also called a boxed protocol type. In this case, protocols abstract away concrete type information, which, in many cases, has performance impact because the compiler needs to handle memory properly so that any concrete types that conform to this protocol can be handled correctly.</p>
+<p>In order to explicitly express this existential usage of protocols, Swift introduces <code>[any](https://github.com/apple/swift-evolution/blob/main/proposals/0335-existential-any.md)</code> keyword. For example, in the code below, <code>things</code> array need to be able to save values of any concrete types that conform to <code>Thing</code> protocol.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Values</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> things: [any Thing]  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">printNames</span>() {  
+</span></span><span style="display:flex;"><span>        things.forEach { print($0.name) }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="opaque-types--some">Opaque types — some</h2>
+<p>Swift offers Opaque types syntax <code>some</code> to hide information about concrete types. It can be used in <code>Parameter Declarations</code> and <code>result</code> types. When used in <code>Parameter Declarations</code> , it is a syntax sugar for generic constraints. For example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">printNames</span>(thing1: some Thing, thing2: some Thing) {  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">\(</span>thing1.name<span style="color:#e6db74">)</span><span style="color:#e6db74"> and </span><span style="color:#e6db74">\(</span>thing2.name<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// is the shorter form for the following method  </span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">printNames</span>&lt;T: Thing&gt;(thing1: T, thing2: T) {  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">\(</span>thing1.name<span style="color:#e6db74">)</span><span style="color:#e6db74"> and </span><span style="color:#e6db74">\(</span>thing2.name<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>When it’s used in result types, it’s also called <code>Reverse generics</code> because unlike generics where the caller decides the concrete type of the generic type, in opaque return types, the callee decides the concrete type but return an opaque generic type for the purpose of hiding the information of the concrete types.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Thing</span>: Identifiable {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> name: String { <span style="color:#66d9ef">get</span> }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Object</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> name: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> id: UUID = UUID()  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Object</span>: Thing {}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">create</span>() -&gt; some Thing {  
+</span></span><span style="display:flex;"><span>    Object(name: <span style="color:#e6db74">&#34;Laptop&#34;</span>)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In the above example, function <code>create</code> returns an instance of <code>Object</code> type as <code>Thing</code> type to hide the concrete type of <code>Object</code> .</p>
+<p>We can explore the significant differences between <code>any</code> and <code>some</code> in the following example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Object</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> name: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> id: UUID = UUID()  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Object2</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> name: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> id: UUID = UUID()  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Object</span>: Thing {}  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Object2</span>: Thing {}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Values</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Works because we know the concrete type, the Opaque type only hides it  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> things: [some Thing] = [Object(name: <span style="color:#e6db74">&#34;Laptop&#34;</span>)]  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Error because we do not know the concrete type  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// var things: [some Thing]  </span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Error because Opaque type cannot have mixed concrete types  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// var things: [some Thing] = [Object(name: &#34;Laptop&#34;), Object2(name: &#34;Camera&#34;)]  </span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">printNames</span>() {  
+</span></span><span style="display:flex;"><span>        things.forEach { print($0.name) }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>any</code> creates a boxed type that can dynamically handle different concrete types that conform to the protocol while <code>some</code> hides the information about concrete types, it can only bind to one concrete type.</p>
+<p>Protocol in Swift is carefully designed and offers rich functionalities. We has covered the most important aspects of this beautiful Swift feature in this article. Hope it helps you write better code with fully understanding of this protocol oriented language.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--protocol%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=The%20beauty%20of%20Swift%20Language%20%e2%80%93%20protocol&url=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--protocol%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--protocol%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/the-beauty-of-swift-language--protocol/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--protocol%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--protocol%2f
+			&title=The%20beauty%20of%20Swift%20Language%20%e2%80%93%20protocol&summary=%3cp%3eSwift%20promotes%20protocol%20oriented%20programming%20and%20the%20protocol%20in%20Swift%20is%20designed%20to%20provide%20rich%20functionalities%20to%20support%20this%20goal.%20Conceptually%2c%20it%20is%20like%20interface%20in%20Kotlin%20and%20C%23%20but%20with%20many%20syntax%20and%20functionality%20differences.%20In%20this%20article%2c%20we%20are%20going%20to%20focus%20on%20the%20wonderful%20design%20of%20the%20protocol%20in%20Swift.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=The%20beauty%20of%20Swift%20Language%20%e2%80%93%20protocol&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--protocol%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

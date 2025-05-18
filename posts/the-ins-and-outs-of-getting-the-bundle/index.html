@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    The Ins and Outs of Getting the Bundle | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/the-ins-and-outs-of-getting-the-bundle/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    Background
+Apple uses bundles to represent apps, frameworks, plug-ins, and many other specific types of content and we often need to access to the resources like image assets, localised string resources or other types of files that embedded in these bundles, for which, we need to get hold of the bundle objects.
+    "
+/>
+<meta property="og:description" content="
+    Background
+Apple uses bundles to represent apps, frameworks, plug-ins, and many other specific types of content and we often need to access to the resources like image assets, localised string resources or other types of files that embedded in these bundles, for which, we need to get hold of the bundle objects.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/the-ins-and-outs-of-getting-the-bundle/feature.webp" />
+
+
+
+
+<meta property="og:title" content="The Ins and Outs of Getting the Bundle" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/the-ins-and-outs-of-getting-the-bundle/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-01-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-01-23T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/the-ins-and-outs-of-getting-the-bundle/feature.webp">
+  <meta name="twitter:title" content="The Ins and Outs of Getting the Bundle">
+  <meta name="twitter:description" content="Background Apple uses bundles to represent apps, frameworks, plug-ins, and many other specific types of content and we often need to access to the resources like image assets, localised string resources or other types of files that embedded in these bundles, for which, we need to get hold of the bundle objects.">
+
+
+  <meta itemprop="name" content="The Ins and Outs of Getting the Bundle">
+  <meta itemprop="description" content="Background Apple uses bundles to represent apps, frameworks, plug-ins, and many other specific types of content and we often need to access to the resources like image assets, localised string resources or other types of files that embedded in these bundles, for which, we need to get hold of the bundle objects.">
+  <meta itemprop="datePublished" content="2024-01-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-01-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1029">
+  <meta itemprop="image" content="https://timwang.au/posts/the-ins-and-outs-of-getting-the-bundle/feature.webp">
+  <meta itemprop="keywords" content="Swift,IOS,Bundle">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">The Ins and Outs of Getting the Bundle</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Jan 23, 2024
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    6 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/ios"><span
+                                    class="tag bg-dark">iOS</span></a>
+                            
+                            <a href="https://timwang.au/tags/bundle"><span
+                                    class="tag bg-dark">Bundle</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/the-ins-and-outs-of-getting-the-bundle/feature.webp alt="The Ins and Outs of Getting the Bundle">
+                        </figure>
+                    
+                
+
+                <h1 id="background">Background</h1>
+<p>Apple uses bundles to represent apps, frameworks, plug-ins, and many other specific types of content and we often need to access to the resources like image assets, localised string resources or other types of files that embedded in these bundles, for which, we need to get hold of the bundle objects.</p>
+<p>For many cases, we do not need to worry about it as Apple provided APIs to access these resources easily. For example, we can use the following syntax to create a UIImage object, Image object and a localised string.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> uikitImage = UIImage(named: <span style="color:#e6db74">&#34;image&#34;</span>)  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> swiftUIimage = Image(name: <span style="color:#e6db74">&#34;image&#34;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> string = String(localized: <span style="color:#e6db74">&#34;Localised string&#34;</span>)
+</span></span></code></pre></div><p>In all the cases above, the methods seek the resources in the default bundle. For the cases that resources are not stored in the default bundle, we need to use their full-fledged version like below, where you can see we are able to specify which bundle object to use:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>UIImage?(named name: String,  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">in</span> bundle: Bundle?,  
+</span></span><span style="display:flex;"><span>            compatibleWith traitCollection: UITraitCollection?)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>Image(<span style="color:#66d9ef">_</span> name: String, bundle: Bundle? = <span style="color:#66d9ef">nil</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>String(localized keyAndValue: String.LocalizationValue,   
+</span></span><span style="display:flex;"><span>        table: String? = <span style="color:#66d9ef">nil</span>,   
+</span></span><span style="display:flex;"><span>        bundle: Bundle? = <span style="color:#66d9ef">nil</span>,   
+</span></span><span style="display:flex;"><span>        locale: Locale = .current,   
+</span></span><span style="display:flex;"><span>        comment: StaticString? = <span style="color:#66d9ef">nil</span>)
+</span></span></code></pre></div><p>So, the question is, when needed, how we choose the best methods to get the bundle objects.</p>
+<h1 id="different-ways-of-getting-bundle-object">Different ways of getting bundle object</h1>
+<h2 id="class-variable--main">Class variable — <code>main</code></h2>
+<p>This returns the bundle object that contains the current executable, which is the bundle object used in the methods that do not require bundle parameter.</p>
+<p>Pay attention to the <code>current executable</code> here. If we have a localised <code>Localizable.xcstrings</code> resources embed in the current executable bundle, this is the bundle object that need to be used and the app target is one the types of the executables.</p>
+<p>What if it is a unit test target? It turns about this method does not work even if we embed the resource files into it. It does not work for UI testing target too. In summary, <code>main</code> is never the testing target.</p>
+<blockquote>
+<p>Just in case you may wonder why we embed some resource file into Unit testing targets or UI testing targets. From my previous experience, sometimes, we want to share some configuration data among those targets in order to avoid duplicating them.</p></blockquote>
+<h2 id="initfor-anyclass">init(for: AnyClass)</h2>
+<p>This returns the bundle object with which the specified class is associated. For example, if we define the <code>BundleFinder</code> class and call this method like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BundleFinder</span> {}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> bundle = Bundle(<span style="color:#66d9ef">for</span>: BundleFinder.<span style="color:#66d9ef">self</span>)
+</span></span></code></pre></div><p>The bundle will always be the target that includes the definition of this <code>BundleFinder</code> class even if it is a unit testing target or UI testing target, which means if we want to access the resources that embedded in the testing targets, this would be one the possible options.</p>
+<h2 id="initidentifier-string">init?(identifier: String)</h2>
+<p>This method returns the bundle with the specified identifier if it can find. Similarly <code>init?(url: URL)</code> and <code>init?(path: String)</code> return the bundle with specified URL or path string.</p>
+<p>You may quickly realise that we could use this method if we want to access the resources that embed in the app target from Unit testing target or UI testing target. It works indeed. And, from my point of view, it is the great way to do so. With little cost of specifying <code>identifier</code> using this method, we don’t need to bother setting up the target membership for our resources files.</p>
+<h2 id="class-variable--module">Class variable — module</h2>
+<p>This is the way we access to the resources in Swift packages. Once we include resources in a package, the following code will be generated(the <code>bundleName</code> in the code will vary) and we can use <code>module</code> to access the package bundle.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">class</span> <span style="color:#a6e22e">Foundation</span>.<span style="color:#a6e22e">Bundle</span>  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">import</span> <span style="color:#a6e22e">class</span> <span style="color:#a6e22e">Foundation</span>.<span style="color:#a6e22e">ProcessInfo</span>  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">import</span> <span style="color:#a6e22e">struct</span> <span style="color:#a6e22e">Foundation</span>.<span style="color:#a6e22e">URL</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">private</span> <span style="color:#a6e22e">class</span> <span style="color:#a6e22e">BundleFinder</span> {}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">extension</span> <span style="color:#a6e22e">Foundation</span>.<span style="color:#a6e22e">Bundle</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// Returns the resource bundle associated with the current Swift module.  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">static</span> <span style="color:#a6e22e">let</span> <span style="color:#a6e22e">module</span>: <span style="color:#a6e22e">Bundle</span> = {  
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">let</span> <span style="color:#a6e22e">bundleName</span> = <span style="color:#e6db74">&#34;MyLibrary_SampleLibrary&#34;</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">let</span> <span style="color:#a6e22e">overrides</span>: <span style="color:#960050;background-color:#1e0010">\</span>[<span style="color:#a6e22e">URL</span><span style="color:#960050;background-color:#1e0010">\</span>]  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#if</span> <span style="color:#75715e">DEBUG</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// The &#39;PACKAGE\_RESOURCE\_BUNDLE\_PATH&#39; name is preferred since the expected value is a path. The  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// check for &#39;PACKAGE\_RESOURCE\_BUNDLE\_URL&#39; will be removed when all clients have switched over.  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// This removal is tracked by rdar://107766372.  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> override = <span style="color:#75715e">ProcessInfo</span>.<span style="color:#75715e">processInfo</span>.<span style="color:#75715e">environment</span>[<span style="color:#e6db74">&#34;PACKAGE_RESOURCE_BUNDLE_PATH&#34;</span>]  
+</span></span><span style="display:flex;"><span>                       ?? <span style="color:#75715e">ProcessInfo</span>.<span style="color:#75715e">processInfo</span>.<span style="color:#75715e">environment</span>[<span style="color:#e6db74">&#34;PACKAGE_RESOURCE_BUNDLE_URL&#34;</span>] {  
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">overrides</span> = [<span style="color:#75715e">URL</span>(<span style="color:#75715e">fileURLWithPath</span>: <span style="color:#66d9ef">override</span>)]  
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {  
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">overrides</span> = []  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#else</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">overrides</span> = []  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#endif</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> candidates = <span style="color:#75715e">overrides</span> <span style="color:#f92672">+</span> [  
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Bundle should be present here when the package is linked into an App.  </span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">Bundle</span>.<span style="color:#75715e">main</span>.<span style="color:#75715e">resourceURL</span>,  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Bundle should be present here when the package is linked into a framework.  </span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">Bundle</span>(<span style="color:#66d9ef">for</span>: <span style="color:#75715e">BundleFinder</span>.<span style="color:#66d9ef">self</span>).<span style="color:#75715e">resourceURL</span>,  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// For command-line tools.  </span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">Bundle</span>.<span style="color:#75715e">main</span>.<span style="color:#75715e">bundleURL</span>,  
+</span></span><span style="display:flex;"><span>        ]  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#75715e">candidate</span> <span style="color:#66d9ef">in</span> <span style="color:#75715e">candidates</span> {  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">let</span> bundlePath = <span style="color:#75715e">candidate</span>?.<span style="color:#75715e">appendingPathComponent</span>(<span style="color:#75715e">bundleName</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;.bundle&#34;</span>)  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> bundle = <span style="color:#75715e">bundlePath</span>.<span style="color:#75715e">flatMap</span>(<span style="color:#75715e">Bundle</span>.<span style="color:#66d9ef">init</span>(<span style="color:#75715e">url</span>:)) {  
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#75715e">bundle</span>  
+</span></span><span style="display:flex;"><span>            }  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">fatalError</span>(<span style="color:#e6db74">&#34;unable to find bundle named MyLibrary_MyLibrary&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }()  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Please note, this is the only recommended way to access resources within Swift packages. Out of curiosity, we can try <code>init(for: AnyClass)</code> method. It did not work. However, <code>init?(identifier: String)</code> works. The only thing for it to work is that we need to know what’s the <code>identifier</code> for our package, for which, we can run the following code in the target that is using the package to find out.</p>
+<p>The Swift package identifier is in the format like <strong>PackageName-ModuleName-resources</strong> at the time when I tried out. But it is not guaranteed that it will never change. So it’s not recommended to use.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>Bundle.allBundles.forEach {  
+</span></span><span style="display:flex;"><span>    print($0.bundleIdentifier ?? <span style="color:#e6db74">&#34;&#34;</span>)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Because of the fact that we need to access resources relying on the <code>Bundle.module</code> variable in Swift packages and this variable only exists in Swift packages, if we have shared code between packages and Xcode projects, we need a way to make it work for both setups. Luckily, Swift package has a preprocessor definition <code>SWIFT_PACKAGE</code> for this purpose and we can use it like below so that we can use <code>bundle</code> property in other part of the code without worrying how to get the right bundle object.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BundleFinder</span> {}  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> bundle: Bundle {  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#if</span> <span style="color:#75715e">SWIFT_PACKAGE</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">Bundle</span>.<span style="color:#75715e">module</span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#else</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">Bundle</span>(<span style="color:#66d9ef">for</span>: <span style="color:#75715e">BundleFinder</span>.<span style="color:#66d9ef">self</span>)  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#endif</span>  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="conclusion">Conclusion</h1>
+<p>In this article, we have gone through different ways of getting bundle objects. Different methods have different use cases and require different setups of the resources(for example, the target membership setting for resources). Hope this will help you find the best way for your use cases.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fthe-ins-and-outs-of-getting-the-bundle%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=The%20Ins%20and%20Outs%20of%20Getting%20the%20Bundle&url=https%3a%2f%2ftimwang.au%2fposts%2fthe-ins-and-outs-of-getting-the-bundle%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fthe-ins-and-outs-of-getting-the-bundle%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/the-ins-and-outs-of-getting-the-bundle/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fthe-ins-and-outs-of-getting-the-bundle%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fthe-ins-and-outs-of-getting-the-bundle%2f
+			&title=The%20Ins%20and%20Outs%20of%20Getting%20the%20Bundle&summary=%3ch1%20id%3d%22background%22%3eBackground%3c%2fh1%3e%0a%3cp%3eApple%20uses%20bundles%20to%20represent%20apps%2c%20frameworks%2c%20plug-ins%2c%20and%20many%20other%20specific%20types%20of%20content%20and%20we%20often%20need%20to%20access%20to%20the%20resources%20like%20image%20assets%2c%20localised%20string%20resources%20or%20other%20types%20of%20files%20that%20embedded%20in%20these%20bundles%2c%20for%20which%2c%20we%20need%20to%20get%20hold%20of%20the%20bundle%20objects.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=The%20Ins%20and%20Outs%20of%20Getting%20the%20Bundle&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fthe-ins-and-outs-of-getting-the-bundle%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

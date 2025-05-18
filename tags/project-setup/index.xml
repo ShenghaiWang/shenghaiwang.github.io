@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Project Setup on Coding life</title>
+    <link>https://timwang.au/tags/project-setup/</link>
+    <description>Recent content in Project Setup on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 23 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/project-setup/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Second Thoughts on iOS Project Setup</title>
+      <link>https://timwang.au/posts/second-thoughts-on-ios-project-setup/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/second-thoughts-on-ios-project-setup/</guid>
+      <description>&lt;p&gt;In the last few years, I have been working on a few medium to big iOS projects. All of these projects have great modular architecture — functionalities and features are broken down and implemented in their own libraries or frameworks. One project had more than forty libraries and another had more than sixty. But here came the question: what’s the best practice to set up a project with so many dependencies, especially when they are all under heavy development? I had the fortune to work with my team to improve these project setups. The following is what I learned from the process.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

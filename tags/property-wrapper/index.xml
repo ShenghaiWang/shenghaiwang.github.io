@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Property Wrapper on Coding life</title>
+    <link>https://timwang.au/tags/property-wrapper/</link>
+    <description>Recent content in Property Wrapper on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 26 Aug 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/property-wrapper/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The beauty of Swift Language — Property Wrapper</title>
+      <link>https://timwang.au/posts/the-beauty-of-swift-language--property-wrapper/</link>
+      <pubDate>Sat, 26 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/the-beauty-of-swift-language--property-wrapper/</guid>
+      <description>&lt;p&gt;In essence, a property of an object in OO languages can access to its backed storage directly or can have &lt;code&gt;getter&lt;/code&gt; /&lt;code&gt;setter&lt;/code&gt; to access to the backed storage indirectly. For the latter case, we can write logic needed in the &lt;code&gt;getter&lt;/code&gt;/&lt;code&gt;setter&lt;/code&gt;. To develop this idea further, what if we need to reuse the logic in &lt;code&gt;getter&lt;/code&gt;/&lt;code&gt;setter&lt;/code&gt; for other properties of this object and even properties of other objects? Proper Wrapper in Swift is invented for this purpose. Even though there’s no such concept in C# and Kotlin, but we can achieve the similar goal in those languages as well, which will be discussed in this article.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

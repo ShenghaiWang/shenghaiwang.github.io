@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    My Experience in Developing Swift Macros | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/my-experience-in-developing-swift-macros/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    I have developed a collection of Swift Macros in this repo recently. This article will summarise my experience and hopefully it would be helpful for your tasks.
+    "
+/>
+<meta property="og:description" content="
+    I have developed a collection of Swift Macros in this repo recently. This article will summarise my experience and hopefully it would be helpful for your tasks.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/my-experience-in-developing-swift-macros/feature.webp" />
+
+
+
+
+<meta property="og:title" content="My Experience in Developing Swift Macros" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/my-experience-in-developing-swift-macros/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-01-10T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/my-experience-in-developing-swift-macros/feature.webp">
+  <meta name="twitter:title" content="My Experience in Developing Swift Macros">
+  <meta name="twitter:description" content="I have developed a collection of Swift Macros in this repo recently. This article will summarise my experience and hopefully it would be helpful for your tasks.">
+
+
+  <meta itemprop="name" content="My Experience in Developing Swift Macros">
+  <meta itemprop="description" content="I have developed a collection of Swift Macros in this repo recently. This article will summarise my experience and hopefully it would be helpful for your tasks.">
+  <meta itemprop="datePublished" content="2023-01-10T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-01-10T00:00:00+00:00">
+  <meta itemprop="wordCount" content="701">
+  <meta itemprop="image" content="https://timwang.au/posts/my-experience-in-developing-swift-macros/feature.webp">
+  <meta itemprop="keywords" content="Swift,Macros">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+
+
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">My Experience in Developing Swift Macros</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Jan 10, 2023
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    4 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/macros"><span
+                                    class="tag bg-dark">Macros</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/my-experience-in-developing-swift-macros/feature.webp alt="My Experience in Developing Swift Macros">
+                        </figure>
+                    
+                
+
+                <p>I have developed a collection of Swift Macros in this <a href="https://github.com/ShenghaiWang/SwiftMacros">repo</a> recently. This article will summarise my experience and hopefully it would be helpful for your tasks.</p>
+<h1 id="design-the-macro">Design the macro</h1>
+<p>In essence, Swift Macro is a way to expand code based on the source information. The first step to develop them is to setup the proper goal. Then analyse what information we need for this goal, which will help us to decide the macro type. For example, if all the information needed comes from macro function itself, it could be a freestanding macro. On the other hand, other than the macro itself, we still need to base on some declaration information to generate the code, it will be an attached macro. Unlike <a href="https://medium.com/@tim_wang/macros-in-swift-vs-ksp-in-kotlin-5c56ef82c0e4">KSP</a> in Kotlin, where we have the freedom to generate any code we want based on annotated code, Swift Macro have limitations on the code generated at the moment. So design the goal carefully. Sometimes, one goal needs to be implemented by multiple macros.</p>
+<h1 id="investigate-the-source-information">Investigate the source information</h1>
+<p>The source information that macro can use is with a strong typed format. For details please check out <a href="https://github.com/apple/swift-syntax.git">https://github.com/apple/swift-syntax.git</a>. However, it’s a pretty big task to go through this repo to learn. If we only care about the types for one macro, we can just reply on the debug print of the type instance.</p>
+<p>To do this, we need to write unit test first like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">final</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FormatDateTests</span>: XCTestCase {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> testMacros: [String: Macro.<span style="color:#66d9ef">Type</span>] = [  
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;formatDate&#34;</span>: FormatDate.<span style="color:#66d9ef">self</span>,  
+</span></span><span style="display:flex;"><span>    ]  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">testFormateDateMacro</span>() {  
+</span></span><span style="display:flex;"><span>        assertMacroExpansion(  
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;&#34;&#34;  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            let date = #formatDate(Date(), dateStyle: .full)  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;&#34;&#34;</span>,  
+</span></span><span style="display:flex;"><span>            expandedSource:  
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;&#34;&#34;  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            let date = {  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                let formatter = DateFormatter()  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                formatter.dateStyle = .full  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                return formatter.string(from: Date())  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            }()  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;&#34;&#34;</span>,  
+</span></span><span style="display:flex;"><span>            macros: testMacros  
+</span></span><span style="display:flex;"><span>        )  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In this example, we are going to develop a freestanding expression macro called <code>FormatDate</code> . With this unit test in place, we define this <code>FormatDate</code> like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">FormatDate</span>: ExpressionMacro {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">expansion</span>&lt;Node: FreestandingMacroExpansionSyntax,  
+</span></span><span style="display:flex;"><span>                                 Context: MacroExpansionContext&gt;(of node: Node,  
+</span></span><span style="display:flex;"><span>                                                                 <span style="color:#66d9ef">in</span> context: Context) <span style="color:#66d9ef">throws</span> -&gt; ExprSyntax {  
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;&#34;</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>As you can see here, the expansion method returns an empty string, but it’s enough for now. If we put a breakpoint at this line and run the unit test, the unit test process will stop here allowing us to print out the source information like below:</p>
+<p>Here we print out <code>node</code> as an example. We can do the same for other arguments as well.</p>
+<h1 id="investigate-the-destination-code">Investigate the destination code</h1>
+<p>Moving onto the destination code, when we write unit test, we already know the destination code we are expecting. The issue here is how to generate them. Basically we have two ways of generating them:</p>
+<ol>
+<li><strong>String interpolation</strong></li>
+</ol>
+<p>As you’ve already seen in the above screenshot, we can return string for <code>ExprSyntax</code> . If we can manage to implement the macro logic purely relying on string manipulation, it’s perfectly fine. But be careful, it’s easy to make mistakes this way especially for generating complicated code blocks.</p>
+<ol start="2">
+<li><strong>Syntax builder method</strong></li>
+</ol>
+<p>Another way is to utilise Syntax builder tools in the <code>swift-syntax</code> package. Again, it’s a big task as there are many types in this package. In order to limit the types we need to learn, we can use the following tools:</p>
+<p><a href="https://swift-ast-explorer.com/"><strong>Swift AST Explorer</strong></a><strong>:</strong></p>
+<p>Go to <a href="https://swift-ast-explorer.com/">this website</a> and paste the destination code in, it will generate AST like below. Now we know which type we should use.</p>
+<p><strong>Swift Command line</strong></p>
+<p>We can also use following Swift Command line to achieve the same result. Just put the code snippet into one Swift file.</p>
+<p><code>Swift -frontend -emit-syntax fileName.swift</code></p>
+<p>This will generate result in JSON format like below. Copy it to a JSON formatter to make it readable.</p>
+<h1 id="implement-the-expansion-method">Implement the expansion method</h1>
+<p>Once we know the source information and the destination code syntax, the rest is basically a usual Swift coding task.</p>
+<p>However, we do have some special aspects to consider — — what if the macro is misused and how do we inform user to fix it? The answer is to use <code>Exceptions</code> and <code>Diagnostics</code> . For some simple cases, you might even just want to return empty syntax. We are not going to cover these in details in this article, please go to <a href="https://github.com/ShenghaiWang/SwiftMacros">this repo</a> for some examples.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fmy-experience-in-developing-swift-macros%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=My%20Experience%20in%20Developing%20Swift%20Macros&url=https%3a%2f%2ftimwang.au%2fposts%2fmy-experience-in-developing-swift-macros%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fmy-experience-in-developing-swift-macros%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/my-experience-in-developing-swift-macros/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fmy-experience-in-developing-swift-macros%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fmy-experience-in-developing-swift-macros%2f
+			&title=My%20Experience%20in%20Developing%20Swift%20Macros&summary=%3cp%3eI%20have%20developed%20a%20collection%20of%20Swift%20Macros%20in%20this%20%3ca%20href%3d%22https%3a%2f%2fgithub.com%2fShenghaiWang%2fSwiftMacros%22%3erepo%3c%2fa%3e%20recently.%20This%20article%20will%20summarise%20my%20experience%20and%20hopefully%20it%20would%20be%20helpful%20for%20your%20tasks.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=My%20Experience%20in%20Developing%20Swift%20Macros&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fmy-experience-in-developing-swift-macros%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

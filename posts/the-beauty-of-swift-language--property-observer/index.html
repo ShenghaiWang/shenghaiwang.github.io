@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    The Beauty of Swift Language — Property Observer | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/the-beauty-of-swift-language--property-observer/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    Swift is one of my favourite computer languages. I would like to write a series of articles to demonstrate its beauty by comparing it with some other languages(C#, Kotlin) in areas like Property Observation , Property wrapper, Builders, Macros , Structured concurrency etc. This article , as the first of this series, will focus on the Property Observation.
+    "
+/>
+<meta property="og:description" content="
+    Swift is one of my favourite computer languages. I would like to write a series of articles to demonstrate its beauty by comparing it with some other languages(C#, Kotlin) in areas like Property Observation , Property wrapper, Builders, Macros , Structured concurrency etc. This article , as the first of this series, will focus on the Property Observation.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/the-beauty-of-swift-language--property-observer/feature.webp" />
+
+
+
+
+<meta property="og:title" content="The beauty of Swift Language — Property Observer" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/the-beauty-of-swift-language--property-observer/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-08-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-08-26T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/the-beauty-of-swift-language--property-observer/feature.webp">
+  <meta name="twitter:title" content="The beauty of Swift Language — Property Observer">
+  <meta name="twitter:description" content="Swift is one of my favourite computer languages. I would like to write a series of articles to demonstrate its beauty by comparing it with some other languages(C#, Kotlin) in areas like Property Observation , Property wrapper, Builders, Macros , Structured concurrency etc. This article , as the first of this series, will focus on the Property Observation.">
+
+
+  <meta itemprop="name" content="The beauty of Swift Language — Property Observer">
+  <meta itemprop="description" content="Swift is one of my favourite computer languages. I would like to write a series of articles to demonstrate its beauty by comparing it with some other languages(C#, Kotlin) in areas like Property Observation , Property wrapper, Builders, Macros , Structured concurrency etc. This article , as the first of this series, will focus on the Property Observation.">
+  <meta itemprop="datePublished" content="2023-08-26T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-08-26T00:00:00+00:00">
+  <meta itemprop="wordCount" content="738">
+  <meta itemprop="image" content="https://timwang.au/posts/the-beauty-of-swift-language--property-observer/feature.webp">
+  <meta itemprop="keywords" content="Swift,Property Observer">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">The beauty of Swift Language — Property Observer</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Aug 26, 2023
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    4 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/property-observer"><span
+                                    class="tag bg-dark">Property Observer</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/the-beauty-of-swift-language--property-observer/feature.webp alt="The beauty of Swift Language — Property Observer">
+                        </figure>
+                    
+                
+
+                <p>Swift is one of my favourite computer languages. I would like to write a series of articles to demonstrate its beauty by comparing it with some other languages(C#, Kotlin) in areas like <code>Property Observation</code> , <code>Property wrapper</code>, <code>Builders</code>, <code>Macros</code> , <code>Structured concurrency</code> etc. This article , as the first of this series, will focus on the Property Observation.</p>
+<h1 id="about-property-observation">About Property Observation</h1>
+<p>Property is a common concept in object-oriented programming languages. It is a member of an object and usually accessed using dot syntax. Sometimes, it can be very useful to observe the property value changes. For example, observing the <code>balance</code> property of a <code>BankAccount</code> object and logging out all the changes of the <code>balance</code> property could be very helpful to audit if all the transactions are recorded correctly in the <code>BankAccount</code> . Let’s take a look how this can be done in the following languages.</p>
+<h1 id="swift">Swift</h1>
+<p>Swift offers two types of observations as below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>Stuct Account {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> balance: Double {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">willSet</span> {  
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// triggered before property value changes  </span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// can access the new value from default parameter `newValue`  </span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// or use willSet(parameterName) to explicilty specify parameter name to store the new value   </span>
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;balance will change from </span><span style="color:#e6db74">\(</span>balance<span style="color:#e6db74">)</span><span style="color:#e6db74"> to </span><span style="color:#e6db74">\(</span>newValue<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">didSet</span> {  
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// triggered after property value changes  </span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// can access the old value from default parameter `oldValue`  </span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// or use didSet(parameterName) to explicilty specify parameter name to store the old value  </span>
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;balance changed from </span><span style="color:#e6db74">\(</span>oldValue<span style="color:#e6db74">)</span><span style="color:#e6db74"> to </span><span style="color:#e6db74">\(</span>balance<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The <code>willSet</code> and <code>didSet</code> observers in Swift offers an easy and intuitive way to monitor the property value changes.</p>
+<h1 id="c">C#</h1>
+<p>In C#, no such concepts like <code>willSet</code> or <code>didSet</code> for properties. It offers <code>INotifyPropertyChanged</code> interface and <code>PropertyChanged</code> event to handle this like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c#" data-lang="c#"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Account</span>: INotifyPropertyChanged  
+</span></span><span style="display:flex;"><span>{  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">double</span> _balance = <span style="color:#ae81ff">0.0</span>;  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">event</span> PropertyChangedEventHandler PropertyChanged;  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> NotifyPropertyChanged([CallerMemberName] <span style="color:#66d9ef">string</span> propertyName = <span style="color:#e6db74">&#34;&#34;</span>)  
+</span></span><span style="display:flex;"><span>    {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (PropertyChanged != <span style="color:#66d9ef">null</span>)  
+</span></span><span style="display:flex;"><span>        {  
+</span></span><span style="display:flex;"><span>            PropertyChanged(<span style="color:#66d9ef">this</span>, <span style="color:#66d9ef">new</span> PropertyChangedEventArgs(propertyName));  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">double</span> balance  
+</span></span><span style="display:flex;"><span>    {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">get</span>  
+</span></span><span style="display:flex;"><span>        {  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>._balance;  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">set</span>  
+</span></span><span style="display:flex;"><span>        {  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">value</span> != <span style="color:#66d9ef">this</span>._balance)  
+</span></span><span style="display:flex;"><span>            {  
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">this</span>._balance = <span style="color:#66d9ef">value</span>;  
+</span></span><span style="display:flex;"><span>                NotifyPropertyChanged();  
+</span></span><span style="display:flex;"><span>            }  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>As you can see, this implementation is very wordy comparing to the Swift syntax meanwhile it does not differentiate <code>willSet</code> and <code>didSet</code> and cannot handle <code>newValue</code> and <code>oldValue</code> of the property in the logic as well.</p>
+<p>Another way to observe property change in C# is to use <code>ObservableProperty</code> attribute as below. This property allows us to implement some of the related methods to handle <code>willSet</code> and <code>didSet</code> logic.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c#" data-lang="c#"><span style="display:flex;"><span><span style="color:#a6e22e">[ObservableProperty]</span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">double</span> balance = <span style="color:#ae81ff">0.0</span>;  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Implement some of the following method to handle willSet and didSet loglic  </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// The method names are based on the property name.  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">partial</span> <span style="color:#66d9ef">void</span> OnBalanceChanging(<span style="color:#66d9ef">string?</span> <span style="color:#66d9ef">value</span>);  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">partial</span> <span style="color:#66d9ef">void</span> OnBalanceChanged(<span style="color:#66d9ef">string?</span> <span style="color:#66d9ef">value</span>);  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">partial</span> <span style="color:#66d9ef">void</span> OnBalanceChanging(<span style="color:#66d9ef">string?</span> oldValue, <span style="color:#66d9ef">string?</span> newValue);  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">partial</span> <span style="color:#66d9ef">void</span> OnBalanceChanged(<span style="color:#66d9ef">string?</span> oldValue, <span style="color:#66d9ef">string?</span> newValue);
+</span></span></code></pre></div><p>Last option that can be considered is to raise event directly in <code>setter</code> block. However, doing this is not as clear semantically speaking.</p>
+<h1 id="kotlin">Kotlin</h1>
+<p>In Kotlin, there is also no <code>willSet</code> and <code>didSet</code> concept. Similarly we can add some logic in<code>setter</code> like in C# to simulate(kind of) this behaviour like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> balance = <span style="color:#ae81ff">0.0</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">set</span>(<span style="color:#66d9ef">value</span>) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// willSet: add willSet logic here  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">field</span> = <span style="color:#66d9ef">value</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// didSet: add didSet logic here  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span></code></pre></div><p>Another possible way of adding <code>willSet/didSet</code> logic is to utilize <code>observable</code> <code>Delegate Property</code> like below:</p>
+<pre tabindex="0"><code>var balance: Double by Delegates.observable(0.0) { property, oldValue, newValue -&gt;  
+    // add observation logic here  
+}
+</code></pre><p>This <code>Delegates.observable</code> can only observe the property value has changed though. If we really need to handle <code>willSet</code> and <code>didSet</code>logic, we can subclass<code>[ObservableProperty](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-observable-property/)</code> and overwrite it’s <code>beforeChange</code> and <code>afterChange</code> method like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> kotlin.properties.ObservableProperty  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> kotlin.reflect.KProperty  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ObservePropertyChange</span>&lt;T&gt;(initialValue: T,   
+</span></span><span style="display:flex;"><span>                               <span style="color:#66d9ef">val</span> willSet: (oldValue: T, newValue: T) <span style="color:#f92672">-&gt;</span> Boolean,   
+</span></span><span style="display:flex;"><span>                               <span style="color:#66d9ef">val</span> didSet: (oldValue: T, newValue: T) <span style="color:#f92672">-&gt;</span> Unit) : ObservableProperty&lt;T&gt;(initialValue) {  
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">beforeChange</span>(<span style="color:#66d9ef">property</span>: KProperty&lt;*&gt;, oldValue: T, newValue: T): Boolean {  
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> willSet(oldValue, newValue)  
+</span></span><span style="display:flex;"><span>  }  
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">afterChange</span>(<span style="color:#66d9ef">property</span>: KProperty&lt;*&gt;, oldValue: T, newValue: T) {  
+</span></span><span style="display:flex;"><span>      didSet(oldValue, newValue)  
+</span></span><span style="display:flex;"><span>  }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Then we can use it like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Account</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> balance1: Double = <span style="color:#ae81ff">0.0</span>  
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">set</span>(<span style="color:#66d9ef">value</span>: Double) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">field</span> = <span style="color:#66d9ef">value</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> balance: Double <span style="color:#66d9ef">by</span> ObservePropertyChange(<span style="color:#ae81ff">0.0</span>,   
+</span></span><span style="display:flex;"><span>                                                 willSet = { oldValue, newValue <span style="color:#f92672">-&gt;</span>  
+</span></span><span style="display:flex;"><span>                                                     print(<span style="color:#e6db74">&#34;oldValue: </span><span style="color:#e6db74">$oldValue</span><span style="color:#e6db74">; newValue: </span><span style="color:#e6db74">$newValue</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>                                                     <span style="color:#66d9ef">true</span>  
+</span></span><span style="display:flex;"><span>                                                 }, didSet = {  oldValue, newValue <span style="color:#f92672">-&gt;</span>  
+</span></span><span style="display:flex;"><span>                                                     print(<span style="color:#e6db74">&#34;oldValue: </span><span style="color:#e6db74">$oldValue</span><span style="color:#e6db74">; newValue: </span><span style="color:#e6db74">$newValue</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>                                                 })  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="conclusion">Conclusion</h1>
+<p>As you can see from above, property observation can be achieved in all these three languages. In comparison, the syntax of Swift for this goal is clearly the most intuitive and concise option.</p>
+<p>Hooray, Swift is the obvious winner!!!</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--property-observer%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=The%20beauty%20of%20Swift%20Language%20%e2%80%94%20Property%20Observer&url=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--property-observer%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--property-observer%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/the-beauty-of-swift-language--property-observer/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--property-observer%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--property-observer%2f
+			&title=The%20beauty%20of%20Swift%20Language%20%e2%80%94%20Property%20Observer&summary=%3cp%3eSwift%20is%20one%20of%20my%20favourite%20computer%20languages.%20I%20would%20like%20to%20write%20a%20series%20of%20articles%20to%20demonstrate%20its%20beauty%20by%20comparing%20it%20with%20some%20other%20languages%28C%23%2c%20Kotlin%29%20in%20areas%20like%20%3ccode%3eProperty%20Observation%3c%2fcode%3e%20%2c%20%3ccode%3eProperty%20wrapper%3c%2fcode%3e%2c%20%3ccode%3eBuilders%3c%2fcode%3e%2c%20%3ccode%3eMacros%3c%2fcode%3e%20%2c%20%3ccode%3eStructured%20concurrency%3c%2fcode%3e%20etc.%20This%20article%20%2c%20as%20the%20first%20of%20this%20series%2c%20will%20focus%20on%20the%20Property%20Observation.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=The%20beauty%20of%20Swift%20Language%20%e2%80%94%20Property%20Observer&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--property-observer%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

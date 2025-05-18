@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    Leveraging Kotlin’s Type System to Guard Code Quality and Prevent Errors | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/kotlin-type-system/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    In modern software development, preventing bugs before they happen is infinitely more valuable than fixing them after they’ve occurred. Kotlin provides developers with a powerful type system specifically designed to catch errors at compile time rather than runtime. This article explores how Kotlin’s sophisticated type features can be leveraged to write safer, more maintainable code.
+    "
+/>
+<meta property="og:description" content="
+    In modern software development, preventing bugs before they happen is infinitely more valuable than fixing them after they’ve occurred. Kotlin provides developers with a powerful type system specifically designed to catch errors at compile time rather than runtime. This article explores how Kotlin’s sophisticated type features can be leveraged to write safer, more maintainable code.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/kotlin-type-system/feature.webp" />
+
+
+
+
+<meta property="og:title" content="Leveraging Kotlin’s Type System to Guard Code Quality and Prevent Errors" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/kotlin-type-system/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-12-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-12-23T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/kotlin-type-system/feature.webp">
+  <meta name="twitter:title" content="Leveraging Kotlin’s Type System to Guard Code Quality and Prevent Errors">
+  <meta name="twitter:description" content="In modern software development, preventing bugs before they happen is infinitely more valuable than fixing them after they’ve occurred. Kotlin provides developers with a powerful type system specifically designed to catch errors at compile time rather than runtime. This article explores how Kotlin’s sophisticated type features can be leveraged to write safer, more maintainable code.">
+
+
+  <meta itemprop="name" content="Leveraging Kotlin’s Type System to Guard Code Quality and Prevent Errors">
+  <meta itemprop="description" content="In modern software development, preventing bugs before they happen is infinitely more valuable than fixing them after they’ve occurred. Kotlin provides developers with a powerful type system specifically designed to catch errors at compile time rather than runtime. This article explores how Kotlin’s sophisticated type features can be leveraged to write safer, more maintainable code.">
+  <meta itemprop="datePublished" content="2024-12-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-12-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="2151">
+  <meta itemprop="image" content="https://timwang.au/posts/kotlin-type-system/feature.webp">
+  <meta itemprop="keywords" content="Kotlin,Type System">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">Leveraging Kotlin’s Type System to Guard Code Quality and Prevent Errors</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Dec 23, 2024
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    12 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/kotlin"><span
+                                    class="tag bg-dark">Kotlin</span></a>
+                            
+                            <a href="https://timwang.au/tags/type-system"><span
+                                    class="tag bg-dark">Type system</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/kotlin-type-system/feature.webp alt="Leveraging Kotlin’s Type System to Guard Code Quality and Prevent Errors">
+                        </figure>
+                    
+                
+
+                <p>In modern software development, preventing bugs before they happen is infinitely more valuable than fixing them after they’ve occurred. Kotlin provides developers with a powerful type system specifically designed to catch errors at compile time rather than runtime. This article explores how Kotlin’s sophisticated type features can be leveraged to write safer, more maintainable code.</p>
+<h1 id="introduction">Introduction</h1>
+<p>Kotlin’s philosophy embraces “null safety by default” and “making illegal states unrepresentable” — principles that guide its type system design, which makes the language more productive and concise while still providing robust guardrails against common programming errors.</p>
+<h1 id="null-safety">Null Safety</h1>
+<p>The “billion-dollar mistake” — the invention of the null reference — has plagued Java developers for decades. Kotlin addresses this issue head-on with its type system by making a clear distinction between nullable and non-nullable types.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#75715e">// Non-nullable String - can never be null  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> definitelyNotNull: String = <span style="color:#e6db74">&#34;Hello&#34;</span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Nullable String - can contain null  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> mightBeNull: String? = <span style="color:#66d9ef">null</span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// This would not compile  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> willCauseError: String = <span style="color:#66d9ef">null</span> <span style="color:#75715e">// Error: Null can not be a value of a non-null type String
+</span></span></span></code></pre></div><p>Kotlin provides several operators to work safely with nullable types:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#75715e">// Safe call operator (?.) - safely access properties on nullable references  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> length = mightBeNull<span style="color:#f92672">?.</span>length <span style="color:#75715e">// Type is Int?  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Elvis operator (?:) - provide a default value when reference is null  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> lengthOrDefault = mightBeNull<span style="color:#f92672">?.</span>length <span style="color:#f92672">?:</span> <span style="color:#ae81ff">0</span> <span style="color:#75715e">// Type is Int  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Not-null assertion (!!) - for when you&#39;re absolutely sure it&#39;s not null  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// (use with caution - this can throw NullPointerException)  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> forcedLength = mightBeNull<span style="color:#f92672">!!</span>.length
+</span></span></code></pre></div><p>When working with Java interoperability, Kotlin introduces platform types (denoted as <code>String!</code> in error messages). These represent Java types whose nullability is unknown:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// Java code  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">JavaClass</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">mayBeNull</span>() {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Math.<span style="color:#a6e22e">random</span>() <span style="color:#f92672">&gt;</span> 0.<span style="color:#a6e22e">5</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;Hello&#34;</span> : <span style="color:#66d9ef">null</span>;  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#75715e">// Kotlin code  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> javaResult = JavaClass().mayBeNull() <span style="color:#75715e">// Platform type  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Kotlin doesn&#39;t force null checks here, but you should be careful!
+</span></span></span></code></pre></div><h1 id="type-inference">Type Inference</h1>
+<p>Kotlin’s robust type inference system reduces boilerplate while maintaining type safety:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#75715e">// Type inference for local variables  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> name = <span style="color:#e6db74">&#34;Kotlin&#34;</span> <span style="color:#75715e">// Compiler infers String  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> list = listOf(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>) <span style="color:#75715e">// Compiler infers List&lt;Int&gt;  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Type inference for function return types  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">greet</span>() = <span style="color:#e6db74">&#34;Hello&#34;</span> <span style="color:#75715e">// Return type inferred as String  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Type inference for lambda parameters  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> doubles = list.map { <span style="color:#66d9ef">it</span> <span style="color:#960050;background-color:#1e0010">\</span>* <span style="color:#ae81ff">2</span> } <span style="color:#75715e">// &#34;it&#34; is inferred as Int
+</span></span></span></code></pre></div><h1 id="smart-casts">Smart Casts</h1>
+<p>Kotlin’s smart casts eliminate redundant explicit casting when the compiler can guarantee type safety:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">process</span>(<span style="color:#66d9ef">value</span>: Any) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">value</span> <span style="color:#66d9ef">is</span> String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// value is automatically cast to String inside this block  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        println(<span style="color:#66d9ef">value</span>.length) <span style="color:#75715e">// No need for explicit casting  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Outside the if-block, value is back to type Any  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// println(value.length) // This would not compile  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p>Smart casts also work with null checks:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">processNullable</span>(<span style="color:#66d9ef">value</span>: String?) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">value</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// value is automatically cast to non-nullable String  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        println(<span style="color:#66d9ef">value</span>.length) <span style="color:#75715e">// Safe to access .length here  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>There are limitations with mutable properties:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Example</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> mutableProperty: Any = <span style="color:#e6db74">&#34;Hello&#34;</span>  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">process</span>() {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (mutableProperty <span style="color:#66d9ef">is</span> String) {  
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Smart cast isn&#39;t allowed - property could change between check and use  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">// println(mutableProperty.length) // Doesn&#39;t compile  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>              
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Need explicit cast  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            println((mutableProperty <span style="color:#66d9ef">as</span> String).length)  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="data-classes">Data Classes</h1>
+<p>Data classes prevent common errors in model classes by automatically generating <code>equals()</code>, <code>hashCode()</code>, and <code>toString()</code> implementations:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span>(<span style="color:#66d9ef">val</span> id: Int, <span style="color:#66d9ef">val</span> name: String, <span style="color:#66d9ef">val</span> email: String)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Automatic equals() and hashCode()  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> user1 = User(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;Alice&#34;</span>, <span style="color:#e6db74">&#34;alice@example.com&#34;</span>)  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">val</span> user2 = User(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;Alice&#34;</span>, <span style="color:#e6db74">&#34;alice@example.com&#34;</span>)  
+</span></span><span style="display:flex;"><span>println(user1 <span style="color:#f92672">==</span> user2) <span style="color:#75715e">// true - structural equality  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Automatic toString()  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>println(user1) <span style="color:#75715e">// User(id=1, name=Alice, email=alice@example.com)  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Copy function for immutable data handling  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> user3 = user1.copy(email = <span style="color:#e6db74">&#34;newalice@example.com&#34;</span>)  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Destructuring declarations  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> <span style="color:#960050;background-color:#1e0010">(</span>id, name, <span style="color:#960050;background-color:#1e0010">\</span>_) = user1 <span style="color:#75715e">// Only extract id and name
+</span></span></span></code></pre></div><h1 id="sealed-classes-and-interfaces">Sealed Classes and Interfaces</h1>
+<p>Sealed classes create restricted class hierarchies that enable exhaustive when statements:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">sealed</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Result</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Success</span>(<span style="color:#66d9ef">val</span> data: String) : Result()  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Error</span>(<span style="color:#66d9ef">val</span> message: String, <span style="color:#66d9ef">val</span> code: Int) : Result()  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">object</span> <span style="color:#a6e22e">Loading</span> : Result()  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">handleResult</span>(result: Result) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// The when statement must cover all possible subclasses  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">when</span> (result) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">is</span> <span style="color:#a6e22e">Result</span>.Success <span style="color:#f92672">-&gt;</span> println(<span style="color:#e6db74">&#34;Success: </span><span style="color:#e6db74">${result.data}</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">is</span> <span style="color:#a6e22e">Result</span>.Error <span style="color:#f92672">-&gt;</span> println(<span style="color:#e6db74">&#34;Error </span><span style="color:#e6db74">${result.code}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">${result.message}</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Result</span>.Loading <span style="color:#f92672">-&gt;</span> println(<span style="color:#e6db74">&#34;Loading...&#34;</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// No else branch needed - compiler knows all cases are covered  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="value-classes-inline-classes">Value Classes (Inline Classes)</h1>
+<p>Value classes create zero-overhead wrappers for primitive types, preventing “primitive obsession”:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#a6e22e">@JvmInline</span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">value</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserId</span>(<span style="color:#66d9ef">val</span> value: Int)  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@JvmInline</span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">value</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AccountId</span>(<span style="color:#66d9ef">val</span> value: Int)  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Now these are different types at compile time  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">processUser</span>(userId: UserId) { /<span style="color:#960050;background-color:#1e0010">\</span>* <span style="color:#f92672">..</span>. <span style="color:#960050;background-color:#1e0010">\</span>*/ }  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">processAccount</span>(accountId: AccountId) { /<span style="color:#960050;background-color:#1e0010">\</span>* <span style="color:#f92672">..</span>. <span style="color:#960050;background-color:#1e0010">\</span>*/ }  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">val</span> userId = UserId(<span style="color:#ae81ff">1</span>)  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">val</span> accountId = AccountId(<span style="color:#ae81ff">1</span>)  
+</span></span><span style="display:flex;"><span>processUser(userId) <span style="color:#75715e">// Works  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// processUser(accountId) // Compile error - type mismatch  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// processUser(1) // Compile error - type mismatch
+</span></span></span></code></pre></div><p>At runtime, value classes are represented by their underlying type, avoiding the performance overhead of wrapper objects.</p>
+<h1 id="phantom-types">Phantom Types</h1>
+<p>Phantom types are a powerful type-level programming technique that uses generic parameters that don’t appear in the implementation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#75715e">// A generic wrapper with a phantom type parameter  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Tagged</span>&lt;TAG, T&gt;(<span style="color:#66d9ef">val</span> value: T) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// No actual use of TAG in the implementation  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Tags to differentiate between different types  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">object</span> <span style="color:#a6e22e">Validated</span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">object</span> <span style="color:#a6e22e">Unvalidated</span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Type aliases for better readability  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typealias</span> ValidatedEmail = Tagged&lt;Validated, String&gt;  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typealias</span> UnvalidatedEmail = Tagged&lt;Unvalidated, String&gt;  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Function that only accepts validated emails  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">sendEmail</span>(email: ValidatedEmail) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Safe to use - we know it&#39;s validated  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    println(<span style="color:#e6db74">&#34;Sending email to </span><span style="color:#e6db74">${email.value}</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Validation function that converts from unvalidated to validated  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">validateEmail</span>(email: UnvalidatedEmail): ValidatedEmail? {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">if</span> (email.<span style="color:#66d9ef">value</span>.contains(<span style="color:#e6db74">&#34;@&#34;</span>)) {  
+</span></span><span style="display:flex;"><span>        Tagged(email.<span style="color:#66d9ef">value</span>)  
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">null</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> userInput = Tagged&lt;Unvalidated, String&gt;(<span style="color:#e6db74">&#34;user@example.com&#34;</span>)  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// sendEmail(userInput) // Compile error - type mismatch  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> validatedEmail = validateEmail(userInput)  
+</span></span><span style="display:flex;"><span>validatedEmail<span style="color:#f92672">?.</span>let { sendEmail(<span style="color:#66d9ef">it</span>) } <span style="color:#75715e">// Works fine
+</span></span></span></code></pre></div><p>This pattern is extremely useful for enforcing proper process flow at compile time.</p>
+<h1 id="type-refinement-with-generic-constraints">Type Refinement with Generic Constraints</h1>
+<p>Kotlin allows powerful type refinement using generic constraints:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#75715e">// T must be a subtype of Comparable&lt;T&gt;  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fun</span> &lt;<span style="color:#a6e22e">T</span>&gt; <span style="color:#a6e22e">findMax</span>(list: List&lt;T&gt;) <span style="color:#66d9ef">where</span> T : Comparable&lt;T&gt; {  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Implementation can safely use .compareTo()  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Multiple constraints  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Repository</span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Cacheable</span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// T must implement both Repository and Cacheable  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fun</span> &lt;<span style="color:#a6e22e">T</span>&gt; <span style="color:#a6e22e">enableCaching</span>(repo: T) <span style="color:#66d9ef">where</span> T : Repository, T : Cacheable {  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Implementation  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h1 id="dependent-types-simulation">Dependent Types Simulation</h1>
+<p>While Kotlin doesn’t have true dependent types, we can simulate some aspects:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#75715e">// State machine with phantom types  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">sealed</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">State</span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">object</span> <span style="color:#a6e22e">Empty</span> : State()  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">object</span> <span style="color:#a6e22e">Filled</span> : State()  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Container</span>&lt;S : State&gt; <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">constructor</span>(<span style="color:#66d9ef">val</span> items: List&lt;String&gt;) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">companion</span> <span style="color:#66d9ef">object</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">empty</span>(): Container&lt;Empty&gt; = Container(emptyList())  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// This operation is only available when container is empty  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">fill</span>(items: List&lt;String&gt;): Container&lt;Filled&gt; = Container(items)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// This extension function is only available on Filled containers  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fun</span> &lt;<span style="color:#a6e22e">S</span> : <span style="color:#a6e22e">Filled</span>&gt; <span style="color:#a6e22e">Container</span>&lt;S&gt;.process(): List&lt;String&gt; {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> items.map { <span style="color:#66d9ef">it</span>.uppercase() }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> empty = <span style="color:#a6e22e">Container</span>.empty()  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">val</span> filled = empty.fill(listOf(<span style="color:#e6db74">&#34;apple&#34;</span>, <span style="color:#e6db74">&#34;banana&#34;</span>))  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">val</span> processed = filled.process()  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Won&#39;t compile - can&#39;t call process() on empty container  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// empty.process()  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Won&#39;t compile - can&#39;t call fill() on filled container  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// filled.fill(listOf(&#34;cherry&#34;))
+</span></span></span></code></pre></div><h1 id="advanced-generic-patterns">Advanced Generic Patterns</h1>
+<p>Kotlin supports complex generic scenarios:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#75715e">// F-bounded polymorphism  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Comparable</span>&lt;<span style="color:#66d9ef">in</span> T&gt; {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">compareTo</span>(other: T): Int  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Self-recursive type constraints  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Builder</span>&lt;T : Builder&lt;T&gt;&gt; {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">withName</span>(name: String): T  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">withAge</span>(age: Int): T  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">build</span>(): Any  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonBuilder</span> : Builder&lt;PersonBuilder&gt; {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> name: String = <span style="color:#e6db74">&#34;&#34;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> age: Int = <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">withName</span>(name: String): PersonBuilder {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.name = name  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">withAge</span>(age: Int): PersonBuilder {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.age = age  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">build</span>(): Any {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Person(name=</span><span style="color:#e6db74">$name</span><span style="color:#e6db74">, age=</span><span style="color:#e6db74">$age</span><span style="color:#e6db74">)&#34;</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> person = PersonBuilder()  
+</span></span><span style="display:flex;"><span>    .withName(<span style="color:#e6db74">&#34;Alice&#34;</span>)  
+</span></span><span style="display:flex;"><span>    .withAge(<span style="color:#ae81ff">30</span>)  
+</span></span><span style="display:flex;"><span>    .build()
+</span></span></code></pre></div><h1 id="extension-functions-and-properties">Extension Functions and Properties</h1>
+<p>Extension functions provide type-safe extensions without inheritance:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#75715e">// Add functionality to String class  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">String</span>.toTitleCase(): String {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.split(<span style="color:#e6db74">&#34; &#34;</span>)  
+</span></span><span style="display:flex;"><span>        .joinToString(<span style="color:#e6db74">&#34; &#34;</span>) { <span style="color:#66d9ef">it</span>.capitalize() }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> title = <span style="color:#e6db74">&#34;kotlin type system&#34;</span>.toTitleCase() <span style="color:#75715e">// &#34;Kotlin Type System&#34;  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Extension property  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> String.lastChar: Char  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">get</span>() = <span style="color:#66d9ef">this</span><span style="color:#960050;background-color:#1e0010">\</span>[length - <span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">\</span>]  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Receiver type safety - only available on specific types  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">List</span>&lt;Int&gt;.sum(): Int = <span style="color:#66d9ef">this</span>.reduce { acc, i <span style="color:#f92672">-&gt;</span> acc + i }  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// &#34;hello&#34;.sum() // Won&#39;t compile - String doesn&#39;t have sum() extension
+</span></span></span></code></pre></div><h1 id="delegation">Delegation</h1>
+<p>Interface delegation helps avoid inheritance issues:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Writer</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">write</span>(message: String)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ConsoleWriter</span> : Writer {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">write</span>(message: String) {  
+</span></span><span style="display:flex;"><span>        println(message)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Delegation with &#34;by&#34; keyword  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LoggingWriter</span>(<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> writer: Writer) : Writer <span style="color:#66d9ef">by</span> writer {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">writeWithTimestamp</span>(message: String) {  
+</span></span><span style="display:flex;"><span>        write(<span style="color:#e6db74">&#34;</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#e6db74">[</span><span style="color:#e6db74">${System.currentTimeMillis()}</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#e6db74">] </span><span style="color:#e6db74">$message</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Property delegation  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Lazy initialization - only computed on first access  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> heavyComputation: String <span style="color:#66d9ef">by</span> lazy {  
+</span></span><span style="display:flex;"><span>        println(<span style="color:#e6db74">&#34;Computing...&#34;</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;Result of heavy computation&#34;</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Observable property  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> name: String <span style="color:#66d9ef">by</span> <span style="color:#a6e22e">Delegates</span>.observable(<span style="color:#e6db74">&#34;&#34;</span>) { <span style="color:#960050;background-color:#1e0010">\</span>_, old, new <span style="color:#f92672">-&gt;</span>  
+</span></span><span style="display:flex;"><span>        println(<span style="color:#e6db74">&#34;Name changed from </span><span style="color:#e6db74">$old</span><span style="color:#e6db74"> to </span><span style="color:#e6db74">$new</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="generics-improvements">Generics Improvements</h1>
+<p>Kotlin improves on Java’s generics with variance annotations:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#75715e">// Declaration-site variance  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// &#34;out&#34; is like Java&#39;s &lt;? extends T&gt;  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Source</span>&lt;<span style="color:#66d9ef">out</span> T&gt; {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">get</span>(): T <span style="color:#75715e">// Can only return T, not consume it  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// &#34;in&#34; is like Java&#39;s &lt;? super T&gt;  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Sink</span>&lt;<span style="color:#66d9ef">in</span> T&gt; {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">add</span>(item: T) <span style="color:#75715e">// Can only consume T, not return it  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Reified generics with inline functions  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">fun</span> &lt;<span style="color:#66d9ef">reified</span> <span style="color:#a6e22e">T</span>&gt; <span style="color:#a6e22e">isType</span>(<span style="color:#66d9ef">value</span>: Any): Boolean {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">value</span> <span style="color:#66d9ef">is</span> T <span style="color:#75715e">// Works because T is reified  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>println(isType&lt;String&gt;(<span style="color:#e6db74">&#34;Hello&#34;</span>)) <span style="color:#75715e">// true  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>println(isType&lt;Int&gt;(<span style="color:#e6db74">&#34;Hello&#34;</span>)) <span style="color:#75715e">// false
+</span></span></span></code></pre></div><h1 id="type-aliases">Type Aliases</h1>
+<p>Type aliases simplify complex type signatures:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#75715e">// Without type alias  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">processMap</span>(map: Map&lt;String, List&lt;Pair&lt;Int, String&gt;&gt;&gt;): Map&lt;Int, List&lt;String&gt;&gt; {  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Implementation  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// With type alias  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typealias</span> UserData = Pair&lt;Int, String&gt;  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typealias</span> UserList = List&lt;UserData&gt;  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typealias</span> UserMap = Map&lt;String, UserList&gt;  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typealias</span> ResultMap = Map&lt;Int, List&lt;String&gt;&gt;  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">processMap</span>(map: UserMap): ResultMap {  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Implementation is much more readable  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h1 id="nothing-type-and-exhaustiveness">Nothing Type and Exhaustiveness</h1>
+<p>The <code>Nothing</code> type represents a value that never exists:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#75715e">// Function that never returns normally  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">fail</span>(message: String): Nothing {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">throw</span> IllegalStateException(message)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Useful for exhaustiveness checks  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">process</span>(<span style="color:#66d9ef">value</span>: String?): String {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">value</span> <span style="color:#f92672">?:</span> fail(<span style="color:#e6db74">&#34;Value cannot be null&#34;</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// No need for else branch - compiler knows all paths are covered  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Using Nothing in generics  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fun</span> &lt;<span style="color:#a6e22e">T</span>&gt; <span style="color:#a6e22e">emptyList</span>(): List&lt;T&gt; = listOf()  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">val</span> list: List&lt;Nothing&gt; = emptyList() <span style="color:#75715e">// Most specific empty list type
+</span></span></span></code></pre></div><h1 id="algebraic-data-types">Algebraic Data Types</h1>
+<p>Kotlin supports algebraic data types through sealed classes and data classes:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#75715e">// Sum type (OR relationship)  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">sealed</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Either</span>&lt;<span style="color:#66d9ef">out</span> A, <span style="color:#66d9ef">out</span> B&gt; {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Left</span>&lt;A&gt;(<span style="color:#66d9ef">val</span> value: A) : Either&lt;A, Nothing&gt;()  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Right</span>&lt;B&gt;(<span style="color:#66d9ef">val</span> value: B) : Either&lt;Nothing, B&gt;()  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Product type (AND relationship)  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span>(<span style="color:#66d9ef">val</span> name: String, <span style="color:#66d9ef">val</span> age: Int, <span style="color:#66d9ef">val</span> email: String)  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Pattern matching on algebraic data types  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fun</span> &lt;<span style="color:#a6e22e">A</span>, <span style="color:#a6e22e">B</span>, <span style="color:#a6e22e">C</span>&gt; <span style="color:#a6e22e">Either</span>&lt;A, B&gt;.fold(  
+</span></span><span style="display:flex;"><span>    ifLeft: (A) <span style="color:#f92672">-&gt;</span> C,  
+</span></span><span style="display:flex;"><span>    ifRight: (B) <span style="color:#f92672">-&gt;</span> C  
+</span></span><span style="display:flex;"><span>): C = <span style="color:#66d9ef">when</span> (<span style="color:#66d9ef">this</span>) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">is</span> <span style="color:#a6e22e">Either</span>.Left <span style="color:#f92672">-&gt;</span> ifLeft(<span style="color:#66d9ef">value</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">is</span> <span style="color:#a6e22e">Either</span>.Right <span style="color:#f92672">-&gt;</span> ifRight(<span style="color:#66d9ef">value</span>)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="result-and-either-types">Result and Either Types</h1>
+<p>Type-safe error handling with Result:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">sealed</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Result</span>&lt;<span style="color:#66d9ef">out</span> T, <span style="color:#66d9ef">out</span> E&gt; {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Success</span>&lt;T&gt;(<span style="color:#66d9ef">val</span> value: T) : Result&lt;T, Nothing&gt;()  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Failure</span>&lt;E&gt;(<span style="color:#66d9ef">val</span> error: E) : Result&lt;Nothing, E&gt;()  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">divide</span>(a: Int, b: Int): Result&lt;Int, String&gt; {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Result</span>.Failure(<span style="color:#e6db74">&#34;Division by zero&#34;</span>)  
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Result</span>.Success(a / b)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> result = divide(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">2</span>)  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">when</span> (result) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">is</span> <span style="color:#a6e22e">Result</span>.Success <span style="color:#f92672">-&gt;</span> println(<span style="color:#e6db74">&#34;Result: </span><span style="color:#e6db74">${result.value}</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">is</span> <span style="color:#a6e22e">Result</span>.Failure <span style="color:#f92672">-&gt;</span> println(<span style="color:#e6db74">&#34;Error: </span><span style="color:#e6db74">${result.error}</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Function to transform results  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fun</span> &lt;<span style="color:#a6e22e">T</span>, <span style="color:#a6e22e">E</span>, <span style="color:#a6e22e">R</span>&gt; <span style="color:#a6e22e">Result</span>&lt;T, E&gt;.map(transform: (T) <span style="color:#f92672">-&gt;</span> R): Result&lt;R, E&gt; {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">when</span> (<span style="color:#66d9ef">this</span>) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">is</span> <span style="color:#a6e22e">Result</span>.Success <span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">Result</span>.Success(transform(<span style="color:#66d9ef">value</span>))  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">is</span> <span style="color:#a6e22e">Result</span>.Failure <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">this</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span></code></pre></div><h1 id="type-safe-builder-pattern">Type-Safe Builder Pattern</h1>
+<p>Kotlin’s DSL capabilities for type-safe builders:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HtmlBuilder</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> result = StringBuilder()  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">div</span>(<span style="color:#66d9ef">init</span>: <span style="color:#a6e22e">DivBuilder</span>.() <span style="color:#f92672">-&gt;</span> Unit) {  
+</span></span><span style="display:flex;"><span>        result.append(<span style="color:#e6db74">&#34;&lt;div&gt;&#34;</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">val</span> div = DivBuilder()  
+</span></span><span style="display:flex;"><span>        div.<span style="color:#66d9ef">init</span>()  
+</span></span><span style="display:flex;"><span>        result.append(div.build())  
+</span></span><span style="display:flex;"><span>        result.append(<span style="color:#e6db74">&#34;&lt;/div&gt;&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">build</span>(): String = result.toString()  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DivBuilder</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> content = StringBuilder()  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">p</span>(text: String) {  
+</span></span><span style="display:flex;"><span>        content.append(<span style="color:#e6db74">&#34;&lt;p&gt;</span><span style="color:#e6db74">$text</span><span style="color:#e6db74">&lt;/p&gt;&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">span</span>(text: String) {  
+</span></span><span style="display:flex;"><span>        content.append(<span style="color:#e6db74">&#34;&lt;span&gt;</span><span style="color:#e6db74">$text</span><span style="color:#e6db74">&lt;/span&gt;&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Nesting is type-safe  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">div</span>(<span style="color:#66d9ef">init</span>: <span style="color:#a6e22e">DivBuilder</span>.() <span style="color:#f92672">-&gt;</span> Unit) {  
+</span></span><span style="display:flex;"><span>        content.append(<span style="color:#e6db74">&#34;&lt;div&gt;&#34;</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">val</span> div = DivBuilder()  
+</span></span><span style="display:flex;"><span>        div.<span style="color:#66d9ef">init</span>()  
+</span></span><span style="display:flex;"><span>        content.append(div.build())  
+</span></span><span style="display:flex;"><span>        content.append(<span style="color:#e6db74">&#34;&lt;/div&gt;&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">build</span>(): String = content.toString()  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> html = HtmlBuilder().apply {  
+</span></span><span style="display:flex;"><span>    div {  
+</span></span><span style="display:flex;"><span>        p(<span style="color:#e6db74">&#34;Hello&#34;</span>)  
+</span></span><span style="display:flex;"><span>        span(<span style="color:#e6db74">&#34;Kotlin&#34;</span>)  
+</span></span><span style="display:flex;"><span>        div {  
+</span></span><span style="display:flex;"><span>            p(<span style="color:#e6db74">&#34;Nested content&#34;</span>)  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}.build()
+</span></span></code></pre></div><h1 id="designing-for-immutability">Designing for Immutability</h1>
+<pre tabindex="0"><code>// Prefer val over var  
+data class User(  
+    val id: String,  
+    val name: String,  
+    val email: String  
+)  
+  
+// Immutable collections  
+val immutableList = listOf(1, 2, 3)  
+val immutableMap = mapOf(&#34;a&#34; to 1, &#34;b&#34; to 2)  
+// Creating modified copies instead of mutating  
+val user = User(&#34;1&#34;, &#34;Alice&#34;, &#34;alice@example.com&#34;)  
+val updatedUser = user.copy(email = &#34;newalice@example.com&#34;)
+</code></pre><h1 id="preferring-composition-over-inheritance">Preferring Composition Over Inheritance</h1>
+<pre tabindex="0"><code>// Prefer this:  
+class EmailSender(private val templateEngine: TemplateEngine,   
+                  private val transportService: TransportService) {  
+    // Implementation  
+}  
+  
+// Over inheritance:  
+// class EmailSender : TemplateEngine() {  
+//     // Implementation that inherits and extends TemplateEngine  
+// }
+</code></pre><h1 id="conclusion">Conclusion</h1>
+<p>Kotlin’s type system stands as one of its greatest strengths, offering a balance between safety and ergonomics that few other languages achieve. By leveraging these features, developers can prevent entire categories of bugs before code even reaches production.</p>
+<p>Remember: The best bug is the one that never makes it into production because the compiler caught it first :)</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fkotlin-type-system%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=Leveraging%20Kotlin%e2%80%99s%20Type%20System%20to%20Guard%20Code%20Quality%20and%20Prevent%20Errors&url=https%3a%2f%2ftimwang.au%2fposts%2fkotlin-type-system%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fkotlin-type-system%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/kotlin-type-system/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fkotlin-type-system%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fkotlin-type-system%2f
+			&title=Leveraging%20Kotlin%e2%80%99s%20Type%20System%20to%20Guard%20Code%20Quality%20and%20Prevent%20Errors&summary=%3cp%3eIn%20modern%20software%20development%2c%20preventing%20bugs%20before%20they%20happen%20is%20infinitely%20more%20valuable%20than%20fixing%20them%20after%20they%e2%80%99ve%20occurred.%20Kotlin%20provides%20developers%20with%20a%20powerful%20type%20system%20specifically%20designed%20to%20catch%20errors%20at%20compile%20time%20rather%20than%20runtime.%20This%20article%20explores%20how%20Kotlin%e2%80%99s%20sophisticated%20type%20features%20can%20be%20leveraged%20to%20write%20safer%2c%20more%20maintainable%20code.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=Leveraging%20Kotlin%e2%80%99s%20Type%20System%20to%20Guard%20Code%20Quality%20and%20Prevent%20Errors&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fkotlin-type-system%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

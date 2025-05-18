@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    Second Thoughts on IOS Project Setup | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/second-thoughts-on-ios-project-setup/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    In the last few years, I have been working on a few medium to big iOS projects. All of these projects have great modular architecture — functionalities and features are broken down and implemented in their own libraries or frameworks. One project had more than forty libraries and another had more than sixty. But here came the question: what’s the best practice to set up a project with so many dependencies, especially when they are all under heavy development? I had the fortune to work with my team to improve these project setups. The following is what I learned from the process.
+    "
+/>
+<meta property="og:description" content="
+    In the last few years, I have been working on a few medium to big iOS projects. All of these projects have great modular architecture — functionalities and features are broken down and implemented in their own libraries or frameworks. One project had more than forty libraries and another had more than sixty. But here came the question: what’s the best practice to set up a project with so many dependencies, especially when they are all under heavy development? I had the fortune to work with my team to improve these project setups. The following is what I learned from the process.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/second-thoughts-on-ios-project-setup/feature.webp" />
+
+
+
+
+<meta property="og:title" content="Second Thoughts on iOS Project Setup" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/second-thoughts-on-ios-project-setup/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-01-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-01-23T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/second-thoughts-on-ios-project-setup/feature.webp">
+  <meta name="twitter:title" content="Second Thoughts on iOS Project Setup">
+  <meta name="twitter:description" content="In the last few years, I have been working on a few medium to big iOS projects. All of these projects have great modular architecture — functionalities and features are broken down and implemented in their own libraries or frameworks. One project had more than forty libraries and another had more than sixty. But here came the question: what’s the best practice to set up a project with so many dependencies, especially when they are all under heavy development? I had the fortune to work with my team to improve these project setups. The following is what I learned from the process.">
+
+
+  <meta itemprop="name" content="Second Thoughts on iOS Project Setup">
+  <meta itemprop="description" content="In the last few years, I have been working on a few medium to big iOS projects. All of these projects have great modular architecture — functionalities and features are broken down and implemented in their own libraries or frameworks. One project had more than forty libraries and another had more than sixty. But here came the question: what’s the best practice to set up a project with so many dependencies, especially when they are all under heavy development? I had the fortune to work with my team to improve these project setups. The following is what I learned from the process.">
+  <meta itemprop="datePublished" content="2024-01-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-01-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1773">
+  <meta itemprop="image" content="https://timwang.au/posts/second-thoughts-on-ios-project-setup/feature.webp">
+  <meta itemprop="keywords" content="Swift,Project Setup,IOS,Xcode">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">Second Thoughts on iOS Project Setup</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Jan 23, 2024
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    10 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/project-setup"><span
+                                    class="tag bg-dark">Project setup</span></a>
+                            
+                            <a href="https://timwang.au/tags/ios"><span
+                                    class="tag bg-dark">iOS</span></a>
+                            
+                            <a href="https://timwang.au/tags/xcode"><span
+                                    class="tag bg-dark">Xcode</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/second-thoughts-on-ios-project-setup/feature.webp alt="Second Thoughts on iOS Project Setup">
+                        </figure>
+                    
+                
+
+                <p>In the last few years, I have been working on a few medium to big iOS projects. All of these projects have great modular architecture — functionalities and features are broken down and implemented in their own libraries or frameworks. One project had more than forty libraries and another had more than sixty. But here came the question: what’s the best practice to set up a project with so many dependencies, especially when they are all under heavy development? I had the fortune to work with my team to improve these project setups. The following is what I learned from the process.</p>
+<p>When it comes to dependency management for iOS projects, you might immediately think of <code>Cocoapods</code>, <code>Carthage</code> and <code>SPM</code>. They are all great tools and have a rich set of features to choose from like versioning, branch/commit referencing, etc. We can also use these tools either to fetch source code or build libraries. So, which method should we use in projects? Where exactly should we put the source code of these libraries: Multi-Repo or Mono-repo solution?</p>
+<p>There might be no absolute right or wrong answers to all these questions. Different methods are suitable for different cases, which is why knowing the pros and cons of the different approaches is essential to making pragmatic decisions in practice.</p>
+<h1 id="the-goal-of-the-project-setup">The goal of the project setup</h1>
+<p>It might be worth discussing the goal of the project setup first before diving into the process of setting up the projects because different goals will lead to different outcomes. This is especially true for big companies where the setup might be done by different teams. For example, if DevOps teams are in charge of this task, they might be focusing on configuring CI/CD pipelines efficiently instead of finding an easier setup for daily development with not enough input from developers.</p>
+<p>From my point of view, any project setup should prioritise developers’ happiness as it’s they who are going to deal with the project setup on a daily basis. It’s always worth the effort to make it as easy as possible for developers even if it means more effort on CI/CD configurations as this setup is usually a one-time effort.</p>
+<h1 id="how-many-is-too-many">How many is too many</h1>
+<p>This article is not about how to break projects into components and libraries. It’s about how to hook components and libraries together to form the final projects. The components and dependencies are referenced to others and the dependency map can be a very complicated, leveled structure. Keeping this map as simple as possible sometimes is very important for the project&rsquo;s evolution and maintenance. In most cases, if we find at one level, we have more than ten dependencies, it could be an indicator that we should merge some of them to simplify the dependency map.</p>
+<h1 id="hybrid-setup-vs-pure-setup">Hybrid setup vs. pure setup</h1>
+<p>In essence, project setup is all about how to hook source code and artifactories from different places to build the final products. Dependency management tools like <code>Cocoapods</code>, <code>Carthage</code> and <code>SPM</code> are designed for this purpose. Git submodule or custom scripts can help too. How should we choose from all these options?</p>
+<p>For example, if we have a third party library dependency that is available from <code>Cocoapods</code>, <code>Carthage</code> and <code>SPM</code> , is there a best option to choose? The answers is it depends. For practical reasons, it depends on the team members’ preference and the current project setup. If one of these tools are already in use, it might be better to keep using the existing tool and keep the setup pure. For new projects, however, it might make sense to use <code>SPM</code> as it’s supported natively, which removes the need of installing extra softwares.</p>
+<p>What if it is a dependency that is only available in build framework format? In this case, intuitively, we can just add it into current repo and refer to it directly. It should work well if the repo size is not a concern and it’s not upgraded often. Otherwise, we can put it into some artifactory management systems and fetch it from there.</p>
+<p>In some cases, <code>git submodule</code> can be a great help too if we want to incorporate source code from other repositories and they are happened not supporting any dependency tools yet.</p>
+<p>In summary, different tools are designed for different purposes and we should use them accordingly. With this being said, from my point of view, we should always consider reducing the tools that we use because it would make developers’ daily life more complicated if more tools are involved even if we think we have setup them to work automatically.</p>
+<h1 id="multi-repo-vs-mono-repo">Multi-repo vs. Mono-repo</h1>
+<p>Multi-repo comes naturally with the idea of modular architecture, where each library is stored and managed in a separated repository. This is at least what we used to do with third party library dependencies that we have proper versioning management and the library is implemented and verified separately as well.</p>
+<p>For an internal library dependency, we can also adopt Multi-repo solution for sure. However, it does mean we need to pay some extra cost — submit code into different repository and create and review pull requests in different places etc.</p>
+<p>In Mono-repo solution instead, we store the code of libraries in the same repository of the main project. With this setup, we can refer libraries directly in projects or workspaces, which removes the needs of running dependency tools. This solution could be the best possible simple solution that suit for any small to medium size projects, especially the libraries in the context are only used in the current project.</p>
+<h1 id="version-references-vs-branch-commit-references">Version references vs. branch commit references</h1>
+<p>The choice between versioning and referring to a branch commit when managing dependencies in iOS projects depends on various factors, including project size, team workflow, and the stability of dependencies.</p>
+<p>Versioning ensures of using a stable and tested release of a dependency. Also it simplifies dependency management by providing clear, named references to specific releases. This makes it easier to understand and manage dependencies over time. Lastly, versioning, especially semantic versioning, allows specifying compatible ranges of versions to ensure that is works with a range of compatible releases. This should be the first choice whenever it is feasible.</p>
+<p>Referencing to branch Commit, however, gives us some flexibilities. For example, in order to use the latest changes that is not released yet. This usually happens for projects that are in early development stages. It’s essential to strike a balance between stability and flexibility based on the project’s needs and risk tolerance.</p>
+<h1 id="test-strategies-for-libraries">Test strategies for libraries</h1>
+<p>Ideally, a full functional test should do done at library level and an integration test should be performed at the project level that consumes the library.</p>
+<p>Some teams relax the test of the internal libraries or do not even have tests at all for internal libraries. From <a href="https://martinfowler.com/articles/practical-test-pyramid.html#private-methods-sidebar">test pyramid</a> point of view, this would not be a best practice. Because, the lower level the tests sit, the lower cost would it be. It’s better to ensure the library’s functionality is reliable and stable on its own and make it easier to detect bugs and issues within the library.</p>
+<p>Just like building LEGO blocks, the tests on the library level make sure the quality of the library blocks, while the tests on the higher level make sure the quality of the design and integration.</p>
+<h1 id="git-submodulesubtree-vs-dependency-management-tools">Git submodule/subtree vs. dependency management tools</h1>
+<p>Submodule and subtree from git can bring source code from other repositories into projects, which are a light ways to integrate resources into main projects.</p>
+<p>However, if the dependency map is very complicated where the dependent libraries are also dependent on each other with different versions, to resolve the dependency map to use the right versions of the libraries could not be trivial. This is where dependency management tools shine. Tools like <code>Cocoapods</code>, <code>Carthage</code> and <code>SPM</code> can help resolve library versions automatically.</p>
+<p>Dependency management tools are usually a better choice when it comes to iOS project setup. However, for libraries that are in binary format, if we don’t want to include them in main project repository, using git submodule/subtree to fetch those into main project could be an easy choice.</p>
+<h1 id="source-code-vs-built-libraries-referencing">Source code vs. built libraries referencing</h1>
+<p>For some libraries that we don’t have the source code, we have to refer to these build libraries. When it comes to internal libraries and some open source libraries, should we use source code referencing or refer to the build libraries?</p>
+<p>Building time is the first obvious one because we have to compile all source code altogether if we refer to the source code in project. However, don’t overestimate this as well. I had an experience to update one project to refer source code instead of built libraries. To everyone’s surprise, we were able to build the project from source code in about five minutes. Considering Xcode offers cache for the unchanged code, the build time in daily development process will be less than this, which is surely acceptable. With all source code in the main project, it is much easier to explore and debug the project.</p>
+<p>On the other hand, referring to the build libraries is simpler because of the encapsulation of the built libraries. With the proper setup(with proper LLDB source mapping with dSYM etc. for example), we can still debug the project with ease. However, the configuration of CI/CD to build these libraries could be complicated because we have to build them in sequence based on the dependency map and this process can take long time.</p>
+<h1 id="project-format-versions">Project format versions</h1>
+<p>In essence, Xcode project file is in plist format and it’s almost stable from versions to versions. But not always the case though. If upgrade the project format from Xcode 3.x to Xcode 15.x, we might find some changes like some duplicated definitions were removed automatically. As the best practice, it’s good go keep project format version updated if don’t need to open it in older versions of the Xcode.</p>
+<h1 id="library-type-considerations">Library type considerations</h1>
+<p>One more thing worth considering is App loading time. If we setup to statically link the libraries, it will take less time to load the app comparing using dynamic libraries, which you can check the details from <a href="https://developer.apple.com/videos/play/wwdc2023/10268/">this WWDC video.</a> Under this, Apple provides technology like static library, dynamic library and mergeable library.</p>
+<p>More on app loading time topic — it is better also check out this WWDC session — <a href="https://developer.apple.com/videos/play/wwdc2022/110362/">Link fast: Improve build and launch times</a>, which explains some linker settings that we can employ to our purposes.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>In this article, we have covered a few factors that need to consider when we setup iOS projects. Please let me know your thoughts. Happy coding!</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fsecond-thoughts-on-ios-project-setup%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=Second%20Thoughts%20on%20iOS%20Project%20Setup&url=https%3a%2f%2ftimwang.au%2fposts%2fsecond-thoughts-on-ios-project-setup%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fsecond-thoughts-on-ios-project-setup%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/second-thoughts-on-ios-project-setup/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fsecond-thoughts-on-ios-project-setup%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fsecond-thoughts-on-ios-project-setup%2f
+			&title=Second%20Thoughts%20on%20iOS%20Project%20Setup&summary=%3cp%3eIn%20the%20last%20few%20years%2c%20I%20have%20been%20working%20on%20a%20few%20medium%20to%20big%20iOS%20projects.%20All%20of%20these%20projects%20have%20great%20modular%20architecture%20%e2%80%94%20functionalities%20and%20features%20are%20broken%20down%20and%20implemented%20in%20their%20own%20libraries%20or%20frameworks.%20One%20project%20had%20more%20than%20forty%20libraries%20and%20another%20had%20more%20than%20sixty.%20But%20here%20came%20the%20question%3a%20what%e2%80%99s%20the%20best%20practice%20to%20set%20up%20a%20project%20with%20so%20many%20dependencies%2c%20especially%20when%20they%20are%20all%20under%20heavy%20development%3f%20I%20had%20the%20fortune%20to%20work%20with%20my%20team%20to%20improve%20these%20project%20setups.%20The%20following%20is%20what%20I%20learned%20from%20the%20process.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=Second%20Thoughts%20on%20iOS%20Project%20Setup&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fsecond-thoughts-on-ios-project-setup%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

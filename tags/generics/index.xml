@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Generics on Coding life</title>
+    <link>https://timwang.au/tags/generics/</link>
+    <description>Recent content in Generics on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 26 Nov 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/generics/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Beauty of Swift Language – Generics</title>
+      <link>https://timwang.au/posts/the-beauty-of-swift-language--generics/</link>
+      <pubDate>Sun, 26 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/the-beauty-of-swift-language--generics/</guid>
+      <description>&lt;p&gt;Generic is a very important concept in strongly typed languages. For type safety, without generics, any types and methods can only handle the types they’re designed for. On the other hand, generics allows types or methods to handle more than one types. For example, in Swift, all collection types like Array, Set and Dictionary are generic types. Thus, we can we can use them with many types. For instance, an Int Array and a String Array etc.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

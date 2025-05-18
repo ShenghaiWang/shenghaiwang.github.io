@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Result Builder on Coding life</title>
+    <link>https://timwang.au/tags/result-builder/</link>
+    <description>Recent content in Result Builder on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 26 Aug 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/result-builder/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The beauty of Swift Language — Builders</title>
+      <link>https://timwang.au/posts/the-beauty-of-swift-language--builders/</link>
+      <pubDate>Sat, 26 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/the-beauty-of-swift-language--builders/</guid>
+      <description>&lt;p&gt;The famous SwiftUI is loved by almost every iOS developer. One of the reason is its elegant syntax for building views thanks to @ViewBuilder . This is a builder pattern that is known in Swift as @resultBuiler that has been explained here.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

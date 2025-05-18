@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    The Beauty of Swift Language — Builders | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/the-beauty-of-swift-language--builders/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    The famous SwiftUI is loved by almost every iOS developer. One of the reason is its elegant syntax for building views thanks to @ViewBuilder . This is a builder pattern that is known in Swift as @resultBuiler that has been explained here.
+    "
+/>
+<meta property="og:description" content="
+    The famous SwiftUI is loved by almost every iOS developer. One of the reason is its elegant syntax for building views thanks to @ViewBuilder . This is a builder pattern that is known in Swift as @resultBuiler that has been explained here.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/the-beauty-of-swift-language--builders/feature.webp" />
+
+
+
+
+<meta property="og:title" content="The beauty of Swift Language — Builders" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/the-beauty-of-swift-language--builders/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-08-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-08-26T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/the-beauty-of-swift-language--builders/feature.webp">
+  <meta name="twitter:title" content="The beauty of Swift Language — Builders">
+  <meta name="twitter:description" content="The famous SwiftUI is loved by almost every iOS developer. One of the reason is its elegant syntax for building views thanks to @ViewBuilder . This is a builder pattern that is known in Swift as @resultBuiler that has been explained here.">
+
+
+  <meta itemprop="name" content="The beauty of Swift Language — Builders">
+  <meta itemprop="description" content="The famous SwiftUI is loved by almost every iOS developer. One of the reason is its elegant syntax for building views thanks to @ViewBuilder . This is a builder pattern that is known in Swift as @resultBuiler that has been explained here.">
+  <meta itemprop="datePublished" content="2023-08-26T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-08-26T00:00:00+00:00">
+  <meta itemprop="wordCount" content="928">
+  <meta itemprop="image" content="https://timwang.au/posts/the-beauty-of-swift-language--builders/feature.webp">
+  <meta itemprop="keywords" content="Swift,Result Builder">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">The beauty of Swift Language — Builders</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Aug 26, 2023
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    5 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/result-builder"><span
+                                    class="tag bg-dark">result builder</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/the-beauty-of-swift-language--builders/feature.webp alt="The beauty of Swift Language — Builders">
+                        </figure>
+                    
+                
+
+                <p>The famous SwiftUI is loved by almost every iOS developer. One of the reason is its elegant syntax for building views thanks to @ViewBuilder . This is a builder pattern that is known in Swift as @resultBuiler that has been explained here.</p>
+<p>@resultBuiler is a great way to implement a DSL and there is a similar feature for it in Kotlin and C# too. In this article, we’re going to compare this feature in these languages.</p>
+<h2 id="swift">Swift</h2>
+<p>This feature was introduced into Swift in this proposal, which was called function builder initially and renamed to result builder at last. With this builder, the compiler will call a series of predefined methods of the builder to convert the DSL into regular Swift code. Apart from SwiftUI, another example of result builder is @HTMLBuilder that builds HTML document like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">HTMLDocument</span> {
+</span></span><span style="display:flex;"><span>  @HTMLBuilder <span style="color:#66d9ef">var</span> body: HTML { <span style="color:#66d9ef">get</span> }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">MobyDick</span>: HTMLDocument {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">var</span> body: HTML {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> chapter = spellOutChapter ? <span style="color:#e6db74">&#34;Chapter &#34;</span> : <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    div {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> useChapterTitles {
+</span></span><span style="display:flex;"><span>        h1(chapter <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;1. Loomings.&#34;</span>)
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      p {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;Call me Ishmael. Some years ago&#34;</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      p {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;There is now your insular city&#34;</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In this example, @HTMLBuilder is the builder that defines its own DSL functions like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">HTMLDocument</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">body</span>(@HTMLBuilder <span style="color:#66d9ef">_</span> children: () -&gt; [HTML]) -&gt; HTMLNode { ... }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">div</span>(@HTMLBuilder <span style="color:#66d9ef">_</span> children: () -&gt; [HTML]) -&gt; HTMLNode { ... }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">p</span>(@HTMLBuilder <span style="color:#66d9ef">_</span> children: () -&gt; [HTML]) -&gt; HTMLNode { ... }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">h1</span>(<span style="color:#66d9ef">_</span> text: String) -&gt; HTMLNode { ... }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In this example, apart from its own DSL functions(body, div, p, h1 etc.), it also needs to implement some of the required functions(listed below) that predefined by the result builder in Swift.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>@resultBuilder
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">HTMLBuilder</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// We&#39;ll use these typealiases to make the lifting rules clearer in this example.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Result builders don&#39;t really require these to be specific types that can</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// be named this way!  For example, Expression could be &#34;either a String or an</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// HTMLNode&#34;, and we could just overload buildExpression to accept either.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Similarly, Component could be &#34;any Collection of HTML&#34;, and we&#39;d just have</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// to make buildBlock et al generic functions to support that.  But we&#39;ll keep</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// it simple so that we can write these typealiases.</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Expression-statements in the DSL should always produce an HTML value.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">typealias</span> Expression = HTML
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// &#34;Internally&#34; to the DSL, we&#39;ll just build up flattened arrays of HTML</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// values, immediately flattening any optionality or nested array structure.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">typealias</span> Component = [HTML]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Given an expression result, &#34;lift&#34; it into a Component.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">//</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// If Component were &#34;any Collection of HTML&#34;, we could have this return</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// CollectionOfOne to avoid an array allocation.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildExpression</span>(<span style="color:#66d9ef">_</span> expression: Expression) -&gt; Component {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> [expression]
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Build a combined result from a list of partial results by concatenating.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">//</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// If Component were &#34;any Collection of HTML&#34;, we could avoid some unnecessary</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// reallocation work here by just calling joined().</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildBlock</span>(<span style="color:#66d9ef">_</span> children: Component...) -&gt; Component {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> children.flatMap { $0 }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// We can provide this overload as a micro-optimization for the common case</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// where there&#39;s only one partial result in a block.  This shows the flexibility</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// of using an ad-hoc builder pattern.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildBlock</span>(<span style="color:#66d9ef">_</span> component: Component) -&gt; Component {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> component
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Handle optionality by turning nil into the empty list.  </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildOptional</span>(<span style="color:#66d9ef">_</span> children: Component?) -&gt; Component {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> children ?? []
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Handle optionally-executed blocks.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildEither</span>(first child: Component) -&gt; Component {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> child
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Handle optionally-executed blocks.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildEither</span>(second child: Component) -&gt; Component {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> child
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In the runtime, result builder call the corresponding methods to build final result.</p>
+<h2 id="kotlin">Kotlin</h2>
+<p>In Kotlin, annotation @BuilderInference enables builder-style type inference, which can be used to define DSL like result builder does in Swift. For example, the buildList function is defined as the following in Kotlin.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">fun</span> &lt;<span style="color:#a6e22e">E</span>&gt; <span style="color:#a6e22e">buildList</span>(<span style="color:#a6e22e">@BuilderInference</span> builderAction: MutableList&lt;E&gt;.() <span style="color:#f92672">-&gt;</span> Unit): List&lt;E&gt; {
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">..</span>.
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>And it can be used to build a list like the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">val</span> x = listOf(<span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#e6db74">&#39;c&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">val</span> y = buildList() {
+</span></span><span style="display:flex;"><span>    add(<span style="color:#e6db74">&#39;a&#39;</span>)
+</span></span><span style="display:flex;"><span>    addAll(x)
+</span></span><span style="display:flex;"><span>    add(<span style="color:#e6db74">&#39;d&#39;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Basically, buildList() provide a mutable empty list at first, all the methods are called on this list instance and build the list values.</p>
+<p>Similarly, we can also use this technology to build HTML Document like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> com.example.html.* <span style="color:#75715e">// Example from https://kotlinlang.org/docs/type-safe-builders.html
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">result</span>() =
+</span></span><span style="display:flex;"><span>    html {
+</span></span><span style="display:flex;"><span>        head {
+</span></span><span style="display:flex;"><span>            title {+<span style="color:#e6db74">&#34;XML encoding with Kotlin&#34;</span>}
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        body {
+</span></span><span style="display:flex;"><span>            h1 {+<span style="color:#e6db74">&#34;XML encoding with Kotlin&#34;</span>}
+</span></span><span style="display:flex;"><span>            p  {+<span style="color:#e6db74">&#34;this format can be used as an alternative markup to XML&#34;</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// an element with attributes and text content
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            a(href = <span style="color:#e6db74">&#34;https://kotlinlang.org&#34;</span>) {+<span style="color:#e6db74">&#34;Kotlin&#34;</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// mixed content
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            p {
+</span></span><span style="display:flex;"><span>                +<span style="color:#e6db74">&#34;This is some&#34;</span>
+</span></span><span style="display:flex;"><span>                b {+<span style="color:#e6db74">&#34;mixed&#34;</span>}
+</span></span><span style="display:flex;"><span>                +<span style="color:#e6db74">&#34;text. For more see the&#34;</span>
+</span></span><span style="display:flex;"><span>                a(href = <span style="color:#e6db74">&#34;https://kotlinlang.org&#34;</span>) {+<span style="color:#e6db74">&#34;Kotlin&#34;</span>}
+</span></span><span style="display:flex;"><span>                +<span style="color:#e6db74">&#34;project&#34;</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            p {+<span style="color:#e6db74">&#34;some text&#34;</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// content generated by
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            p {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span> (arg <span style="color:#66d9ef">in</span> args)
+</span></span><span style="display:flex;"><span>                    +arg
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><h2 id="c">C#</h2>
+<p>Strictly speaking, there’s no builders like Swift and Kotlin offer. But it does have the capability to create DSL. Since it’s not the builder that we explored here, please check it out in <a href="https://devblogs.microsoft.com/dotnet/using-c-source-generators-to-create-an-external-dsl/">this article</a> to learn more in case you are interested.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this article, we compared the builders offered in Swift and Kotlin. While they both can be used to create DSLs, they have different implementations. And because of this, we can see that the result builders in Swift are more strictly defined and the builders in Kotlin are more flexible.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--builders%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=The%20beauty%20of%20Swift%20Language%20%e2%80%94%20Builders&url=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--builders%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--builders%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/the-beauty-of-swift-language--builders/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--builders%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--builders%2f
+			&title=The%20beauty%20of%20Swift%20Language%20%e2%80%94%20Builders&summary=%3cp%3eThe%20famous%20SwiftUI%20is%20loved%20by%20almost%20every%20iOS%20developer.%20One%20of%20the%20reason%20is%20its%20elegant%20syntax%20for%20building%20views%20thanks%20to%20%40ViewBuilder%20.%20This%20is%20a%20builder%20pattern%20that%20is%20known%20in%20Swift%20as%20%40resultBuiler%20that%20has%20been%20explained%20here.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=The%20beauty%20of%20Swift%20Language%20%e2%80%94%20Builders&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--builders%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

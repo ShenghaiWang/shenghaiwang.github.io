@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    Mastering Swift’s `Dynamic` and `@_DynamicReplacement(for:)` for Dynamic Behaviour | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/swift-dynamicreplacement/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    Mastering Swift’s `dynamic` and `@_dynamicReplacement(for:)` for Dynamic Behaviour
+    "
+/>
+<meta property="og:description" content="
+    Mastering Swift’s `dynamic` and `@_dynamicReplacement(for:)` for Dynamic Behaviour
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/swift-dynamicreplacement/feature.webp" />
+
+
+
+
+<meta property="og:title" content="Mastering Swift’s `dynamic` and `@_dynamicReplacement(for:)` for Dynamic Behaviour" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/swift-dynamicreplacement/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2025-01-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2025-01-23T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/swift-dynamicreplacement/feature.webp">
+  <meta name="twitter:title" content="Mastering Swift’s `dynamic` and `@_dynamicReplacement(for:)` for Dynamic Behaviour">
+  <meta name="twitter:description" content="Mastering Swift’s `dynamic` and `@_dynamicReplacement(for:)` for Dynamic Behaviour">
+
+
+  <meta itemprop="name" content="Mastering Swift’s `dynamic` and `@_dynamicReplacement(for:)` for Dynamic Behaviour">
+  <meta itemprop="description" content="Mastering Swift’s `dynamic` and `@_dynamicReplacement(for:)` for Dynamic Behaviour">
+  <meta itemprop="datePublished" content="2025-01-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-01-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1012">
+  <meta itemprop="image" content="https://timwang.au/posts/swift-dynamicreplacement/feature.webp">
+  <meta itemprop="keywords" content="Swift,IOS,DynamicReplacement">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">Mastering Swift’s `dynamic` and `@_dynamicReplacement(for:)` for Dynamic Behaviour</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Jan 23, 2025
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    6 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/ios"><span
+                                    class="tag bg-dark">iOS</span></a>
+                            
+                            <a href="https://timwang.au/tags/dynamicreplacement"><span
+                                    class="tag bg-dark">dynamicReplacement</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/swift-dynamicreplacement/feature.webp alt="Mastering Swift’s `dynamic` and `@_dynamicReplacement(for:)` for Dynamic Behaviour">
+                        </figure>
+                    
+                
+
+                <p>Swift is primarily a statically dispatched language, but it does offer dynamic dispatch capabilities for times when flexibility trumps compile-time optimisation. In this article, we’ll dive into <strong>Swift’s</strong> <code>**dynamic**</code> <strong>keyword</strong> and the underscored <code>**@_dynamicReplacement(for:)**</code> <strong>attribute</strong>, which together enable a form of <em>method swizzling</em> in Swift.</p>
+<h1 id="understanding-the-dynamic-keyword-in-swift">Understanding the <code>dynamic</code> Keyword in Swift</h1>
+<p>In Swift, marking a method or property as <code>dynamic</code> tells the compiler <strong>to always use dynamic dispatch,</strong> which defers the decision of which implementation to call until runtime and enable implementation replacement.</p>
+<p>Swift’s dynamic dispatch was tied to the Objective-C runtime before, but with latest versions, the Swift compiler no longer restricts <code>dynamic</code> to only <code>@objc</code> class members. We can mark methods, properties, subscripts, and even initializers as <code>dynamic</code> on <strong>classes, structs, enums, and extensions</strong> without needing Objective-C​. Under the hood, a <code>dynamic</code> declaration in Swift compiles to an indirect call via a function pointer (or dispatch table) that can be updated at runtime​.</p>
+<p><strong>Key points about</strong> <code>**dynamic**</code><strong>:</strong></p>
+<ul>
+<li>It forces dynamic (late-bound) dispatch. If the entity is <code>@objc</code>, it uses Objective-C message dispatch; otherwise it uses Swift’s own dynamic dispatch table.</li>
+<li>Marking something <code>dynamic</code> prevents certain optimizations (like inlining) and slightly impacts performance due to the indirection, so use it only when needed.</li>
+<li>Cannot use <code>dynamic</code> on things the runtime can’t dispatch (e.g. top-level constants, or generic functions in some cases). It’s mostly for functions, computed properties, subscripts, and initializers that we intend to swap out or observe.</li>
+</ul>
+<p>In short, <code>dynamic</code> in Swift is a <strong>promise that calls will be routed through a runtime lookup</strong>, which lays the groundwork for Swift’s own form of method replacement.</p>
+<h1 id="what-is-_dynamicreplacementfor">What is <code>@_dynamicReplacement(for:)</code>?</h1>
+<p>With the <code>dynamic</code> keyword making dynamic dispatch possible in pure Swift, the next piece is the <code>@_dynamicReplacement(for:)</code> attribute. This enables <strong>dynamic method replacement</strong> – essentially, a Swift-native equivalent of method swizzling.</p>
+<p>Using <code>@_dynamicReplacement</code>, we can declare an alternative implementation for a function or computed property that will <strong>replace the original implementation at runtime</strong>. Unlike Objective-C’s <code>method_exchangeImplementations</code> (which can be called at any time), Swift’s dynamic replacement happens <strong>automatically at program launch or when a dynamic library is loaded</strong>, not arbitrarily in the middle of execution​.</p>
+<p><strong>How it works:</strong> When we mark a function as a replacement for another, the Swift runtime will swap out the implementation pointers <em>before</em> any code runs. All calls to the original (through dynamic dispatch) will then land in the new replacement. This is done in a type-safe manner – the compiler ensures the new replacement has the exact same signature as the original, and it routes calls appropriately.</p>
+<p>Please note that if the new replacement calls the original function, it will invoke the original implementation (not recurse into itself)​. This allows the new replacement to either completely override or <strong>wrap</strong> the original behaviour.</p>
+<h1 id="syntax-and-requirements-for-_dynamicreplacement">Syntax and Requirements for <code>@_dynamicReplacement</code></h1>
+<p>To use dynamic replacement, we need to follow a specific pattern. Both the original function and the replacement must obey certain rules:</p>
+<ul>
+<li><strong>Mark the original as</strong> <code>**dynamic**</code><strong>:</strong> A function or property must be declared with <code>dynamic</code> for it to be replaceable. If we try to replace something not marked dynamic, nothing will happen.</li>
+<li><strong>Declare the replacement with</strong> <code>**@_dynamicReplacement(for:)**</code><strong>:</strong> The replacement is typically declared in an <strong>extension of the same type</strong> (or at the global scope if replacing a global function). The replacement function itself should <strong>match the original’s signature exactly</strong> – same parameter types, return type, <code>throws</code> or <code>async</code> specifiers, <code>mutating</code> for structs, etc. Any mismatch will result in a compiler error​.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">MyStruct</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">dynamic</span> <span style="color:#66d9ef">var</span> foo: String {  
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;foo&#34;</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">MyStruct</span> {  
+</span></span><span style="display:flex;"><span>    @_dynamicReplacement(<span style="color:#66d9ef">for</span>: foo)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> bar: String {  
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;bar&#34;</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>print(MyStruct().foo) <span style="color:#75715e">// will print out bar</span>
+</span></span></code></pre></div><p>In this example, <code>bar</code> will run instead of <code>foo</code> at runtime. Please don’t use this in <code>Playground</code> and this feature wouldn’t work there.</p>
+<p>Both original and replacement must have adequate access levels so that the replacement can see the original declaration. Simply put, we can only replace the dynamic properties/methods that are accessible at the location where we define the replacements.</p>
+<h1 id="the-power-of-this-dynamic-replacement">The Power of this Dynamic replacement</h1>
+<p>Swift’s <code>@_dynamicReplacement(for:)</code> (combined with the <code>dynamic</code> keyword) unlocks an incredibly powerful mechanism: <strong>compile-time swizzling</strong> for Swift-only code, without unsafe Objective-C hacks.</p>
+<h2 id="1-seamless-implementation-swapping">1. Seamless Implementation Swapping</h2>
+<p>We can completely change the behaviour of any <code>dynamic</code> method or property <strong>without touching the original source code</strong> — no branching, no subclassing.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">dynamic</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">process</span>() -&gt; String {  
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Original&#34;</span>  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>@_dynamicReplacement(<span style="color:#66d9ef">for</span>: process())  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">replacedProcess</span>() -&gt; String {  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// process() call original if needed  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Modified!&#34;</span>  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>All existing call sites now route to <code>replacedProcess()</code> — <strong>automatically</strong>. This can be used in many cases like Testing, Debugging etc.</p>
+<h2 id="2-cross-file-and-cross-target-support">2. Cross-File and Cross-Target Support</h2>
+<p>Replacement functions can live in <strong>extensions</strong>, <strong>other modules</strong>, or <strong>frameworks</strong>, as long as:</p>
+<ul>
+<li>The original declaration is marked <code>dynamic</code></li>
+<li>Both modules see the same declaration at compile time (e.g., via a shared <code>CoreModule</code>)</li>
+</ul>
+<p>This makes it perfect for layered app architectures and plugin systems.</p>
+<h2 id="3-dynamically-loadable-from-dylib">3. Dynamically Loadable from <code>.dylib</code></h2>
+<p>You can define a replacement in a <code>.dylib</code> and load it at runtime using <code>dlopen()</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> handle = dlopen(<span style="color:#e6db74">&#34;/path/to/libPatch.dylib&#34;</span>, RTLD_NOW)
+</span></span></code></pre></div><p>With one line of code above, magic happens instantly like below:</p>
+<p>This works even if the dylib was <strong>not statically linked</strong> at build time, enabling:</p>
+<ul>
+<li>Feature hot-swapping</li>
+<li>White-label behaviour overrides</li>
+<li>Live debugging or diagnostics injection</li>
+<li>Patchable runtime bug fixes</li>
+<li>Scripting/DSL engine integration</li>
+</ul>
+<h2 id="4-safer-than-objective-c-swizzling">4. Safer than Objective-C Swizzling</h2>
+<ul>
+<li>Type-checked by the compiler</li>
+<li>Works with <code>structs</code>, <code>classes</code>, <code>properties</code>, and even <code>global functions</code></li>
+<li>No need to expose things to the Objective-C runtime</li>
+<li>Clear declaration of what’s being replaced</li>
+</ul>
+<h2 id="5-only-one-callsite-many-behaviours">5. Only One Callsite, Many Behaviours</h2>
+<p>No need of changing caller side code but can inject different behaviours:</p>
+<ul>
+<li>In Debug vs Release</li>
+<li>At compile-time via flags</li>
+<li>At runtime via <code>dlopen</code></li>
+<li>Per environment (e.g., staging vs production)</li>
+</ul>
+<h1 id="conclusion">Conclusion</h1>
+<p>Swift’s <code>dynamic</code> and <code>@_dynamicReplacement(for:)</code> give us a powerful mechanism to alter program behavior at runtime in a controlled, type-safe manner.</p>
+<p>At this moment, this is still a private attribute. As Swift continues to evolve, we may see <code>@_dynamicReplacement</code> become an official feature. Until then, it’s a sort of power tool: extremely useful in the right situation, but one to use with care.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fswift-dynamicreplacement%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=Mastering%20Swift%e2%80%99s%20%60dynamic%60%20and%20%60%40_dynamicReplacement%28for%3a%29%60%20for%20Dynamic%20Behaviour&url=https%3a%2f%2ftimwang.au%2fposts%2fswift-dynamicreplacement%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fswift-dynamicreplacement%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/swift-dynamicreplacement/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fswift-dynamicreplacement%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fswift-dynamicreplacement%2f
+			&title=Mastering%20Swift%e2%80%99s%20%60dynamic%60%20and%20%60%40_dynamicReplacement%28for%3a%29%60%20for%20Dynamic%20Behaviour&summary=%3cp%3eSwift%20is%20primarily%20a%20statically%20dispatched%20language%2c%20but%20it%20does%20offer%20dynamic%20dispatch%20capabilities%20for%20times%20when%20flexibility%20trumps%20compile-time%20optimisation.%20In%20this%20article%2c%20we%e2%80%99ll%20dive%20into%20%3cstrong%3eSwift%e2%80%99s%3c%2fstrong%3e%20%3ccode%3e%2a%2adynamic%2a%2a%3c%2fcode%3e%20%3cstrong%3ekeyword%3c%2fstrong%3e%20and%20the%20underscored%20%3ccode%3e%2a%2a%40_dynamicReplacement%28for%3a%29%2a%2a%3c%2fcode%3e%20%3cstrong%3eattribute%3c%2fstrong%3e%2c%20which%20together%20enable%20a%20form%20of%20%3cem%3emethod%20swizzling%3c%2fem%3e%20in%20Swift.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=Mastering%20Swift%e2%80%99s%20%60dynamic%60%20and%20%60%40_dynamicReplacement%28for%3a%29%60%20for%20Dynamic%20Behaviour&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fswift-dynamicreplacement%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    How to Develop Swift Macros | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/set-up-to-develop-swift-macros/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    This tutorial is a step-by-step guide to develop Swift Macros. We will develop an attached Macro called Singleton , which helps reduce the tedious code of writing a singleton struct or type.
+    "
+/>
+<meta property="og:description" content="
+    This tutorial is a step-by-step guide to develop Swift Macros. We will develop an attached Macro called Singleton , which helps reduce the tedious code of writing a singleton struct or type.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/set-up-to-develop-swift-macros/feature.webp" />
+
+
+
+
+<meta property="og:title" content="How to develop Swift Macros" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/set-up-to-develop-swift-macros/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-01-10T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/set-up-to-develop-swift-macros/feature.webp">
+  <meta name="twitter:title" content="How to develop Swift Macros">
+  <meta name="twitter:description" content="This tutorial is a step-by-step guide to develop Swift Macros. We will develop an attached Macro called Singleton , which helps reduce the tedious code of writing a singleton struct or type.">
+
+
+  <meta itemprop="name" content="How to develop Swift Macros">
+  <meta itemprop="description" content="This tutorial is a step-by-step guide to develop Swift Macros. We will develop an attached Macro called Singleton , which helps reduce the tedious code of writing a singleton struct or type.">
+  <meta itemprop="datePublished" content="2023-01-10T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-01-10T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1129">
+  <meta itemprop="image" content="https://timwang.au/posts/set-up-to-develop-swift-macros/feature.webp">
+  <meta itemprop="keywords" content="Swift,Macros">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+
+
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">How to develop Swift Macros</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Jan 10, 2023
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    6 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/macros"><span
+                                    class="tag bg-dark">Macros</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/set-up-to-develop-swift-macros/feature.webp alt="How to develop Swift Macros">
+                        </figure>
+                    
+                
+
+                <p>This tutorial is a step-by-step guide to develop Swift Macros. We will develop an attached Macro called <code>Singleton</code> , which helps reduce the tedious code of writing a singleton struct or type.</p>
+<h1 id="singleton-in-swift">Singleton in Swift</h1>
+<p>For a proper singleton type definition, we usually need to make the initialiser private to prevent unintended instances of this type being created. Also we need to have a shared static instance that can be used.</p>
+<p>In code, a singleton type definition would be like this.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SingletonStruct</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">init</span>() {}  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">let</span> shared = <span style="color:#66d9ef">Self</span>()  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> name = <span style="color:#e6db74">&#34;Tim Wang&#34;</span>  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Then, we can access the shared instance using <code>SingletonStruct.shared</code>. The two lines of code <code>private init() {}</code> and <code>static let shared = Self()</code> are common to all the singleton definitions. If we write these code manually for each singleton type definitions, not only does it look repetitive, it’s error prone. Because if we forget the <code>private</code> access modifier on <code>init</code> , would end up with the chances of creating new instances of this singleton type. We will see how Swift Macros can help for this case.</p>
+<h1 id="new-macro-package-in-xcode">New Macro package in Xcode</h1>
+<p>In Xcode, select File/New/Package menu item and select <code>Swift Macro</code> like below</p>
+<p>New package for Swift Macro</p>
+<p>This will create a Swift Macro template package. In the <code>Package.swift</code> there are four targets defined:</p>
+<p><code>macro</code> named <code>MyMacroMacros</code>: this is the target to hold the Macro expansion logic. We don’t need to import this into the code as the Macro logic is only needed in the compiling process.</p>
+<p><code>target</code> named <code>MyMacro</code>: this is the place to expose the Macro definition and is the target we need to import into the code where it is required.</p>
+<p><code>executableTarget</code> named <code>MyMacroClient</code> : this is the sample code using the Macro.</p>
+<p><code>testTarget</code> named <code>MyMacroTests:</code> this is the unit test code for the Macro.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span> targets: [  
+</span></span><span style="display:flex;"><span>        .macro(  
+</span></span><span style="display:flex;"><span>            name: <span style="color:#e6db74">&#34;MyMacroMacros&#34;</span>,  
+</span></span><span style="display:flex;"><span>            dependencies: [  
+</span></span><span style="display:flex;"><span>                .product(name: <span style="color:#e6db74">&#34;SwiftSyntaxMacros&#34;</span>, package: <span style="color:#e6db74">&#34;swift-syntax&#34;</span>),  
+</span></span><span style="display:flex;"><span>                .product(name: <span style="color:#e6db74">&#34;SwiftCompilerPlugin&#34;</span>, package: <span style="color:#e6db74">&#34;swift-syntax&#34;</span>)  
+</span></span><span style="display:flex;"><span>            ]  
+</span></span><span style="display:flex;"><span>        ),  
+</span></span><span style="display:flex;"><span>        .target(name: <span style="color:#e6db74">&#34;MyMacro&#34;</span>, dependencies: [<span style="color:#e6db74">&#34;MyMacroMacros&#34;</span>]),  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        .executableTarget(name: <span style="color:#e6db74">&#34;MyMacroClient&#34;</span>, dependencies: [<span style="color:#e6db74">&#34;MyMacro&#34;</span>]),  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        .testTarget(  
+</span></span><span style="display:flex;"><span>            name: <span style="color:#e6db74">&#34;MyMacroTests&#34;</span>,  
+</span></span><span style="display:flex;"><span>            dependencies: [  
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;MyMacroMacros&#34;</span>,  
+</span></span><span style="display:flex;"><span>                .product(name: <span style="color:#e6db74">&#34;SwiftSyntaxMacrosTestSupport&#34;</span>, package: <span style="color:#e6db74">&#34;swift-syntax&#34;</span>),  
+</span></span><span style="display:flex;"><span>            ]  
+</span></span><span style="display:flex;"><span>        ),  
+</span></span><span style="display:flex;"><span>    ]
+</span></span></code></pre></div><p>Update them to the names that you like, or just leave them for now to quickly start exploring.</p>
+<h1 id="implement-the-singleton-macro">Implement the Singleton Macro</h1>
+<h2 id="write-the-unit-test">Write the unit test</h2>
+<p>Let’s adopt test driven approach for this task to write expectations in the unit test first.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">testSingletonMacro</span>() {  
+</span></span><span style="display:flex;"><span>        assertMacroExpansion(  
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;&#34;&#34;  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            @singleton  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            struct A {}  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;&#34;&#34;</span>,  
+</span></span><span style="display:flex;"><span>            expandedSource: <span style="color:#e6db74">&#34;&#34;&#34;  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">              
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            struct A {  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                private init() {  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                }  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                static let shared = Self()  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            }  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;&#34;&#34;</span>,  
+</span></span><span style="display:flex;"><span>            macros: testMacros  
+</span></span><span style="display:flex;"><span>        )  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">testPublicSingletonMacro</span>() {  
+</span></span><span style="display:flex;"><span>        assertMacroExpansion(  
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;&#34;&#34;  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            @singleton  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            public struct A {}  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;&#34;&#34;</span>,  
+</span></span><span style="display:flex;"><span>            expandedSource: <span style="color:#e6db74">&#34;&#34;&#34;  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            public struct A {  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                private init() {  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                }  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                public static let shared = Self()  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            }  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;&#34;&#34;</span>,  
+</span></span><span style="display:flex;"><span>            macros: testMacros  
+</span></span><span style="display:flex;"><span>        )  
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>We have two test methods here: one is for <code>internal</code> struct expansion and another for <code>public</code> struct. For the later case, we need to make sure the <code>shared</code> variable have same access control level.</p>
+<h2 id="choose-the-macro-type">Choose the macro type</h2>
+<p>The macro is going to add an initialiser method and a variable, so it must be an attached member macro. Hence the following</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">// The macro definition  </span>
+</span></span><span style="display:flex;"><span>@attached(member, names: named(<span style="color:#66d9ef">init</span>), named(shared))  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> macro Singleton() = #externalMacro(module: <span style="color:#e6db74">&#34;Macros&#34;</span>, type: <span style="color:#e6db74">&#34;Singleton&#34;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// The macro expansion logic  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Singleton</span>: MemberMacro {}
+</span></span></code></pre></div><h2 id="implement-the-expansion-method">Implement the expansion method</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">expansion</span>&lt;Declaration: DeclGroupSyntax,  
+</span></span><span style="display:flex;"><span>                                 Context: MacroExpansionContext&gt;(of node: AttributeSyntax,  
+</span></span><span style="display:flex;"><span>                                                                 providingMembersOf declaration: Declaration,  
+</span></span><span style="display:flex;"><span>                                                                 <span style="color:#66d9ef">in</span> context: Context) <span style="color:#66d9ef">throws</span> -&gt; [DeclSyntax] {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> [SwiftSyntax.SyntaxKind.classDecl, .structDecl].contains(declaration.kind) <span style="color:#66d9ef">else</span> {  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> MacroDiagnostics.errorMacroUsage(message: <span style="color:#e6db74">&#34;Can only be applied to a struct or class&#34;</span>)  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> identifier = (declaration <span style="color:#66d9ef">as</span>? StructDeclSyntax)?.identifier ?? (declaration <span style="color:#66d9ef">as</span>? ClassDeclSyntax)?.identifier ?? <span style="color:#e6db74">&#34;&#34;</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> override = <span style="color:#e6db74">&#34;&#34;</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> inheritedTypes = (declaration <span style="color:#66d9ef">as</span>? ClassDeclSyntax)?.inheritanceClause?.inheritedTypeCollection,  
+</span></span><span style="display:flex;"><span>           inheritedTypes.contains(<span style="color:#66d9ef">where</span>: { inherited <span style="color:#66d9ef">in</span> inherited.typeName.trimmedDescription == <span style="color:#e6db74">&#34;NSObject&#34;</span> }) {  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">override</span> = <span style="color:#e6db74">&#34;override &#34;</span>  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> initializer = <span style="color:#66d9ef">try</span> InitializerDeclSyntax(<span style="color:#e6db74">&#34;private </span><span style="color:#e6db74">\(</span>raw: <span style="color:#66d9ef">override</span><span style="color:#e6db74">)</span><span style="color:#e6db74">init()&#34;</span>) {}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> selfToken: TokenSyntax = <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">\(</span>raw: identifier.text<span style="color:#e6db74">)</span><span style="color:#e6db74">()&#34;</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> initShared = FunctionCallExprSyntax(calledExpression: IdentifierExprSyntax(identifier: selfToken)) {}  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> sharedInitializer = InitializerClauseSyntax(equal: .equalToken(trailingTrivia: .space),  
+</span></span><span style="display:flex;"><span>                                                        value: initShared)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> staticToken: TokenSyntax = <span style="color:#e6db74">&#34;static&#34;</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> staticModifier = DeclModifierSyntax(name: staticToken)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> modifiers = ModifierListSyntax([staticModifier])  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> isPublicACL = declaration.modifiers?.compactMap(<span style="color:#960050;background-color:#1e0010">\</span>.name.tokenKind.keyword).contains(.<span style="color:#66d9ef">public</span>) ?? <span style="color:#66d9ef">false</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> isPublicACL {  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">let</span> publicToken: TokenSyntax = <span style="color:#e6db74">&#34;public&#34;</span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">let</span> publicModifier = DeclModifierSyntax(name: publicToken)  
+</span></span><span style="display:flex;"><span>            modifiers = modifiers.inserting(publicModifier, at: <span style="color:#ae81ff">0</span>)  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> shared = VariableDeclSyntax(modifiers: modifiers,  
+</span></span><span style="display:flex;"><span>                                        .<span style="color:#66d9ef">let</span>, name: <span style="color:#e6db74">&#34;shared&#34;</span>,  
+</span></span><span style="display:flex;"><span>                                        initializer: sharedInitializer)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> [DeclSyntax(initializer),  
+</span></span><span style="display:flex;"><span>                DeclSyntax(shared)]  
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>The code above is pretty straightforward. We have done three things:</p>
+<ol>
+<li>Create the <code>initializer</code> : this is done by the first line of code in the method.</li>
+<li>Create <code>shared</code> variable. For this, we need to firstly decide if we need <code>public</code> access level control. Then create the <code>static</code> <code>shared</code> variable.</li>
+<li>If the type with <code>public</code> access level, we add <code>public</code> to the <code>shared</code> instance as well.</li>
+</ol>
+<h2 id="run-unit-test">Run unit test</h2>
+<p>Run unit test now, it will succeed like below</p>
+<h2 id="test-macro-in-client-code">Test macro in client code</h2>
+<p>In test client <code>main.swift</code> file, we can verify the macro. Right click the <code>@Signleton</code> macro name and choose “Expand Macro” like below.</p>
+<p>Select “Expand Macro” menu item</p>
+<p>The expanded code will like this:</p>
+<p>The expanded macro code</p>
+<h2 id="final-touch--handle-exception">Final touch — Handle Exception</h2>
+<p>So far we have covered all the happy flow for this Singleton macro. It works fine if we apply it to a <code>struct</code> or a <code>class</code> type. But what if we apply it to an <code>enum</code> definition? Well, this macro still expands the code to add <code>init</code> method and <code>shared</code> variable. But of course it wouldn’t compile. Ideally we should handle this misusage using <code>Exception</code> or <code>Diagnostic</code> . But since this article is focused on getting familiar with the Macro development workflow, let’s ignore this for now.</p>
+<h1 id="use-the-singleton-macro-in-an-xcode-project">Use the Singleton Macro in an Xcode project</h1>
+<p>After having verified correctness of the macro, it’s time to use it in a real project.</p>
+<p>First add package dependency to the Xcode project like below:</p>
+<p>Secondly, we <code>import</code> this package and use the macro like below:</p>
+<p>If we try to compile the project now, we will get a prompt like this to ask the confirmation to use this macro.</p>
+<p>After <code>Trust &amp; Enable</code> the macro, the code will compile. Meanwhile, we can expand the macro to verify it like below:</p>
+<h1 id="use-the-singleton-macro-in-a-swift-package-project">Use the Singleton Macro in a Swift Package project</h1>
+<p>If the project is a swift package, we need to do the following:</p>
+<ol>
+<li>Add package dependency</li>
+</ol>
+<pre tabindex="0"><code>.package(url: &#34;https://github.com/ShenghaiWang/SwiftMacros.git&#34;, from: &#34;1.0.0&#34;)
+</code></pre><ol start="2">
+<li>Add the dependency into target that uses the macro</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>.executableTarget(name: <span style="color:#e6db74">&#34;Client&#34;</span>, dependencies: [<span style="color:#e6db74">&#34;SwiftMacros&#34;</span>])
+</span></span></code></pre></div><ol start="3">
+<li>In the source code that belong to that target, import the package and use it, which is the same as in Xcode projects.</li>
+</ol>
+<p>In this article, we have gone through the process of developing a new Swift Macro by implementing this Singleton Macro(Please find the full source code <a href="https://github.com/ShenghaiWang/SwiftMacros">here</a>.). We have left some details on purpose so that we can focus on the workflow first. Hope it would help to get you start. The following articles will move on to each type of the Swift Macros and explain them in detail.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fset-up-to-develop-swift-macros%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=How%20to%20develop%20Swift%20Macros&url=https%3a%2f%2ftimwang.au%2fposts%2fset-up-to-develop-swift-macros%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fset-up-to-develop-swift-macros%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/set-up-to-develop-swift-macros/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fset-up-to-develop-swift-macros%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fset-up-to-develop-swift-macros%2f
+			&title=How%20to%20develop%20Swift%20Macros&summary=%3cp%3eThis%20tutorial%20is%20a%20step-by-step%20guide%20to%20develop%20Swift%20Macros.%20We%20will%20develop%20an%20attached%20Macro%20called%20%3ccode%3eSingleton%3c%2fcode%3e%20%2c%20which%20helps%20reduce%20the%20tedious%20code%20of%20writing%20a%20singleton%20struct%20or%20type.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=How%20to%20develop%20Swift%20Macros&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fset-up-to-develop-swift-macros%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

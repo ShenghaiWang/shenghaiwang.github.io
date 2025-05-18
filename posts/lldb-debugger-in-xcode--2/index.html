@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    LLDB Debugger in Xcode — 2 | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/lldb-debugger-in-xcode--2/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    Step through the code &amp; inspect values
+From the previous article, we have learnt how to set breakpoints. Once they are set, the app will pause at the breakpoints accordingly. In this article, we are going to explore the ways to interact with the app runtime at the paused breakpoints.
+    "
+/>
+<meta property="og:description" content="
+    Step through the code &amp; inspect values
+From the previous article, we have learnt how to set breakpoints. Once they are set, the app will pause at the breakpoints accordingly. In this article, we are going to explore the ways to interact with the app runtime at the paused breakpoints.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/lldb-debugger-in-xcode--2/feature.webp" />
+
+
+
+
+<meta property="og:title" content="LLDB debugger in Xcode — 2" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/lldb-debugger-in-xcode--2/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-01-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-01-23T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/lldb-debugger-in-xcode--2/feature.webp">
+  <meta name="twitter:title" content="LLDB debugger in Xcode — 2">
+  <meta name="twitter:description" content="Step through the code &amp; inspect values From the previous article, we have learnt how to set breakpoints. Once they are set, the app will pause at the breakpoints accordingly. In this article, we are going to explore the ways to interact with the app runtime at the paused breakpoints.">
+
+
+  <meta itemprop="name" content="LLDB debugger in Xcode — 2">
+  <meta itemprop="description" content="Step through the code &amp; inspect values From the previous article, we have learnt how to set breakpoints. Once they are set, the app will pause at the breakpoints accordingly. In this article, we are going to explore the ways to interact with the app runtime at the paused breakpoints.">
+  <meta itemprop="datePublished" content="2024-01-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-01-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1090">
+  <meta itemprop="image" content="https://timwang.au/posts/lldb-debugger-in-xcode--2/feature.webp">
+  <meta itemprop="keywords" content="Swift,LLDB,IOS,Debugger,Xcode">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">LLDB debugger in Xcode — 2</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Jan 23, 2024
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    6 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/lldb"><span
+                                    class="tag bg-dark">LLDB</span></a>
+                            
+                            <a href="https://timwang.au/tags/ios"><span
+                                    class="tag bg-dark">iOS</span></a>
+                            
+                            <a href="https://timwang.au/tags/debugger"><span
+                                    class="tag bg-dark">Debugger</span></a>
+                            
+                            <a href="https://timwang.au/tags/xcode"><span
+                                    class="tag bg-dark">Xcode</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/lldb-debugger-in-xcode--2/feature.webp alt="LLDB debugger in Xcode — 2">
+                        </figure>
+                    
+                
+
+                <h2 id="step-through-the-code--inspect-values">Step through the code &amp; inspect values</h2>
+<p>From <a href="https://medium.com/gitconnected/lldb-debugger-in-xcode-1-772dbd9abc9a">the previous article</a>, we have learnt how to set breakpoints. Once they are set, the app will pause at the breakpoints accordingly. In this article, we are going to explore the ways to interact with the app runtime at the paused breakpoints.</p>
+<h1 id="step-through-the-code">Step through the code</h1>
+<p>When app stops at breakpoints, we can use this little toolbar shown above in Xcode to step through the code. Let’s go through each of them to see what they can do.</p>
+<h2 id="continue">Continue</h2>
+<p>This is to continue execution of all threads in the current process. The equivalent lldb command is:</p>
+<pre tabindex="0"><code>(lldb) continue
+</code></pre><h2 id="step-over">Step over</h2>
+<p>Step over means to run the app to next point that can be based on source code or instruction.</p>
+<p>If we want to step over to next point based on the source code, simply click <code>step over</code> button, or use lldb commands below:</p>
+<pre tabindex="0"><code>(lldb) thread step-over  
+  
+# Or its abbreviation form  
+(lldb) n  
+(lldb) next
+</code></pre><p>If we want to step over to next point based on the instruction, click <code>step over</code> button while holding <code>Control</code> key or use lldb command below:</p>
+<pre tabindex="0"><code>(lldb) thread step-inst-over  
+  
+# Or its abbreviation form  
+(lldb) ni  
+(lldb) nexti
+</code></pre><p>Also, we have the option to choose to run the current thread only while still pausing other threads. On the UI, click this button while holding <code>Control</code> &amp; <code>Shift</code> key, it will step over only on the current thread while other threads still are paused, which could be quite useful in debugging thread issues. The equivalent lldb command option is <code>-m &lt;run-mode&gt;</code> that can be used like below:</p>
+<pre tabindex="0"><code>(lldb) thread step-over -m this-thread  
+(lldb) n -m this-thread  
+(lldb) next -m this-thread  
+  
+(lldb) thread step-inst-over -m this-thread  
+(lldb) ni -m this-thread  
+(lldb) nexti -m this-thread
+</code></pre><h2 id="step-in">Step in</h2>
+<p>Step in means stepping into calls, which, like <code>step over</code> can also happens on source code level or instruction level and have the option to run only the current thread.</p>
+<p>All the operations for <code>Step in</code> are similar to <code>Step over</code> in Xcode. We just need to choose <code>Step in</code> button for this case. The corresponding lldb commands are:</p>
+<pre tabindex="0"><code># Source code level stepping in  
+(lldb) thread step-in  
+(lldb) s  
+(lldb) step  
+  
+# Instruction level stepping in  
+(lldb) thread step-inst  
+(lldb) si  
+(lldb) stepi  
+  
+# This thread only option  
+(lldb) thread step-in -m this-thread  
+(lldb) s -m this-thread  
+(lldb) step -m this-thread  
+  
+(lldb) thread step-inst-in -m this-thread  
+(lldb) si -m this-thread  
+(lldb) stepi -m this-thread
+</code></pre><h2 id="step-out">Step out</h2>
+<p><code>Step out</code> means finishing executing the current stack frame. Basically, when the breakpoint is at the beginning of the call, it will step in and it will stop at the returned point of the next call stack.</p>
+<pre tabindex="0"><code>(lldb) thread step-out  
+(lldb) finish
+</code></pre><h2 id="other-useful-lldb-stepping-commands">Other useful lldb stepping commands</h2>
+<p>Some lldb stepping commands are not available through Xcode UI, but helpful in many cases. For example:</p>
+<pre tabindex="0"><code># Stepping to the line number in the same function  
+(lldb) thread until 8  
+  
+# Early return from breakpiont of the current stack without finishing the flow  
+(lldb) thread return
+</code></pre><h1 id="examine-stacks-frames"><strong>Examine stack’s frames</strong></h1>
+<p>When Xcode pauses the app at breakpoints, the debug navigator will show the stack frames like below:</p>
+<p>We can get the similar information using the lldb commands below</p>
+<pre tabindex="0"><code>(lldb) thread list  
+# And  
+(lldb) thread backtrace
+</code></pre><p>At the same time, the variable viewer window will show the variables available in the current execution context.</p>
+<p>The following lldb command will give us similar result:</p>
+<pre tabindex="0"><code>(lldb) frame varibale  
+  
+# Using -F to see a flattened view of the values  
+(lldb) frame variable -F
+</code></pre><p>Please also note, we can select other stacks in debug navigator and the variable viewer will switch to show the values of the variables in the newly selected stack frame. We can achieve the same using lldb command below:</p>
+<pre tabindex="0"><code># Select stack frames using their index number to be the current frame  
+(lldb) frame select 1
+</code></pre><p>Now, we know how to view Stack Frames in Xcode UI or using the corresponding lldb commands, which give us the whole picture of the app run time. It’s time to focus on the point of the interest that can help debug further.</p>
+<p>You might be familiar with <code>po</code> command already, or even have used <code>p</code> and <code>v</code> commands as well. The main differences among them are:</p>
+<p>Sourced from this <a href="https://developer.apple.com/videos/play/wwdc2019/429/">WWDC session</a></p>
+<h2 id="po">PO</h2>
+<p><code>po</code> is the short form of <code>dwim-print -O --</code> . It prints out the description of the objects. For example, for a Swift type <code>A</code> below, as it implements <code>CustomDebugStringConvertible</code> protocol, <code>po</code> will print value of property <code>debugDescription</code> . If <code>A</code> doesn’t conform to <code>CustomStringConvertible</code> , <code>po</code> will print out value of <code>description</code> from its implementation of <code>CustomStringConvertible</code> protocol. If both protocols are not implemented, <code>po</code> will just print its type name with the object descriptions of its stored properties.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">A</span>: CustomDebugStringConvertible, CustomStringConvertible {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> description: String {  
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;Description of struct type A&#34;</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> debugDescription: String {  
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;Debug description of struct type A&#34;</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Under the hood, the lldb <code>po</code> work the way below:</p>
+<p>Sourced from this <a href="https://developer.apple.com/videos/play/wwdc2019/429/">WWDC session</a></p>
+<h2 id="p">P</h2>
+<p><code>p</code> is a short form for <code>dwim-print --</code> . It print the value of the variable using data formatter.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">B</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> intValue: Int  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> stringValue: String  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> b = B(intValue: <span style="color:#ae81ff">5</span>, stringValue: <span style="color:#e6db74">&#34;A string&#34;</span>)
+</span></span></code></pre></div><p>With the above Swift struct value <code>b</code> of <code>B</code> type , <code>p</code> will print out the following using the default data formatters of <code>Int</code> and <code>String</code> type.</p>
+<p><code>(Sample.B) (intValue = 5, stringValue = “A string”)</code></p>
+<p>Please note that we can define our own type formatter, which will be covered in the future articles of this series.</p>
+<p>Under the hood, the lldb <code>po</code> work the way below:</p>
+<p>Sourced from this <a href="https://developer.apple.com/videos/play/wwdc2019/429/">WWDC session</a></p>
+<h2 id="v">V</h2>
+<p><code>v</code> is the short form of <code>frame variable</code> . Like <code>p</code> , it uses data formatter to format the output. Unlike <code>p</code> &amp; <code>po</code> that create compilable code, compile it &amp; execute it to get result, <code>v</code> command read values directly from the memory and feed them to data formatters like below:</p>
+<p>Sourced from this <a href="https://developer.apple.com/videos/play/wwdc2019/429/">WWDC session</a></p>
+<p>Because <code>v</code> performs dynamic type resolution at each step of the interpretation, <code>v</code> is able to understand types better than <code>p</code> command.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>In this article, we have explored ways to step through the code and use different command to display variable values to help under the runtime of the code. Hope this will help you debug more efficiently. If still struggling with some tricky bugs, LLDB has more commands to help, which will be covered in the future articles.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2flldb-debugger-in-xcode--2%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=LLDB%20debugger%20in%20Xcode%20%e2%80%94%202&url=https%3a%2f%2ftimwang.au%2fposts%2flldb-debugger-in-xcode--2%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2flldb-debugger-in-xcode--2%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/lldb-debugger-in-xcode--2/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2flldb-debugger-in-xcode--2%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2flldb-debugger-in-xcode--2%2f
+			&title=LLDB%20debugger%20in%20Xcode%20%e2%80%94%202&summary=%3ch2%20id%3d%22step-through-the-code--inspect-values%22%3eStep%20through%20the%20code%20%26amp%3b%20inspect%20values%3c%2fh2%3e%0a%3cp%3eFrom%20%3ca%20href%3d%22https%3a%2f%2fmedium.com%2fgitconnected%2flldb-debugger-in-xcode-1-772dbd9abc9a%22%3ethe%20previous%20article%3c%2fa%3e%2c%20we%20have%20learnt%20how%20to%20set%20breakpoints.%20Once%20they%20are%20set%2c%20the%20app%20will%20pause%20at%20the%20breakpoints%20accordingly.%20In%20this%20article%2c%20we%20are%20going%20to%20explore%20the%20ways%20to%20interact%20with%20the%20app%20runtime%20at%20the%20paused%20breakpoints.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=LLDB%20debugger%20in%20Xcode%20%e2%80%94%202&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2flldb-debugger-in-xcode--2%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>
