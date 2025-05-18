@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    The Beauty of Swift Language — Macro | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/the-beauty-of-swift-language--macro/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    A macro in computer languages is a rule or pattern that can expand the input into output and it is a great way to reuse the code in macro to avoid code duplication.
+    "
+/>
+<meta property="og:description" content="
+    A macro in computer languages is a rule or pattern that can expand the input into output and it is a great way to reuse the code in macro to avoid code duplication.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/the-beauty-of-swift-language--macro/feature.webp" />
+
+
+
+
+<meta property="og:title" content="The Beauty of Swift Language — Macro" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/the-beauty-of-swift-language--macro/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-12-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-12-26T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/the-beauty-of-swift-language--macro/feature.webp">
+  <meta name="twitter:title" content="The Beauty of Swift Language — Macro">
+  <meta name="twitter:description" content="A macro in computer languages is a rule or pattern that can expand the input into output and it is a great way to reuse the code in macro to avoid code duplication.">
+
+
+  <meta itemprop="name" content="The Beauty of Swift Language — Macro">
+  <meta itemprop="description" content="A macro in computer languages is a rule or pattern that can expand the input into output and it is a great way to reuse the code in macro to avoid code duplication.">
+  <meta itemprop="datePublished" content="2023-12-26T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-12-26T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1050">
+  <meta itemprop="image" content="https://timwang.au/posts/the-beauty-of-swift-language--macro/feature.webp">
+  <meta itemprop="keywords" content="Swift,Macro">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">The Beauty of Swift Language — Macro</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Dec 26, 2023
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    6 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/macro"><span
+                                    class="tag bg-dark">macro</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/the-beauty-of-swift-language--macro/feature.webp alt="The Beauty of Swift Language — Macro">
+                        </figure>
+                    
+                
+
+                <p>A <strong>macro</strong> in computer languages is a rule or pattern that can expand the input into output and it is a great way to reuse the code in macro to avoid code duplication.</p>
+<p>The Swift Macros was specially designed to generate code for certain purposes and it has no counterparts in C# or Kotlin. However, there are some similarities between it and <code>Annotation</code> in Kotlin. If you are interested in comparing these two, please check out <a href="https://medium.com/macros-in-swift-vs-ksp-in-kotlin-5c56ef82c0e4">here</a>. Also, I have written a few articles that covered the basics of the Swift Macro, like <a href="https://medium.com/setup-to-develop-swift-macros-68d8fe2fea59">Set Up to Develop Swift Macros</a>, <a href="https://medium.com/my-experience-of-developing-swift-macros-502445a0946a">My Experience in Developing Swift Macros</a>, <a href="https://medium.com/develop-freestanding-expression-macros-in-swift-adb969418c08">Develop Freestanding Expression Macros in Swift</a>, <a href="https://medium.com/develop-freestanding-declaration-macros-in-swift-2d11f803aa32">Develop Freestanding Declaration Macros in Swift</a> and <a href="https://medium.com/develop-attached-swift-macros-934c2d648a94">Develop Attached Swift Macros</a>. Please check them out if you need them.</p>
+<p>In this article, we are going to focus on Swift Macro and its latest development.</p>
+<h1 id="different-types-of-swift-macros">Different types of Swift Macros</h1>
+<p>Swift Marco was designed in a very tailored way and we can use it to generate code for certain purposes. While, at the first sight, you might think this approach limits the powers of the macros, Swift Macro can be very powerful especially if we compose different types of Macros together.</p>
+<p>There are two major types of Macros in Swift, Freestanding Macro and Attached Macro. Two types of Freestanding macros are Freestanding declaration macro and Freestanding expression macro and they are used to generate declaration and expression respectively like below.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">// Freestanding macros generate code based on node and context of the macro  </span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// Expression macro  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">expansion</span>(  
+</span></span><span style="display:flex;"><span>    of node: some FreestandingMacroExpansionSyntax,  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">in</span> context: some MacroExpansionContext  
+</span></span><span style="display:flex;"><span>  ) <span style="color:#66d9ef">throws</span> -&gt; ExprSyntax  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// Declartation macro  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">expansion</span>(  
+</span></span><span style="display:flex;"><span>      of node: some FreestandingMacroExpansionSyntax,  
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">in</span> context: some MacroExpansionContext  
+</span></span><span style="display:flex;"><span>  ) <span style="color:#66d9ef">throws</span> -&gt; <span style="color:#960050;background-color:#1e0010">\</span>[DeclSyntax<span style="color:#960050;background-color:#1e0010">\</span>]
+</span></span></code></pre></div><p>Attached macros are attached to existing code and generate code based on code information and context they are attached to like below. Five types of macros are Peer macro, member macro, accessor macro, member attribute macro and extension macro(updated from conformance macro).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">/// Peer macro generates peers for the code it&#39;s attaches to  </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// For instance, if it attaches to a method,   </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// it&#39;s supposed to generate another method at the same level with the attached method  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">expansion</span>(  
+</span></span><span style="display:flex;"><span>    of node: AttributeSyntax,  
+</span></span><span style="display:flex;"><span>    providingPeersOf declaration: some DeclSyntaxProtocol,  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">in</span> context: some MacroExpansionContext  
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">throws</span> -&gt; [DeclSyntax]  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// Member macro generates members to the declaration it&#39;s attached to  </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// For instance, use it to generate a new method or variable to the attached declaration  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">expansion</span>(  
+</span></span><span style="display:flex;"><span>    of node: AttributeSyntax,  
+</span></span><span style="display:flex;"><span>    providingMembersOf declaration: some DeclGroupSyntax,  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">in</span> context: some MacroExpansionContext  
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">throws</span> -&gt; [DeclSyntax]  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// Accessor macro adds accessors(getter/setter) to a given declaration.  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">expansion</span>(  
+</span></span><span style="display:flex;"><span>    of node: AttributeSyntax,  
+</span></span><span style="display:flex;"><span>    providingAccessorsOf declaration: some DeclSyntaxProtocol,  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">in</span> context: some MacroExpansionContext  
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">throws</span> -&gt; [AccessorDeclSyntax]  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// Attribute macro generates attributes to the members inside the declaration it&#39;s attached to.  </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// which is a way to compose macros together to achieve a collective goal  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">expansion</span>(  
+</span></span><span style="display:flex;"><span>    of node: AttributeSyntax,  
+</span></span><span style="display:flex;"><span>    attachedTo declaration: some DeclGroupSyntax,  
+</span></span><span style="display:flex;"><span>    providingAttributesFor member: some DeclSyntaxProtocol,  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">in</span> context: some MacroExpansionContext  
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">throws</span> -&gt; [AttributeSyntax]  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// Extension macro generate extension to the declaration it&#39;s attached to  </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// For instance to add new protocol conformance etc.  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">expansion</span>(  
+</span></span><span style="display:flex;"><span>    of node: AttributeSyntax,  
+</span></span><span style="display:flex;"><span>    attachedTo declaration: some DeclGroupSyntax,  
+</span></span><span style="display:flex;"><span>    providingExtensionsOf type: some TypeSyntaxProtocol,  
+</span></span><span style="display:flex;"><span>    conformingTo protocols: [TypeSyntax],  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">in</span> context: some MacroExpansionContext  
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">throws</span> -&gt; [ExtensionDeclSyntax]
+</span></span></code></pre></div><p>In order to develop new macros, the major work is to implement the above expansion methods. As we can see, in the expansion methods of freestanding macros, we can only access to the <code>node</code> and <code>context</code> . The <code>node</code> contains the information of the macro itself. The <code>context</code> can be used to provide diagnosis information or generate a unique name etc.</p>
+<p>For all attached macros, apart from <code>node</code> and <code>context</code> , we have access to <code>declaration</code> as well, which is what the macro is attached to. For Attribute macro and Extension macro, some other values are injected into expansion method to support the code generation.</p>
+<h1 id="swiftsyntax-library">SwiftSyntax library</h1>
+<p><a href="https://github.com/apple/swift-syntax">SwiftSyntax</a> is an open sourced library that is used in Swift Macro system. In order to develop new macros, some knowledge of this library is needed. All of the above expansion methods are defined in this library.</p>
+<p>Luckily, the library provides rich methods to generate code from either string literals or its builders. Please refer to the full documentation of this library <a href="https://swiftpackageindex.com/apple/swift-syntax/509.0.2/documentation/swiftsyntax">here</a>.</p>
+<p>When we design and implement a new macro, we know the code it should expand into, which should be the output of the expansion methods. However, we need to express these code pieces in SwiftSyntax types. In order to look up which syntax should be used, we can use this <a href="https://swift-ast-explorer.com/">website</a> to check. Just paste the code snippet into the left panel, it will show the syntax tree like below:</p>
+<p>Lastly, we can also learn from examples. Good example projects are listed <a href="https://github.com/apple/swift-syntax/tree/main/Examples">here</a>.</p>
+<h1 id="fully-integrated-with-xcode">Fully integrated with Xcode</h1>
+<p>Apple has made great effort on integrating Swift Macro feature into Xcode. We can easily use the context menu on Macro to expand the code in place and we can even add breakpoints into the code generated to debug it like below:</p>
+<p>Please check out <a href="https://github.com/ShenghaiWang/SwiftMacros">this repo</a> for more example macros.</p>
+<h1 id="the-cost-of-using-swift-macro">The cost of using Swift Macro</h1>
+<p>As we can imagine, there must be some cost of expanding the macros. We can experience longer pipeline running time because pulling and compiling SwiftSyntax library as well as expanding macros will take some time. It might add one minute or more to your pipeline depending on the speed of the network and computers.</p>
+<p>Also, we need to balance the effort of developing the macro with the benefit of using it. It’s certainly doubtful if we develop one macro and only use it once.</p>
+<p>However, as macro is a way to avoid duplication, which is great in terms of code maintenance. I would suggest to use it for long term projects.</p>
+<h1 id="its-a-big-deal">It’s a big deal</h1>
+<p>Even though Macro is a relatively new feature in Swift, it is a big deal. Many great features like <code>SwiftData</code> are built upon it and you might already know the awesome <code>@Observable</code> macro. From these example, we can see, if we use it correctly, it can be super powerful!</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Swift Macro is a great addition to the language in version 5.9. Its unique design makes this feature really shine.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--macro%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=The%20Beauty%20of%20Swift%20Language%20%e2%80%94%20Macro&url=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--macro%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--macro%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/the-beauty-of-swift-language--macro/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--macro%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--macro%2f
+			&title=The%20Beauty%20of%20Swift%20Language%20%e2%80%94%20Macro&summary=%3cp%3eA%20%3cstrong%3emacro%3c%2fstrong%3e%20in%20computer%20languages%20is%20a%20rule%20or%20pattern%20that%20can%20expand%20the%20input%20into%20output%20and%20it%20is%20a%20great%20way%20to%20reuse%20the%20code%20in%20macro%20to%20avoid%20code%20duplication.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=The%20Beauty%20of%20Swift%20Language%20%e2%80%94%20Macro&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--macro%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

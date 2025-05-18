@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bundle on Coding life</title>
+    <link>https://timwang.au/tags/bundle/</link>
+    <description>Recent content in Bundle on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 23 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/bundle/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Ins and Outs of Getting the Bundle</title>
+      <link>https://timwang.au/posts/the-ins-and-outs-of-getting-the-bundle/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/the-ins-and-outs-of-getting-the-bundle/</guid>
+      <description>&lt;h1 id=&#34;background&#34;&gt;Background&lt;/h1&gt;&#xA;&lt;p&gt;Apple uses bundles to represent apps, frameworks, plug-ins, and many other specific types of content and we often need to access to the resources like image assets, localised string resources or other types of files that embedded in these bundles, for which, we need to get hold of the bundle objects.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

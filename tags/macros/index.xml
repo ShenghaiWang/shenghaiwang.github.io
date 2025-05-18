@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Macros on Coding life</title>
+    <link>https://timwang.au/tags/macros/</link>
+    <description>Recent content in Macros on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 10 Jan 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/macros/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to develop Swift Macros</title>
+      <link>https://timwang.au/posts/set-up-to-develop-swift-macros/</link>
+      <pubDate>Tue, 10 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/set-up-to-develop-swift-macros/</guid>
+      <description>&lt;p&gt;This tutorial is a step-by-step guide to develop Swift Macros. We will develop an attached Macro called &lt;code&gt;Singleton&lt;/code&gt; , which helps reduce the tedious code of writing a singleton struct or type.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Macros in Swift vs. KSP in Kotlin</title>
+      <link>https://timwang.au/posts/macros-in-swift-vs-ksp-in-kotlin/</link>
+      <pubDate>Tue, 10 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/macros-in-swift-vs-ksp-in-kotlin/</guid>
+      <description>&lt;h1 id=&#34;preface&#34;&gt;Preface&lt;/h1&gt;&#xA;&lt;p&gt;In essence, these two technologies are completely different. While one is generating code by expanding the macro patterns, another is generating code freely based on the meta data stored in the complied code.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>My Experience in Developing Swift Macros</title>
+      <link>https://timwang.au/posts/my-experience-in-developing-swift-macros/</link>
+      <pubDate>Tue, 10 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/my-experience-in-developing-swift-macros/</guid>
+      <description>&lt;p&gt;I have developed a collection of Swift Macros in this &lt;a href=&#34;https://github.com/ShenghaiWang/SwiftMacros&#34;&gt;repo&lt;/a&gt; recently. This article will summarise my experience and hopefully it would be helpful for your tasks.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

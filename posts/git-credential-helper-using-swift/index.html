@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    Git Credential Helper Using Swift | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/git-credential-helper-using-swift/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    What’s git credential helper
+Git needs a way to know the credentials if we use it to access the repos that are not public. If using repo&rsquo;s ssh address, configuring ssh key is enough. For repos address that are in https url format, username and password are needed, where password can be personal access token or OAuth access token depending on the server configuration.
+    "
+/>
+<meta property="og:description" content="
+    What’s git credential helper
+Git needs a way to know the credentials if we use it to access the repos that are not public. If using repo&rsquo;s ssh address, configuring ssh key is enough. For repos address that are in https url format, username and password are needed, where password can be personal access token or OAuth access token depending on the server configuration.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/git-credential-helper-using-swift/feature.webp" />
+
+
+
+
+<meta property="og:title" content="Git credential helper using Swift" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/git-credential-helper-using-swift/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-03-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-03-23T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/git-credential-helper-using-swift/feature.webp">
+  <meta name="twitter:title" content="Git credential helper using Swift">
+  <meta name="twitter:description" content="What’s git credential helper Git needs a way to know the credentials if we use it to access the repos that are not public. If using repo’s ssh address, configuring ssh key is enough. For repos address that are in https url format, username and password are needed, where password can be personal access token or OAuth access token depending on the server configuration.">
+
+
+  <meta itemprop="name" content="Git credential helper using Swift">
+  <meta itemprop="description" content="What’s git credential helper Git needs a way to know the credentials if we use it to access the repos that are not public. If using repo’s ssh address, configuring ssh key is enough. For repos address that are in https url format, username and password are needed, where password can be personal access token or OAuth access token depending on the server configuration.">
+  <meta itemprop="datePublished" content="2024-03-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-03-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="989">
+  <meta itemprop="image" content="https://timwang.au/posts/git-credential-helper-using-swift/feature.webp">
+  <meta itemprop="keywords" content="Git,Git Credential Helper,Swift">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">Git credential helper using Swift</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Mar 23, 2024
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    5 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/git"><span
+                                    class="tag bg-dark">Git</span></a>
+                            
+                            <a href="https://timwang.au/tags/git-credential-helper"><span
+                                    class="tag bg-dark">Git credential helper</span></a>
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/git-credential-helper-using-swift/feature.webp alt="Git credential helper using Swift">
+                        </figure>
+                    
+                
+
+                <h1 id="whats-git-credential-helper">What’s git credential helper</h1>
+<p>Git needs a way to know the credentials if we use it to access the repos that are not public. If using repo&rsquo;s <code>ssh</code> address, configuring <code>ssh</code> key is enough. For repos address that are in https url format, <code>username</code> and <code>password</code> are needed, where password can be personal access token or OAuth access token depending on the server configuration.</p>
+<p>When needed, git prompts to user to input this piece of information on the terminal. However, user interactions are not always feasible in situations like running it in a CI/CD environment. Also, it can be very repetitive typing in username and password in daily work.</p>
+<p>In order to automate this process, we can put them into <code>gitconfig</code> file like below:</p>
+<pre tabindex="0"><code>[credential &#34;https://somereposerver.com&#34;]  
+   username = name  
+   password = $PASSWORD # Assuming can read password from environment variable PASSWORD
+</code></pre><p>When it comes more complicated password logic, you might find it challenging to use the above way. That’s where git credential helper script comes in. We can implement the password logic needed in our own script and configure git to call that script when needed.</p>
+<h1 id="what-are-the-best-languages-to-develop-it">What are the best languages to develop it</h1>
+<p>In theory, any languages can be used in order to develop a git credential helper as long as we can develop an executable command using them. However, in this scenario, languages like shell script, python and ruby etc. might be used more often as it’s convenient to just use <a href="https://en.wikipedia.org/wiki/Shebang_(Unix)">SHEBANG</a> to run a text file directly.</p>
+<p>You might have already known Swift can do scripting too! In this article, we are going to use Swift as the audience of this channel are mainly mobile developers.</p>
+<p>For the quick reference, we need to add SHEBANG directive at the top of the Swift file like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>#<span style="color:#f92672">!/</span>usr<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>swift  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Swift scripting&#34;</span>)
+</span></span></code></pre></div><p>And we also need to run <code>$ chmod +x file.swift</code> to make it work. Of course, this can only possible on computers that have Swift installed. As Apple developers, this should not be a big issue :)</p>
+<h1 id="configure-git-to-user-the-helper">Configure git to user the helper</h1>
+<p>Before configuring any new helpers, we can run the following command to see what helper we have currently.</p>
+<pre tabindex="0"><code>git config - get-all credential.helper
+</code></pre><p>To configure a new helper, use the following command:</p>
+<pre tabindex="0"><code>git config --global credential.helper the_path_to_the_helper.swift
+</code></pre><p>Depending on if you want to make the helper globally available or not, we can choose having or ignore <code>--global</code> . Also if want to have a more tailored way of configuring the helper, for example, to limit this helper only for certain urls, please refer to the git document <a href="https://git-scm.com/docs/gitcredentials">here</a>.</p>
+<h1 id="design-and-implementation">Design and implementation</h1>
+<p>The three operations that git interacts with the helper script are the following:</p>
+<ol>
+<li>Get: request credentials from the helper</li>
+<li>Store: ask helper to store the credentials</li>
+<li>Erase: ask help to delete the credentials</li>
+</ol>
+<p>The helper script can implement all of them or just some that are of interest. For each operation, the git will provide information through standard input in the format of the following(refer <a href="https://git-scm.com/docs/git-credential#IOFMT">here</a> for more details ).</p>
+<pre tabindex="0"><code>protocol=https  
+host=someserver.com
+</code></pre><p>In Swift, we can easily read them using the following code:</p>
+<pre tabindex="0"><code>while let line = readLine() {  
+    // The content of line would be \`protocol=https\` or \`host=someserver.com\` etc.  
+}
+</code></pre><p>Also we need to use <code>CommandLine.arguments</code> to parse the operation type. Please refer to the following code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> operation = CommandLine.arguments.last  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">switch</span> operation {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;get&#34;</span>: <span style="color:#66d9ef">get</span>()  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;store&#34;</span>: store()  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;erase&#34;</span>: erase()  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">default</span>: <span style="color:#66d9ef">break</span>  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>With this, we can implement the logic we need like the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>#<span style="color:#f92672">!/</span>usr<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>swift  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Foundation</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">let</span> <span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;someusername&#34;</span>  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">let</span> <span style="color:#a6e22e">name1</span> = <span style="color:#e6db74">&#34;someusername1&#34;</span>  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">let</span> <span style="color:#a6e22e">password</span> = <span style="color:#e6db74">&#34;somepassword&#34;</span>  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">let</span> <span style="color:#a6e22e">password1</span> = <span style="color:#e6db74">&#34;somepassword1&#34;</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">let</span> <span style="color:#a6e22e">operation</span> = <span style="color:#a6e22e">CommandLine</span>.<span style="color:#a6e22e">arguments</span>.<span style="color:#a6e22e">last</span>  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">switch</span> <span style="color:#a6e22e">operation</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">case</span> <span style="color:#e6db74">&#34;get&#34;</span>: <span style="color:#a6e22e">get</span>()  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">case</span> <span style="color:#e6db74">&#34;store&#34;</span>: <span style="color:#a6e22e">store</span>()  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">case</span> <span style="color:#e6db74">&#34;erase&#34;</span>: <span style="color:#a6e22e">erase</span>()  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">default</span>: <span style="color:#a6e22e">break</span>  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">func</span> <span style="color:#a6e22e">get</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">while</span> <span style="color:#a6e22e">let</span> <span style="color:#a6e22e">line</span> = <span style="color:#a6e22e">readLine</span>() {  
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">if</span> <span style="color:#a6e22e">line</span>.<span style="color:#a6e22e">starts</span>(<span style="color:#a6e22e">with</span>: <span style="color:#e6db74">&#34;host&#34;</span>) {  
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">let</span> <span style="color:#a6e22e">server</span> = <span style="color:#a6e22e">line</span>.<span style="color:#a6e22e">components</span>(<span style="color:#a6e22e">separatedBy</span>: <span style="color:#e6db74">&#34;=&#34;</span>).<span style="color:#a6e22e">last</span> ?? <span style="color:#e6db74">&#34;&#34;</span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">switch</span> <span style="color:#a6e22e">server</span> {  
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">case</span> <span style="color:#e6db74">&#34;server1.com&#34;</span>:   
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e">// Output username and password for server1.com to git  </span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">print</span>(<span style="color:#e6db74">&#34;username=</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">(name1)</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">npassword=</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">(password1)&#34;</span>)  
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">0</span>)  
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">default</span>:   
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e">// Output username and password for other servers  </span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">print</span>(<span style="color:#e6db74">&#34;username=</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">(name)</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">npassword=</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">(password)&#34;</span>)  
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">0</span>)  
+</span></span><span style="display:flex;"><span>            }  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">func</span> <span style="color:#a6e22e">store</span>() { <span style="color:#75715e">/* Ignore for simplicity */</span> }  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">func</span> <span style="color:#a6e22e">erase</span>() { <span style="color:#75715e">/* Ignore for simplicity */</span> }
+</span></span></code></pre></div><h1 id="other-helpful-information">Other Helpful information</h1>
+<h2 id="launch-the-helper-script-alone">Launch the helper script alone</h2>
+<p>In the development process, we can just launch the script alone with the expected operation types in terminal to test it like below:</p>
+<pre tabindex="0"><code>./helper.swift get
+</code></pre><h2 id="using-environment-variables-in-swift">Using Environment variables in Swift</h2>
+<p>If we need to read information like password from environment variables, use the following syntax:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> password = ProcessInfo.processInfo.environment[<span style="color:#e6db74">&#34;PASSWORD&#34;</span>]
+</span></span></code></pre></div><h1 id="usehttppath">useHttpPath</h1>
+<p>By default, git only provide protocol and host information for get operation. If the credential logic depends on the url path, we need to tell git to provide it, for which, using the following git command:</p>
+<pre tabindex="0"><code>git config --global credential.useHttpPath true
+</code></pre><h2 id="git_trace">GIT_TRACE</h2>
+<p>After configuring our helper script, we can trigger it using various git command like <code>git clone</code>, <code>git push</code> etc. If you want to verify how the help function triggered, we can turn on git trace functionality. The easiest way to do it is to prefix with the GIT_TRACE environment value to the git command like the following:</p>
+<pre tabindex="0"><code>GIT_TRACE=1 git clone url_to_the_repo
+</code></pre><p>This will output all the commands that git triggers like below, from which we can find our helper function gets called in one of the<code>run-command</code> s.</p>
+<p>However, we cannot see the credentials from our helper script. For debugging purpose, if we need to see the output of our helper script, we need to output that content to standard error output. One way to achieve it in Swift is using the following syntax:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> errorMessage = <span style="color:#e6db74">&#34;Some error message&#34;</span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> errorOutput = FileHandle.standardError  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> messageData = errorMessage.data(using: .utf8) {  
+</span></span><span style="display:flex;"><span>    errorOutput.write(messageData)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>Git credential helper can be super helpful when work around with remote repo permission issues. And, as a Swift developers, we can leverage Swift’s scripting capability to develop one. By using the language that we are familiar with, this task can be done with ease.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fgit-credential-helper-using-swift%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=Git%20credential%20helper%20using%20Swift&url=https%3a%2f%2ftimwang.au%2fposts%2fgit-credential-helper-using-swift%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fgit-credential-helper-using-swift%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/git-credential-helper-using-swift/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fgit-credential-helper-using-swift%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fgit-credential-helper-using-swift%2f
+			&title=Git%20credential%20helper%20using%20Swift&summary=%3ch1%20id%3d%22whats-git-credential-helper%22%3eWhat%e2%80%99s%20git%20credential%20helper%3c%2fh1%3e%0a%3cp%3eGit%20needs%20a%20way%20to%20know%20the%20credentials%20if%20we%20use%20it%20to%20access%20the%20repos%20that%20are%20not%20public.%20If%20using%20repo%26rsquo%3bs%20%3ccode%3essh%3c%2fcode%3e%20address%2c%20configuring%20%3ccode%3essh%3c%2fcode%3e%20key%20is%20enough.%20For%20repos%20address%20that%20are%20in%20https%20url%20format%2c%20%3ccode%3eusername%3c%2fcode%3e%20and%20%3ccode%3epassword%3c%2fcode%3e%20are%20needed%2c%20where%20password%20can%20be%20personal%20access%20token%20or%20OAuth%20access%20token%20depending%20on%20the%20server%20configuration.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=Git%20credential%20helper%20using%20Swift&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fgit-credential-helper-using-swift%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

@@ -1,227 +1,673 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<title>Coding life</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<link rel="icon" type="image/x-icon" href="images/favicon.ico">
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="en-us">
 
-		<!-- Wrapper -->
-			<div id="wrapper" class="fade-in">
-				<!-- Intro -->
-					<div id="intro">
-						<h1>Welcome</h1>
-					</div>
-				<!-- Nav -->
-					<nav id="nav">
-						<ul class="links">
-							<li class="active"><a href="index.html">Blogs</a></li>
-							<li><a href="opensourceprojects.html">Open Source Projects</a></li>
-							<!-- <li><a href="projects.html">Portfolio</a></li> -->
-						</ul>
-						<ul class="icons">
-							<li><a href="https://medium.com/@tim_wang" class="icon brands alt fa-medium"><span class="label">Medium</span></a></li>
-							<li><a href="https://medium.com/@tim_wang/subscribe" class="icon alt fa-envelope"><span class="label">Subscribe</span></a></li>
-							<li><a href="https://www.linkedin.com/in/overocean/" class="icon brands alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
-							<li><a href="https://github.com/ShenghaiWang" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
-							<li><a href="https://apps.apple.com/us/developer/shenghai-wang/id1681425722" class="icon brands alt fa-app-store-ios"><span class="label">App Store</span></a></li>
-							<li><a href="https://calendar.app.google/wsWGPg2SrcDb5RhFA" class="icon brands alt fa-meetup"><span class="label">Book an appointment</span></a></li>
-						</ul>
-					</nav>
+<head>
+	<meta name="generator" content="Hugo 0.147.3"><title>
+    
+    Coding life
+</title>
 
-				<!-- Main -->
-					<div id="main">
-						<!-- Posts -->
-							<section class="posts">
-								<article>
-									<header>
-										<h2>The beautify of Swift Language — Property Observer</h2>
-									</header>
-									<p>Property is a common concept in object-oriented programming languages. It is a member of an object and usually accessed using dot syntax. Sometimes, it can be very useful to observe the property value changes. For example, observing the balance property of a BankAccount object and logging out all the changes of the balance property could be very helpful to audit if all the transactions are recorded correctly in the BankAccount . Let’s take a look how this can be done in the following languages.</p>
-									<ul class="actions special">
-										<li><a href="https://medium.com/@tim_wang/the-beautify-of-swift-language-property-observer-e0a2c8f85453" class="button">Full Story</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<h2>The standard of good codebases</h2>
-									</header>
-									<p>As software engineers, it’s no surprises that we often find ourselves in a conversation talking about working on a bad codebase or seldomly a good one. But what makes a good codebase exactly? I will summarise my opinion here and please comment below if you have different thoughts.</p>
-									<ul class="actions special">
-										<li><a href="https://medium.com/@tim_wang/the-standard-of-good-codebases-2caae18f5e71" class="button">Full Story</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<h2>Fight against Memory Circular Reference</h2>
-									</header>
-									<p>As iOS developers, we all know and love Automatic Reference Counting (ARC), which is one of the main reasons to keep iOS apps run smoothly. While both ARM and GC(Garbage Collection) free developers from managing memory usage manually, unlike GC, ARC release unused memory in a deterministic way so that the system does not need to hang the apps randomly to collect unused memory like GC.</p>
-									<a href="https://medium.com/@tim_wang/fight-against-memory-circular-reference-e25a0d688449" class="image fit"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*wp6zWR_R8VT2vTaUExUg9w.png" alt="" /></a>
-									<ul class="actions special">
-										<li><a href="https://medium.com/@tim_wang/fight-against-memory-circular-reference-e25a0d688449" class="button">Full Story</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<h2>Implement an AsyncSequence</h2>
-									</header>
-									<p>We have known AsyncSequence is a great part of Swift Concurrency feature and learnt the difference between it and Combine Publishers from this article. We’re going to look into ways of creating of an AsyncSequence in this one.</p>
-									<ul class="actions special">
-										<li><a href="https://medium.com/@tim_wang/implement-an-asyncsequence-4d4fd9868f9f" class="button">Full Story</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<h2>AsyncSequence vs. Combine Publisher</h2>
-									</header>
-									<p>AsyncSequence and Combine Publisher are different ways of handling future data. Both of them have rich operators/methods like map, filter, combineLatest etc. to manage the data flow. But what are the differences and which one should we use?									</p>
-									<ul class="actions special">
-										<li><a href="https://medium.com/@tim_wang/asyncsequence-vs-combine-publisher-40ee3f5f48b9" class="button">Full Story</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<h2>My setup of Starlink intranet to make computers at home accessible on internet</h2>
-									</header>
-									<a href="https://medium.com/@tim_wang/my-setup-of-starlink-intranet-to-make-computers-at-home-accessible-on-internet-13cc8183c6d5" class="image fit"><img src="https://miro.medium.com/v2/resize:fit:1400/0*llndWM3JZK3azqaR" alt="" /></a>
-									<p>In order to make a computer within home intranet publicly accessible, we need to rely on the public IP(DDNS might be needed if the public IP is not static) of the router and configure NAT to the computer.
-									</p>
-									<ul class="actions special">
-										<li><a href="https://medium.com/@tim_wang/my-setup-of-starlink-intranet-to-make-computers-at-home-accessible-on-internet-13cc8183c6d5" class="button">Full Story</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<h2>Some Xcode Editing features that take your productivity to the next level</h2>
-									</header>
-									<a href="https://medium.com/@tim_wang/some-xcode-editing-features-that-take-your-productivity-to-the-next-level-50f74201516c" class="image fit"><img src="https://miro.medium.com/v2/resize:fit:786/1*qnWllP52DVL9J6CfZVBctw.gif" alt="" /></a>
-									<a href="https://medium.com/@tim_wang/some-xcode-editing-features-that-take-your-productivity-to-the-next-level-50f74201516c" class="image fit"><img src="https://miro.medium.com/v2/resize:fit:404/1*YFxX6OATh8VCXVHffU1jQg.gif" alt="" /></a>
-									<ul class="actions special">
-										<li><a href="https://medium.com/@tim_wang/some-xcode-editing-features-that-take-your-productivity-to-the-next-level-50f74201516c" class="button">Full Story</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<h2>Introducing SwiftCodePatterns Package</h2>
-									</header>
-									<p>
-										Macro is a newly added feature in Swift to generate code based on some patterns. However, due to its design goal, the code can be generated using macros is limited. For example, we cannot simply generate an extension to an existing type using current macro mechanism. But some code patterns in App code are very common.
-									</p>
-									<p>Swift Code Patterns Package offers a new way to generate code based on other code to reduce writing boilerplate code. It has potential to handle more complex patterns as well. If you have more ideas relating to this, please feel free to reach out.</p>
-									<ul class="actions special">
-										<li><a href="https://medium.com/@tim_wang/introducing-swiftcodepatterns-package-to-break-the-limit-of-the-swift-macro-d1ddf4cff5d9" class="button">Full Story</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<h2>My experience in developing Swift Macros</h2>
-									</header>
-									<a href="https://medium.com/@tim_wang/my-experience-of-developing-swift-macros-502445a0946a" class="image fit"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*n-4zfER4wWBmR4pei7udgQ.png" alt="" /></a>
-									<p>I have developed a collection of Swift Macros in this repo recently. This article will summarise my experience and hopefully it would be helpful for your tasks.
-									</p>
-									<ul class="actions special">
-										<li><a href="https://medium.com/@tim_wang/my-experience-of-developing-swift-macros-502445a0946a" class="button">Full Story</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<h2>Setup to develop Swift Macros</h2>
-									</header>
-									<a href="https://medium.com/@tim_wang/setup-to-develop-swift-macros-68d8fe2fea59" class="image fit"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*INEhU1RpkaH7ADF7g_ZYrQ.png" alt="" /></a>
-									<p>This tutorial is a step-by-step guide to develop Swift Macros. We will develop an attached Macro called Singleton.
-									</p>
-									<ul class="actions special">
-										<li><a href="https://medium.com/@tim_wang/setup-to-develop-swift-macros-68d8fe2fea59" class="button">Full Story</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<h2>Macros in Swift vs. KSP in Kotlin</h2>
-									</header>
-									<a href="https://medium.com/@tim_wang/macros-in-swift-vs-ksp-in-kotlin-5c56ef82c0e4" class="image fit"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*vO1Z9VWcHbWBx-GTyIsexw.png" alt="" /></a>
-									<p>In essence, these two technologies are completely different. While one is generating code by expanding the macro patterns, another is generating code freely based on the meta data stored in the complied code.
-									</p>
-									<ul class="actions special">
-										<li><a href="https://medium.com/@tim_wang/macros-in-swift-vs-ksp-in-kotlin-5c56ef82c0e4" class="button">Full Story</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<h2>Integrate code review result into Xcode</h2>
-									</header>
-									<a href="https://medium.com/@tim_wang/integrated-code-review-result-from-chatgpt-into-xcode-4a7ef438ed5b" class="image fit"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*pM3gMz5xZ6hCkDPQ3wUkVg.png" alt="" /></a>
-									<p>The goal of this experiment is to integrate the code review result from ChatGPT into Xcode editor view
-									</p>
-									<ul class="actions special">
-										<li><a href="https://medium.com/@tim_wang/integrated-code-review-result-from-chatgpt-into-xcode-4a7ef438ed5b" class="button">Full Story</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<h2>Let ChatGPT review your code</h2>
-									</header>
-									<a href="https://medium.com/@tim_wang/let-chatgpt-review-your-code-c560d9d632ea" class="image fit"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*L_pX5EnS6dnzPxG2Ss90LQ.png" alt="" /></a>
-									<p>ChatGPT has been phenomenal since day one. It demonstrated its great intelligence in areas like drawing, coding etc. This LLM is capable of understanding and providing insights of the code, which is the why I have been trying to leverage it to do code review. Here is a summary that I have got so far.
-									</p>
-									<ul class="actions special">
-										<li><a href="https://medium.com/@tim_wang/let-chatgpt-review-your-code-c560d9d632ea" class="button">Full Story</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<h2>DRY - Don’t Repeat Yourself</h2>
-									</header>
-									<a href="https://medium.com/@tim_wang/dry-dont-repeat-yourself-bb2a3b247f7c" class="image fit"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*LmRaXxV6kFEAkszercjMTA.png" alt="" /></a>
-									<p>DRY(Don’t Repeat Yourself) aims at reducing the repetition of code chunks and patterns, which was first defined in the book The Pragmatic Programmer as “every piece of knowledge must have a single, unambiguous, authoritative representation within a system.”</p>
-									<ul class="actions special">
-										<li><a href="https://medium.com/@tim_wang/dry-dont-repeat-yourself-bb2a3b247f7c" class="button">Full Story</a></li>
-									</ul>
-								</article>
-							</section>
-					</div>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
 
-				<!-- Footer -->
-					<footer id="footer">
-						<section class="split contact">
-							<section class="alt">
-								<h3>Address</h3>
-								<p>Sydney NSW, Australia</p>
-							</section>
-						</section>
-						<section class="split contact">
-							<section>
-								<h3>Social</h3>
-								<ul class="icons alt">
-									<li><a href="https://medium.com/@tim_wang" class="icon brands alt fa-medium"><span class="label">Medium</span></a></li>
-									<li><a href="https://medium.com/@tim_wang/subscribe" class="icon alt fa-envelope"><span class="label">Subscribe</span></a></li>
-									<li><a href="https://www.linkedin.com/in/overocean/" class="icon brands alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
-									<li><a href="https://github.com/ShenghaiWang" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
-									<li><a href="https://apps.apple.com/us/developer/shenghai-wang/id1681425722" class="icon brands alt fa-app-store-ios"><span class="label">App Store</span></a></li>
-									<li><a href="https://calendar.app.google/wsWGPg2SrcDb5RhFA" class="icon brands alt fa-meetup"><span class="label">Book an appointment</span></a></li>
-								</ul>
-							</section>
-						</section>
-					</footer>
 
-				<!-- Copyright -->
-					<div id="copyright">
-						<ul><li>&copy; Tim Wang</li></ul>
-					</div>
+    <meta name="description" content="The Ultimate Tech Blogging Theme">
+    <meta property="og:description" content="The Ultimate Tech Blogging Theme" />
 
-			</div>
+    
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
 
-	</body>
+
+
+<meta property="og:title" content="Coding life" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://timwang.au/" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Coding life">
+  <meta name="twitter:description" content="The Ultimate Tech Blogging Theme">
+
+
+  <meta itemprop="name" content="Coding life">
+  <meta itemprop="description" content="The Ultimate Tech Blogging Theme">
+  <meta itemprop="datePublished" content="2025-03-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-03-23T00:00:00+00:00">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+
+
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              active /
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div id="featured">
+    <div class="container-md">
+        <div class="row">
+            <div class="featured-posts">
+                
+                
+                
+    
+    
+        
+        
+        
+        
+    
+    <div class="grid-item grid-item-1" 
+        style="background-image:url('https://timwang.au/posts/how-ai-fits-into-humanitys-bigger-story-of-automation/feature.webp')">
+
+    <div class="content">
+        <div class="tags">
+            
+            <a class="tag bg-dark" href="https://timwang.au/tags/ai">AI</a>
+            
+            <a class="tag bg-dark" href="https://timwang.au/tags/evolution">Evolution</a>
+            
+        </div>
+
+        
+
+        
+        <h1><a class="link-title" href="https://timwang.au/posts/how-ai-fits-into-humanitys-bigger-story-of-automation/">
+                How AI Fits Into Humanity’s Bigger Story of Automation
+            </a></h1>
+        
+
+        <div class="low-tab">
+            <span class="date">
+    Mar 23, 2025
+</span>
+            &nbsp; <b>&centerdot;</b> &nbsp;
+            <span class="time-to-read">
+    6 mins read</span>
+        </div>
+    </div>
+</div>
+                
+                
+    
+    
+        
+        
+        
+        
+    
+    <div class="grid-item grid-item-2" 
+        style="background-image:url('https://timwang.au/posts/swift-code-craft_trierouter-from-vapor/feature.jpeg')">
+
+    <div class="content">
+        <div class="tags">
+            
+            <a class="tag bg-dark" href="https://timwang.au/tags/swift">Swift</a>
+            
+            <a class="tag bg-dark" href="https://timwang.au/tags/ios">iOS</a>
+            
+            <a class="tag bg-dark" href="https://timwang.au/tags/swift-serverside">Swift ServerSide</a>
+            
+            <a class="tag bg-dark" href="https://timwang.au/tags/code-efficiency">Code efficiency</a>
+            
+        </div>
+
+        
+
+        
+        <h2><a class="link-title" href="https://timwang.au/posts/swift-code-craft_trierouter-from-vapor/">
+            Swift Code Craft: TrieRouter from Vapor
+        </a></h2>
+        
+
+        <div class="low-tab">
+            <span class="date">
+    Feb 23, 2025
+</span>
+            &nbsp; <b>&centerdot;</b> &nbsp;
+            <span class="time-to-read">
+    7 mins read</span>
+        </div>
+    </div>
+</div>
+                
+                
+    
+    
+        
+        
+        
+        
+    
+    <div class="grid-item grid-item-3" 
+        style="background-image:url('https://timwang.au/posts/bad-codesmells/feature.jpeg')">
+
+    <div class="content">
+        <div class="tags">
+            
+            <a class="tag bg-dark" href="https://timwang.au/tags/swift">Swift</a>
+            
+            <a class="tag bg-dark" href="https://timwang.au/tags/code-smells">code smells</a>
+            
+            <a class="tag bg-dark" href="https://timwang.au/tags/bloaters">Bloaters</a>
+            
+            <a class="tag bg-dark" href="https://timwang.au/tags/dry">DRY</a>
+            
+        </div>
+
+        
+
+        
+        <h2><a class="link-title" href="https://timwang.au/posts/bad-codesmells/">
+            Bad Code Smells: The Silent Killers of Swift Elegance
+        </a></h2>
+        
+
+        <div class="low-tab">
+            <span class="date">
+    Feb 23, 2025
+</span>
+            &nbsp; <b>&centerdot;</b> &nbsp;
+            <span class="time-to-read">
+    23 mins read</span>
+        </div>
+    </div>
+</div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-offwhite py-5">
+    <div class="container-md">
+        <div class="row">
+
+            
+
+            
+
+            
+            
+            
+
+            
+            <div class="suggestion col-sm-12 col-md-6 col-lg-4">
+    
+    <a href="https://timwang.au/posts/swift-dynamicreplacement/">
+        
+        
+        
+        
+        <img src=https://timwang.au/posts/swift-dynamicreplacement/feature.webp alt="Mastering Swift’s `dynamic` and `@_dynamicReplacement(for:)` for Dynamic Behaviour" loading="lazy">
+    </a>
+    
+
+    <div class="content">
+        <h3><a href="https://timwang.au/posts/swift-dynamicreplacement/">Mastering Swift’s `dynamic` and `@_dynamicReplacement(for:)` for Dynamic Behaviour</a></h3>
+
+        <div class="date-time">
+            <span class="date">
+    Jan 23, 2025
+</span>
+            &nbsp; &centerdot; &nbsp;
+            <span class="time-to-read">
+    6 mins read</span>
+        </div>
+
+        <p class="summary">
+            <a href="https://timwang.au/posts/swift-dynamicreplacement/">
+                
+                    Mastering Swift’s `dynamic` and `@_dynamicReplacement(for:)` for Dynamic Behaviour
+                
+            </a>
+        </p>
+
+        <div class="tags">
+            
+            <a href="https://timwang.au/tags/swift"><span class="tag bg-dark">Swift</span></a>
+            
+            <a href="https://timwang.au/tags/ios"><span class="tag bg-dark">iOS</span></a>
+            
+            <a href="https://timwang.au/tags/dynamicreplacement"><span class="tag bg-dark">dynamicReplacement</span></a>
+            
+        </div>
+    </div>
+</div>
+            
+            <div class="suggestion col-sm-12 col-md-6 col-lg-4">
+    
+    <a href="https://timwang.au/posts/various-ways-to-secure-network-traffic-for-mobile-apps/">
+        
+        
+        
+        
+        <img src=https://timwang.au/posts/various-ways-to-secure-network-traffic-for-mobile-apps/feature.webp alt="Various ways to secure network traffic for mobile apps" loading="lazy">
+    </a>
+    
+
+    <div class="content">
+        <h3><a href="https://timwang.au/posts/various-ways-to-secure-network-traffic-for-mobile-apps/">Various ways to secure network traffic for mobile apps</a></h3>
+
+        <div class="date-time">
+            <span class="date">
+    Dec 23, 2024
+</span>
+            &nbsp; &centerdot; &nbsp;
+            <span class="time-to-read">
+    6 mins read</span>
+        </div>
+
+        <p class="summary">
+            <a href="https://timwang.au/posts/various-ways-to-secure-network-traffic-for-mobile-apps/">
+                
+                    Various ways to secure network traffic for mobile apps
+                
+            </a>
+        </p>
+
+        <div class="tags">
+            
+            <a href="https://timwang.au/tags/swift"><span class="tag bg-dark">Swift</span></a>
+            
+            <a href="https://timwang.au/tags/ios"><span class="tag bg-dark">iOS</span></a>
+            
+            <a href="https://timwang.au/tags/security"><span class="tag bg-dark">Security</span></a>
+            
+        </div>
+    </div>
+</div>
+            
+            <div class="suggestion col-sm-12 col-md-6 col-lg-4">
+    
+    <a href="https://timwang.au/posts/the-differences-between-value-types-and-reference-types-in-swift/">
+        
+        
+        
+        
+        <img src=https://timwang.au/posts/the-differences-between-value-types-and-reference-types-in-swift/feature.webp alt="The Differences Between Value Types and Reference Types in Swift" loading="lazy">
+    </a>
+    
+
+    <div class="content">
+        <h3><a href="https://timwang.au/posts/the-differences-between-value-types-and-reference-types-in-swift/">The Differences Between Value Types and Reference Types in Swift</a></h3>
+
+        <div class="date-time">
+            <span class="date">
+    Dec 23, 2024
+</span>
+            &nbsp; &centerdot; &nbsp;
+            <span class="time-to-read">
+    3 mins read</span>
+        </div>
+
+        <p class="summary">
+            <a href="https://timwang.au/posts/the-differences-between-value-types-and-reference-types-in-swift/">
+                
+                    
+                    
+                        Swift is a powerful and intuitive programming language that combines safety and performance. One of the key concepts tha...
+                    
+                
+            </a>
+        </p>
+
+        <div class="tags">
+            
+            <a href="https://timwang.au/tags/swift"><span class="tag bg-dark">Swift</span></a>
+            
+            <a href="https://timwang.au/tags/value-type"><span class="tag bg-dark">Value type</span></a>
+            
+            <a href="https://timwang.au/tags/reference-type"><span class="tag bg-dark">Reference type</span></a>
+            
+        </div>
+    </div>
+</div>
+            
+            <div class="suggestion col-sm-12 col-md-6 col-lg-4">
+    
+    <a href="https://timwang.au/posts/swifty-ways-to-handle-data-redaction-in-the-ui/">
+        
+        
+        
+        
+        <img src=https://timwang.au/posts/swifty-ways-to-handle-data-redaction-in-the-ui/feature.webp alt="Swifty Ways to Handle Data Redaction in the UI" loading="lazy">
+    </a>
+    
+
+    <div class="content">
+        <h3><a href="https://timwang.au/posts/swifty-ways-to-handle-data-redaction-in-the-ui/">Swifty Ways to Handle Data Redaction in the UI</a></h3>
+
+        <div class="date-time">
+            <span class="date">
+    Dec 23, 2024
+</span>
+            &nbsp; &centerdot; &nbsp;
+            <span class="time-to-read">
+    4 mins read</span>
+        </div>
+
+        <p class="summary">
+            <a href="https://timwang.au/posts/swifty-ways-to-handle-data-redaction-in-the-ui/">
+                
+                    
+                    
+                        The Problem: Redacting Sensitive Info We’ve all been there — we need to display some sensitive info on the UI, but can’t...
+                    
+                
+            </a>
+        </p>
+
+        <div class="tags">
+            
+            <a href="https://timwang.au/tags/swift"><span class="tag bg-dark">Swift</span></a>
+            
+            <a href="https://timwang.au/tags/data-redaction"><span class="tag bg-dark">Data Redaction</span></a>
+            
+        </div>
+    </div>
+</div>
+            
+            <div class="suggestion col-sm-12 col-md-6 col-lg-4">
+    
+    <a href="https://timwang.au/posts/swift-object-creation-why-initializers-are-the-preferred-choice/">
+        
+        
+        
+        
+        <img src=https://timwang.au/posts/swift-object-creation-why-initializers-are-the-preferred-choice/feature.webp alt="Swift Object Creation: Why Initializers are the Preferred Choice" loading="lazy">
+    </a>
+    
+
+    <div class="content">
+        <h3><a href="https://timwang.au/posts/swift-object-creation-why-initializers-are-the-preferred-choice/">Swift Object Creation: Why Initializers are the Preferred Choice</a></h3>
+
+        <div class="date-time">
+            <span class="date">
+    Dec 23, 2024
+</span>
+            &nbsp; &centerdot; &nbsp;
+            <span class="time-to-read">
+    4 mins read</span>
+        </div>
+
+        <p class="summary">
+            <a href="https://timwang.au/posts/swift-object-creation-why-initializers-are-the-preferred-choice/">
+                
+                    
+                    
+                        In Swift programming, creating objects is a fundamental task that developers perform regularly. While there are multiple...
+                    
+                
+            </a>
+        </p>
+
+        <div class="tags">
+            
+            <a href="https://timwang.au/tags/swift"><span class="tag bg-dark">Swift</span></a>
+            
+            <a href="https://timwang.au/tags/initializer"><span class="tag bg-dark">Initializer</span></a>
+            
+        </div>
+    </div>
+</div>
+            
+            <div class="suggestion col-sm-12 col-md-6 col-lg-4">
+    
+    <a href="https://timwang.au/posts/safeguard-data-in-ios-apps-using-swift/">
+        
+        
+        
+        
+        <img src=https://timwang.au/posts/safeguard-data-in-ios-apps-using-swift/feature.png alt="Safeguard Data in IOS Apps Using Swift" loading="lazy">
+    </a>
+    
+
+    <div class="content">
+        <h3><a href="https://timwang.au/posts/safeguard-data-in-ios-apps-using-swift/">Safeguard Data in IOS Apps Using Swift</a></h3>
+
+        <div class="date-time">
+            <span class="date">
+    Dec 23, 2024
+</span>
+            &nbsp; &centerdot; &nbsp;
+            <span class="time-to-read">
+    4 mins read</span>
+        </div>
+
+        <p class="summary">
+            <a href="https://timwang.au/posts/safeguard-data-in-ios-apps-using-swift/">
+                
+                    Safeguard Data in IOS Apps Using Swift
+                
+            </a>
+        </p>
+
+        <div class="tags">
+            
+            <a href="https://timwang.au/tags/swift"><span class="tag bg-dark">Swift</span></a>
+            
+            <a href="https://timwang.au/tags/ios"><span class="tag bg-dark">iOS</span></a>
+            
+            <a href="https://timwang.au/tags/security"><span class="tag bg-dark">Security</span></a>
+            
+        </div>
+    </div>
+</div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
 </html>

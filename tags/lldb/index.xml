@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>LLDB on Coding life</title>
+    <link>https://timwang.au/tags/lldb/</link>
+    <description>Recent content in LLDB on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 23 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/lldb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LLDB debugger in Xcode — 1</title>
+      <link>https://timwang.au/posts/lldb-debugger-in-xcode--1/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/lldb-debugger-in-xcode--1/</guid>
+      <description>&lt;h2 id=&#34;get-help--manage-breakpoints&#34;&gt;Get help &amp;amp; manage breakpoints&lt;/h2&gt;&#xA;&lt;p&gt;LLDB is the current debugger tool that is integrated into Xcode. Even though lldb is a command line tool but Xcode provides UIs allowing us to access to certain lldb functionalities, which made it easier to use. However, not all of the lldb functions have a corresponding Xcode UI and learning the knowledge of lldb can definitely help us fully leverage this awesome tool in both tackling bugs and understanding how certain functions work as well, which will surely bring us to a next level as iOS developers.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>LLDB debugger in Xcode — 2</title>
+      <link>https://timwang.au/posts/lldb-debugger-in-xcode--2/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/lldb-debugger-in-xcode--2/</guid>
+      <description>&lt;h2 id=&#34;step-through-the-code--inspect-values&#34;&gt;Step through the code &amp;amp; inspect values&lt;/h2&gt;&#xA;&lt;p&gt;From &lt;a href=&#34;https://medium.com/gitconnected/lldb-debugger-in-xcode-1-772dbd9abc9a&#34;&gt;the previous article&lt;/a&gt;, we have learnt how to set breakpoints. Once they are set, the app will pause at the breakpoints accordingly. In this article, we are going to explore the ways to interact with the app runtime at the paused breakpoints.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>LLDB debugger in Xcode — 3</title>
+      <link>https://timwang.au/posts/lldb-debugger-in-xcode--3/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/lldb-debugger-in-xcode--3/</guid>
+      <description>&lt;h2 id=&#34;manage-watchpoints&#34;&gt;Manage watchpoints&lt;/h2&gt;&#xA;&lt;p&gt;From the the &lt;a href=&#34;https://medium.com/gitconnected/lldb-debugger-in-xcode-1-772dbd9abc9a&#34;&gt;first&lt;/a&gt; and the &lt;a href=&#34;https://medium.com/gitconnected/lldb-debugger-in-xcode-2-05ce80359f78&#34;&gt;second&lt;/a&gt; articles of this series, we have known how to set breakpoints to pause the code and explore the app runtime. Apart from breakpoints, LLDB offers another way to pause the code called watchpoint, which will be the topics of this article.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

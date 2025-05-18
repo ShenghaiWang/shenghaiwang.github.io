@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    The Beauty of Swift Language — Structured Concurrency | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/the-beauty-of-swift-language--structured-concurrency/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    Modern CPUs usually have multiple cores and some computers even have more than one CPUs, which means they can run multiple instructions in parallel. In order to utilise this hardware feature, we need to structure our code in such way that it can run concurrently. Structured concurrency that exists in many modern languages is invented just for this purpose.
+    "
+/>
+<meta property="og:description" content="
+    Modern CPUs usually have multiple cores and some computers even have more than one CPUs, which means they can run multiple instructions in parallel. In order to utilise this hardware feature, we need to structure our code in such way that it can run concurrently. Structured concurrency that exists in many modern languages is invented just for this purpose.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/the-beauty-of-swift-language--structured-concurrency/feature.webp" />
+
+
+
+
+<meta property="og:title" content="The Beauty of Swift Language — Structured Concurrency" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/the-beauty-of-swift-language--structured-concurrency/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-09-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-09-26T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/the-beauty-of-swift-language--structured-concurrency/feature.webp">
+  <meta name="twitter:title" content="The Beauty of Swift Language — Structured Concurrency">
+  <meta name="twitter:description" content="Modern CPUs usually have multiple cores and some computers even have more than one CPUs, which means they can run multiple instructions in parallel. In order to utilise this hardware feature, we need to structure our code in such way that it can run concurrently. Structured concurrency that exists in many modern languages is invented just for this purpose.">
+
+
+  <meta itemprop="name" content="The Beauty of Swift Language — Structured Concurrency">
+  <meta itemprop="description" content="Modern CPUs usually have multiple cores and some computers even have more than one CPUs, which means they can run multiple instructions in parallel. In order to utilise this hardware feature, we need to structure our code in such way that it can run concurrently. Structured concurrency that exists in many modern languages is invented just for this purpose.">
+  <meta itemprop="datePublished" content="2023-09-26T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-09-26T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1214">
+  <meta itemprop="image" content="https://timwang.au/posts/the-beauty-of-swift-language--structured-concurrency/feature.webp">
+  <meta itemprop="keywords" content="Swift,Structured Concurrency">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">The Beauty of Swift Language — Structured Concurrency</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Sep 26, 2023
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    7 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/structured-concurrency"><span
+                                    class="tag bg-dark">Structured Concurrency</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/the-beauty-of-swift-language--structured-concurrency/feature.webp alt="The Beauty of Swift Language — Structured Concurrency">
+                        </figure>
+                    
+                
+
+                <p>Modern CPUs usually have multiple cores and some computers even have more than one CPUs, which means they can run multiple instructions in parallel. In order to utilise this hardware feature, we need to structure our code in such way that it can run concurrently. Structured concurrency that exists in many modern languages is invented just for this purpose.</p>
+<p>Structured concurrency was added into Swift from version 5.5, which allows us to write concurrency code in an expressive way. It’s built on top of threads and offers an easy but powerful solution to asynchronous/parallel programming.</p>
+<p>In this article, we are going to compare this feature in Swift and its counterparts in C# and Kotlin.</p>
+<p>In order to demonstrate this feature, let us imagine this scenario: in a private tutoring school, the receptionist need to check all the students before the teacher starts teaching in a class. Let’s see how this can be done using structured concurrency in different languages.</p>
+<h1 id="swift">Swift</h1>
+<p>In Swift, to define an asynchronous function, we use keyword <code>async</code>. So, we can define check student method like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">/// Check if student arrives in time within the maximum waiting time  </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// - Parameters:  </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">///   - name: The name of the student.  </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">///   - maxWaitingTime: The maximum waiting time.  </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// - Returns: True when arrive within maximum waiting time.  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">checkStudent</span>(name: String, maxWaitingTime: TimeInterval = <span style="color:#ae81ff">10</span>) async -&gt; Bool {  
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">…</span>  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>To call an asynchronous method, we use <code>await</code> like so:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>await checkStudent(name: <span style="color:#e6db74">&#34;Tim&#34;</span>)
+</span></span></code></pre></div><h2 id="11-classes">1:1 classes</h2>
+<p>With the defined <code>checkStudent</code> method above, for a private 1:1 class, the teacher just needs to wait one check result like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> await checkStudent(name: <span style="color:#e6db74">&#34;Tim&#34;</span>) {  
+</span></span><span style="display:flex;"><span>    teach()  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Each <code>await</code> is a suspension point, the following code can only run after the <code>awaited</code> result returns. In this case, the <code>if</code> sentence can only be calculated when <code>checkStudent</code> method returns a value.</p>
+<h2 id="1n-classes">1:n classes</h2>
+<p>For a class that has more than one students, the checking process should ideally run in parallel so that the teach can start teaching ASAP. In Swift we use multiple <code>async let</code> and one <code>await</code> to achieve this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>async <span style="color:#66d9ef">let</span> resultOfCheckingTim = checkStudent(name: <span style="color:#e6db74">&#34;Tim&#34;</span>)  
+</span></span><span style="display:flex;"><span>async <span style="color:#66d9ef">let</span> resultOfCheckingBob = checkStudent(name: <span style="color:#e6db74">&#34;Bob&#34;</span>)  
+</span></span><span style="display:flex;"><span>async <span style="color:#66d9ef">let</span> resultOfCheckingAlice = checkStudent(name: <span style="color:#e6db74">&#34;Alice&#34;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> results = await <span style="color:#960050;background-color:#1e0010">\</span>[resultOfCheckingTim, resultOfCheckingBob, resultOfCheckingAlice<span style="color:#960050;background-color:#1e0010">\</span>]  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> results.reduce(<span style="color:#66d9ef">false</span>) { $0 <span style="color:#f92672">||</span> $1 } { <span style="color:#75715e">// At least one student in class after checking  </span>
+</span></span><span style="display:flex;"><span>    teach()  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="using-array-to-handle-it-in-general">Using array to handle it in general</h2>
+<p>You must have found that, in the above code we need to write out all the student names, which is very cumbersome. Task Group comes to rescue for cases like this.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> names = [<span style="color:#e6db74">&#34;Tim&#34;</span>, <span style="color:#e6db74">&#34;Bob&#34;</span>, <span style="color:#e6db74">&#34;Alice&#34;</span>]  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> results = await withTaskGroup(of: Bool.<span style="color:#66d9ef">self</span>) { taskGroup <span style="color:#66d9ef">in</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> name <span style="color:#66d9ef">in</span> names {  
+</span></span><span style="display:flex;"><span>        taskGroup.addTask { await checkStudent(name: name) }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> results: [Bool] = []  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> await result <span style="color:#66d9ef">in</span> taskGroup {  
+</span></span><span style="display:flex;"><span>        results.append(result)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> results  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> results.reduce(<span style="color:#66d9ef">false</span>) { $0 <span style="color:#f92672">||</span> $1 } { <span style="color:#75715e">// At least one student in class after checking  </span>
+</span></span><span style="display:flex;"><span>    teach()  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The concept of <code>TaskGroup</code> is the source of the power of structured concurrency. All the tasks in the group run in parallel and they will be canceled altogether if we cancel this group.</p>
+<p>Also, each task can have its child tasks. Swift use this explicit tree-like relationship between tasks and task groups to handle some behaviours like propagating cancellation and detect errors at compile time. Please check <a href="https://developer.apple.com/documentation/swift/taskgroup">here</a> for more information about <code>TaskGroup</code> from Apple.</p>
+<h1 id="c">C#</h1>
+<p><code>async</code> ,<code>await</code> and <code>Task</code> are the one of the answers in Swift to write structured concurrency code. By organising tasks in a tree structure using subtasks, the life cycles of subtasks will be managed automatically.</p>
+<p>To define a method that runs synchronically, use <code>async</code> keyword like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c#" data-lang="c#"><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">async</span> Task&lt;<span style="color:#66d9ef">bool</span>&gt; checkStudent(String name, <span style="color:#66d9ef">double</span> maxWaitTime = <span style="color:#ae81ff">0</span>)  
+</span></span><span style="display:flex;"><span>{  
+</span></span><span style="display:flex;"><span>...  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>To call an async method is just like a regular method in syntax. But in order to access the return value of an async method, use <code>await</code> keyword like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c#" data-lang="c#"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> tim = <span style="color:#66d9ef">await</span> checkStudent(<span style="color:#e6db74">&#34;Tim&#34;</span>);  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// or  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> tim = <span style="color:#66d9ef">await</span> checkStudent(<span style="color:#e6db74">&#34;Tim&#34;</span>);  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> result = <span style="color:#66d9ef">await</span> tim;
+</span></span></code></pre></div><h2 id="11-classes-1">1:1 classes</h2>
+<p>Based on the above definition, the 1:1 classes can be implemented this way:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c#" data-lang="c#"><span style="display:flex;"><span><span style="color:#66d9ef">using</span> System;  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> System.Linq;  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> System.Threading.Tasks;  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PrivateTutoring</span>  
+</span></span><span style="display:flex;"><span>{  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">async</span> Task&lt;<span style="color:#66d9ef">bool</span>&gt; checkStudent(String name, <span style="color:#66d9ef">double</span> maxWaitTime = <span style="color:#ae81ff">0</span>)  
+</span></span><span style="display:flex;"><span>    {  
+</span></span><span style="display:flex;"><span>        ...  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">async</span> Task Main()  
+</span></span><span style="display:flex;"><span>    {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">await</span> checkStudent(<span style="color:#e6db74">&#34;Tim&#34;</span>)) {  
+</span></span><span style="display:flex;"><span>           teach();  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="1n-classes-1">1:n classes</h2>
+<p>Similarly, 1:n classes can be written this way:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c#" data-lang="c#"><span style="display:flex;"><span><span style="color:#66d9ef">using</span> System;  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> System.Linq;  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> System.Threading.Tasks;  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PrivateTutoring</span>  
+</span></span><span style="display:flex;"><span>{  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">async</span> Task&lt;<span style="color:#66d9ef">bool</span>&gt; checkStudent(String name, <span style="color:#66d9ef">double</span> maxWaitTime = <span style="color:#ae81ff">0</span>)  
+</span></span><span style="display:flex;"><span>    {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">await</span> Task.Delay(<span style="color:#ae81ff">3000</span>);  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>;  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">async</span> Task Main()  
+</span></span><span style="display:flex;"><span>    {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> resultOfCheckingTim = checkStudent(<span style="color:#e6db74">&#34;Tim&#34;</span>);  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> resultOfCheckingBob = checkStudent(<span style="color:#e6db74">&#34;Bob&#34;</span>);  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> resultOfCheckingAlice = checkStudent(<span style="color:#e6db74">&#34;Alice&#34;</span>);  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">bool</span><span style="color:#960050;background-color:#1e0010">\</span>[<span style="color:#960050;background-color:#1e0010">\</span>] results = <span style="color:#66d9ef">await</span> Task.WhenAll(resultOfCheckingTim, resultOfCheckingBob, resultOfCheckingAlice);  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> result = results.Aggregate((x, y) =&gt; x || y);  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(result) {  
+</span></span><span style="display:flex;"><span>            teach();  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="using-array-to-handle-it-in-general-1">Using array to handle it in general</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c#" data-lang="c#"><span style="display:flex;"><span><span style="color:#66d9ef">using</span> System;  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> System.Linq;  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> System.Threading.Tasks;  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PrivateTutoring</span>  
+</span></span><span style="display:flex;"><span>{  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">async</span> Task&lt;<span style="color:#66d9ef">bool</span>&gt; checkStudent(String name, <span style="color:#66d9ef">double</span> maxWaitTime = <span style="color:#ae81ff">0</span>)  
+</span></span><span style="display:flex;"><span>    {  
+</span></span><span style="display:flex;"><span>        ...  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">async</span> Task Main()  
+</span></span><span style="display:flex;"><span>    {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">string</span><span style="color:#960050;background-color:#1e0010">\</span>[<span style="color:#960050;background-color:#1e0010">\</span>] @names = {<span style="color:#e6db74">&#34;Tim&#34;</span>, <span style="color:#e6db74">&#34;Bob&#34;</span>, <span style="color:#e6db74">&#34;Alice&#34;</span>};  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> taskResults = names.Select(x =&gt; checkStudent(x));  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">bool</span><span style="color:#960050;background-color:#1e0010">\</span>[<span style="color:#960050;background-color:#1e0010">\</span>] results = <span style="color:#66d9ef">await</span> Task.WhenAll(taskResults);  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> result = results.Aggregate((x, y) =&gt; x || y);  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(result) {  
+</span></span><span style="display:flex;"><span>            teach();  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="kotlin">Kotlin</h1>
+<p>Kotlin provides concurrency programming at language level through coroutines and structured concurrency was achieved by calling <code>suspending</code> methods in <a href="https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/">CoroutineScope</a>. The coroutine scope is very much like TaskGroup in Swift and it manages the life cycles of the coroutines inside it. A <a href="https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/">CoroutineScope</a> can be embed in another <a href="https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/">CoroutineScope</a> and form a tree-like structure and the discipline of <strong>structured concurrency</strong> was enforced through this structure.</p>
+<p>The same checkStudent method above could be defined as <code>suspend</code> method in Kotlin like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">suspend</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">checkStudent</span>(name: String, maxWaitingTime: Double = <span style="color:#ae81ff">10.0</span>): Boolean {  
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">…</span>  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>And in order to call a <code>suspending</code> method, we need to have a coroutine scope like below. In Kotlin, coroutine scopes can be build using various of Scope builders like <a href="https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/run-blocking.html">runBlocking</a> and <a href="https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/coroutine-scope.html">coroutineScope</a> etc.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">main</span>() = runBlocking {  
+</span></span><span style="display:flex;"><span>    checkStudent(<span style="color:#e6db74">&#34;Tim&#34;</span>)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="11-classes-2">1:1 classes</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">main</span>() = runBlocking {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> result = checkStudent(<span style="color:#e6db74">&#34;Tim&#34;</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(result) {  
+</span></span><span style="display:flex;"><span>        teach()  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="1n-classes-2">1:n classes</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">main</span>() = runBlocking {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> resultOfCheckingTim = async { checkStudent(<span style="color:#e6db74">&#34;Tim&#34;</span>) }  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> resultOfCheckingBob = async { checkStudent(<span style="color:#e6db74">&#34;Bob&#34;</span>) }  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> resultOfCheckingAlice = async { checkStudent(<span style="color:#e6db74">&#34;Alice&#34;</span>) }  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> result = resultOfCheckingTim.await() <span style="color:#f92672">||</span> resultOfCheckingBob.await() <span style="color:#f92672">||</span> resultOfCheckingAlice.await()  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(result) {  
+</span></span><span style="display:flex;"><span>        teach()  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="using-array-to-handle-it-in-general-2">Using array to handle it in general</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">main</span>() = runBlocking {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> result = listOf(<span style="color:#e6db74">&#34;Tim&#34;</span>, <span style="color:#e6db74">&#34;Bob&#34;</span>, <span style="color:#e6db74">&#34;Alice&#34;</span>)  
+</span></span><span style="display:flex;"><span>         .map {   
+</span></span><span style="display:flex;"><span>              async { checkStudent(<span style="color:#66d9ef">it</span>) }  
+</span></span><span style="display:flex;"><span>          }  
+</span></span><span style="display:flex;"><span>         .map { <span style="color:#66d9ef">it</span>.await() }  
+</span></span><span style="display:flex;"><span>         .reduce { acc, next <span style="color:#f92672">-&gt;</span> acc <span style="color:#f92672">||</span> next } <span style="color:#75715e">// At least one student in class after checking  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(result) {  
+</span></span><span style="display:flex;"><span>        teach()  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="conclusion">Conclusion</h1>
+<p>As discussed above, these three languages offer different syntaxes to provide structure concurrency feature. Personally I like the Swift syntax better while Kotlin does provide more flexible scope builders on this regard and C# is also very powder in terms of task management.</p>
+<p>It is worth mentioning that this article only touches a surface of this feature in these languages. Furthermore, when we start using this structured concurrency, soon we will face the problem of sharing data among different concurrency tasks, for which, different languages have their own solutions too. For this topic, it is beyond the scope of this article.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--structured-concurrency%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=The%20Beauty%20of%20Swift%20Language%20%e2%80%94%20Structured%20Concurrency&url=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--structured-concurrency%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--structured-concurrency%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/the-beauty-of-swift-language--structured-concurrency/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--structured-concurrency%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--structured-concurrency%2f
+			&title=The%20Beauty%20of%20Swift%20Language%20%e2%80%94%20Structured%20Concurrency&summary=%3cp%3eModern%20CPUs%20usually%20have%20multiple%20cores%20and%20some%20computers%20even%20have%20more%20than%20one%20CPUs%2c%20which%20means%20they%20can%20run%20multiple%20instructions%20in%20parallel.%20In%20order%20to%20utilise%20this%20hardware%20feature%2c%20we%20need%20to%20structure%20our%20code%20in%20such%20way%20that%20it%20can%20run%20concurrently.%20Structured%20concurrency%20that%20exists%20in%20many%20modern%20languages%20is%20invented%20just%20for%20this%20purpose.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=The%20Beauty%20of%20Swift%20Language%20%e2%80%94%20Structured%20Concurrency&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fthe-beauty-of-swift-language--structured-concurrency%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

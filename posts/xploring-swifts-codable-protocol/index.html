@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><title>
+    
+    
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="http://localhost:1313/posts/xploring-swifts-codable-protocol/" />
+<link rel="icon" type="image/png" href="http://localhost:1313/img/favicon.ico">
+
+
+<meta name="description" content="
+    
+medium-to-markdown@0.0.3 convert
+node index.js https://medium.com/gitconnected/exploring-swifts-codable-protocol-60943e05287a
+Exploring Swift’s Codable Protocol
+KeyedContainer
+[
+](https://medium.com/@tim_wang?source=post_page---byline--60943e05287a---------------------------------------)[![Level Up Coding](https://miro.medium.com/v2/resize:fill:48:48/1*5D9oYBd58pyjMkV_5-zXXQ.jpeg)
+](https://levelup.gitconnected.com/?source=post_page---byline--60943e05287a---------------------------------------)[Tim Wang](https://medium.com/@tim_wang?source=post_page---byline--60943e05287a---------------------------------------)·
+Follow
+Published in[
+Level Up Coding
+](https://levelup.gitconnected.com/?source=post_page---byline--60943e05287a---------------------------------------)·7 min read·Jun 3, 2024
+    "
+/>
+<meta property="og:description" content="
+    
+medium-to-markdown@0.0.3 convert
+node index.js https://medium.com/gitconnected/exploring-swifts-codable-protocol-60943e05287a
+Exploring Swift’s Codable Protocol
+KeyedContainer
+[
+](https://medium.com/@tim_wang?source=post_page---byline--60943e05287a---------------------------------------)[![Level Up Coding](https://miro.medium.com/v2/resize:fill:48:48/1*5D9oYBd58pyjMkV_5-zXXQ.jpeg)
+](https://levelup.gitconnected.com/?source=post_page---byline--60943e05287a---------------------------------------)[Tim Wang](https://medium.com/@tim_wang?source=post_page---byline--60943e05287a---------------------------------------)·
+Follow
+Published in[
+Level Up Coding
+](https://levelup.gitconnected.com/?source=post_page---byline--60943e05287a---------------------------------------)·7 min read·Jun 3, 2024
+    " 
+/>
+
+
+
+
+<meta property="og:title" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/xploring-swifts-codable-protocol/" /><meta property="article:section" content="posts" />
+
+
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/posts/xploring-swifts-codable-protocol/feature.webp">
+  <meta name="twitter:title" content="Coding life">
+  <meta name="twitter:description" content="medium-to-markdown@0.0.3 convert node index.js https://medium.com/gitconnected/exploring-swifts-codable-protocol-60943e05287a
+Exploring Swift’s Codable Protocol KeyedContainer [
+](https://medium.com/@tim_wang?source=post_page---byline--60943e05287a---------------------------------------)[![Level Up Coding](https://miro.medium.com/v2/resize:fill:48:48/1*5D9oYBd58pyjMkV_5-zXXQ.jpeg)
+](https://levelup.gitconnected.com/?source=post_page---byline--60943e05287a---------------------------------------)[Tim Wang](https://medium.com/@tim_wang?source=post_page---byline--60943e05287a---------------------------------------)·
+Follow
+Published in[
+Level Up Coding
+](https://levelup.gitconnected.com/?source=post_page---byline--60943e05287a---------------------------------------)·7 min read·Jun 3, 2024">
+
+
+  <meta itemprop="name" content="Coding life">
+  <meta itemprop="description" content="medium-to-markdown@0.0.3 convert node index.js https://medium.com/gitconnected/exploring-swifts-codable-protocol-60943e05287a
+Exploring Swift’s Codable Protocol KeyedContainer [
+](https://medium.com/@tim_wang?source=post_page---byline--60943e05287a---------------------------------------)[![Level Up Coding](https://miro.medium.com/v2/resize:fill:48:48/1*5D9oYBd58pyjMkV_5-zXXQ.jpeg)
+](https://levelup.gitconnected.com/?source=post_page---byline--60943e05287a---------------------------------------)[Tim Wang](https://medium.com/@tim_wang?source=post_page---byline--60943e05287a---------------------------------------)·
+Follow
+Published in[
+Level Up Coding
+](https://levelup.gitconnected.com/?source=post_page---byline--60943e05287a---------------------------------------)·7 min read·Jun 3, 2024">
+  <meta itemprop="wordCount" content="1731">
+  <meta itemprop="image" content="http://localhost:1313/posts/xploring-swifts-codable-protocol/feature.webp">
+
+
+
+
+<link rel="stylesheet" href="http://localhost:1313/main.min.css">
+
+
+
+
+
+<script src="http://localhost:1313/bundle.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><a href="http://localhost:1313/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="http://localhost:1313/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="http://localhost:1313/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="http://localhost:1313/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="http://localhost:1313/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title"></h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Jan 1, 0001
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    10 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+
+                <blockquote>
+<p><a href="mailto:medium-to-markdown@0.0.3">medium-to-markdown@0.0.3</a> convert
+node index.js <a href="https://medium.com/gitconnected/exploring-swifts-codable-protocol-60943e05287a">https://medium.com/gitconnected/exploring-swifts-codable-protocol-60943e05287a</a></p></blockquote>
+<h1 id="exploring-swifts-codable-protocol">Exploring Swift’s Codable Protocol</h1>
+<h2 id="keyedcontainer">KeyedContainer</h2>
+<p>[<img src="https://miro.medium.com/v2/resize:fill:88:88/1*kAxpuQGx_mzNh4e0l7uQTg@2x.jpeg" alt="Tim Wang"></p>
+<p>](<a href="https://medium.com/@tim_wang?source=post_page---byline--60943e05287a---------------------------------------)%5B!%5BLevel">https://medium.com/@tim_wang?source=post_page---byline--60943e05287a---------------------------------------)[![Level</a> Up Coding](<a href="https://miro.medium.com/v2/resize:fill:48:48/1">https://miro.medium.com/v2/resize:fill:48:48/1</a>*5D9oYBd58pyjMkV_5-zXXQ.jpeg)</p>
+<p>](<a href="https://levelup.gitconnected.com/?source=post_page---byline--60943e05287a---------------------------------------)%5BTim">https://levelup.gitconnected.com/?source=post_page---byline--60943e05287a---------------------------------------)[Tim</a> Wang](<a href="https://medium.com/@tim_wang?source=post_page---byline--60943e05287a---------------------------------------">https://medium.com/@tim_wang?source=post_page---byline--60943e05287a---------------------------------------</a>)·</p>
+<p><a href="https://medium.com/m/signin?actionUrl=https%3A%2F%2Fmedium.com%2F_%2Fsubscribe%2Fuser%2F81b0e834f84%2F60943e05287a&amp;operation=register&amp;redirect=https%3A%2F%2Flevelup.gitconnected.com%2Fexploring-swifts-codable-protocol-60943e05287a&amp;user=Tim+Wang&amp;userId=81b0e834f84&amp;source=post_page-81b0e834f84--byline--60943e05287a---------------------post_header------------------">Follow</a></p>
+<p>Published in[</p>
+<p>Level Up Coding</p>
+<p>](<a href="https://levelup.gitconnected.com/?source=post_page---byline--60943e05287a---------------------------------------">https://levelup.gitconnected.com/?source=post_page---byline--60943e05287a---------------------------------------</a>)·7 min read·Jun 3, 2024</p>
+<p>--</p>
+<p>Listen</p>
+<p>Share</p>
+<p>🌟 <strong>Access Alert!</strong> 🌟<br>
+If you’re a member, just scroll and enjoy! Non-members, click <a href="https://medium.com/gitconnected/exploring-swifts-codable-protocol-60943e05287a?sk=4dbe0dbef3dd04b1d1381d74ba8706d3">here</a> for full access. 🚀</p>
+<p>In the previous article, we explored techniques for modifying key names when working with the Codable protocol in Swift. This article will focus on customizing the values within JSON data. The desired transformations can be accomplished by implementing custom encode/decode methods. Specifically, within these methods, we can leverage the <strong>Keyed Container</strong>, <strong>Unkeyed Container</strong>, and <strong>Single Value Container</strong> types to handle encoding values into and decoding values from JSON data. In this article, we will explore the <strong>Keyed Container</strong>, leaving the remaining types to be covered in subsequent articles.</p>
+<p>The Keyed Container is responsible for handling object data in JSON. There are several approaches we can take to inject custom logic into the encoding and decoding processes.</p>
+<h1 id="customise-encodedecode-methods">Customise encode/decode methods</h1>
+<p>Consider the following <code>Person</code> struct as an example, which has two properties, <code>firstName</code> and <code>lastName</code>. In the customized <code>encode</code> method, these two values are encoded into a single JSON field called <code>name</code>. Conversely, during the decoding process, the <code>decode</code> method constructs a <code>Person</code> instance from the value of the <code>name</code> JSON field.</p>
+<pre tabindex="0"><code>struct Person: Codable {  
+    let firstName: String  
+    let lastName: String  
+  
+    init(firstName: String, lastName: String) {  
+        self.firstName = firstName  
+        self.lastName = lastName  
+    }  
+  
+    enum CodingKeys: String, CodingKey {  
+        case name  
+    }  
+  
+    func encode(to encoder: any Encoder) throws {  
+        var container = encoder.container(keyedBy: CodingKeys.self)  
+        try container.encode(firstName + &#34; &#34; + lastName, forKey: .name)  
+    }  
+  
+    init(from decoder: any Decoder) throws {  
+        let container = try decoder.container(keyedBy: CodingKeys.self)  
+        let value = try container.decode(String.self, forKey: .name)  
+        let components = value.split(separator: &#34; &#34;)  
+        guard components.count == 2,  
+        let firstName = components.first,  
+        let lastName = components.last else {  
+            throw DecodingError  
+                .dataCorrupted(.init(codingPath: \[CodingKeys.name\],  
+                                     debugDescription: &#34;Wrong value format&#34;))  
+        }  
+        self.firstName = String(firstName)  
+        self.lastName = String(lastName)  
+    }  
+}
+</code></pre><p>With the custom encoding and decoding logic in place, if we encode a <code>Person</code> instance, for example, <code>Person(firstName: &quot;Tim&quot;, lastName: &quot;Wang&quot;)</code>, the resulting JSON string will be <code>{&quot;name&quot;:&quot;Tim Wang&quot;}</code>. Conversely, this JSON string can be decoded back into a <code>Person</code> instance using the custom decoding logic.</p>
+<pre tabindex="0"><code>let person = Person(firstName: &#34;Tim&#34;, lastName: &#34;Wang&#34;)  
+let data = try JSONEncoder().encode(person)  
+let jsonString = String(data: data, encoding: .utf8)  
+let newPerson = try JSONDecoder().decode(Person.self, from: data)
+</code></pre><h1 id="inject-configurations"><code>Inject configurations</code></h1>
+<p>In the previous example, we hardcoded specific logic within the encoding and decoding methods. The <code>CodableConfiguration</code> property wrapper offers an approach to inject configurations into this process to make it more flexible. In the following example, we leverage this wrapper to inject the <code>TruncatedStringCodableConfiguration</code> during the encoding and decoding process. This configuration is used to truncate string values, with the maximum length being configurable through the <code>TruncatedString</code> type.</p>
+<pre tabindex="0"><code>struct Person: Codable {  
+    let firstName: String  
+    let lastName: String  
+}  
+  
+struct Message: Codable {  
+    let sender: Person  
+    @CodableConfiguration(from: TruncatedString.self) var content: String = &#34;&#34;  
+}  
+  
+struct TruncatedString: DecodingConfigurationProviding, EncodingConfigurationProviding {  
+    static var decodingConfiguration: TruncatedStringCodableConfiguration {  
+        TruncatedStringCodableConfiguration(maxLength: 140)  
+    }  
+  
+    static var encodingConfiguration: TruncatedStringCodableConfiguration {  
+        TruncatedStringCodableConfiguration(maxLength: 140)  
+    }  
+}  
+  
+@available(macOS 12, iOS 15, tvOS 15, watchOS 8, \*)  
+extension String: CodableWithConfiguration {  
+    public init(from decoder: any Decoder, configuration: TruncatedStringCodableConfiguration) throws {  
+        let container = try decoder.singleValueContainer()  
+        self = try String(container.decode(String.self).prefix(configuration.maxLength))  
+    }  
+  
+    public func encode(to encoder: any Encoder, configuration: TruncatedStringCodableConfiguration) throws {  
+        var container = encoder.singleValueContainer()  
+        try container.encode(self)  
+    }  
+}  
+  
+public struct TruncatedStringCodableConfiguration {  
+    let maxLength: Int  
+  
+    public init(maxLength: Int) {  
+        self.maxLength = maxLength  
+    }  
+}  
+  
+let message = Message(sender: .init(firstName: &#34;Tim&#34;, lastName: &#34;Wang&#34;), content: &#34;How are you?&#34;)  
+let messageData = try JSONEncoder().encode(message)  
+let newMessage = try JSONDecoder().decode(Message.self, from: messageData)
+</code></pre><h1 id="other-considerations">Other considerations</h1>
+<h2 id="handling-optional-json-fields">Handling optional JSON fields</h2>
+<p>In JSON, some fields can be optional. To handle these cases, the <code>KeyedEncodingContainer</code> and <code>KeyedDecodingContainer</code> types in Swift provide a group of methods. When dealing with optional fields, we have optional properties and keys corresponding to these JSON fields. For example, consider the following JSON string and <code>Person</code> struct:</p>
+<pre tabindex="0"><code>  
+let json =  
+&#34;&#34;&#34;  
+{&#34;firstName&#34;: &#34;Tim&#34;}  
+&#34;&#34;&#34;  
+  
+struct Person: Codable {  
+    let firstName: String  
+    let lastName: String? // Optional  
+}
+</code></pre><p>In this example, the <code>lastName</code> field is optional in the <code>Person</code> struct, as it may or may not be present in the JSON data. The corresponding key <code>&quot;lastName&quot;</code> in the JSON object is also optional.</p>
+<p>If we run <code>let person = try JSONDecoder().decode(Person.self, from: json.data(using: .utf8)!)</code>, it will return a <code>Person</code> instance with the <code>name</code> value set to <code>&quot;Tim&quot;</code>, the <code>lastName</code> value set to <code>nil</code>. This behavior is achieved due to the way the Swift compiler generates the <code>decode</code> method for the <code>Person</code> struct. The generated <code>decode</code> method utilizes the <code>decodeIfPresent</code> method to handle optional fields. If we were to change it to use the <code>decode</code> method instead, it would throw an error if the <code>lastName</code> field is missing from the JSON data, as it expects the field to be present. Here&rsquo;s an example of how the generated <code>decode</code> method might look like:</p>
+<pre tabindex="0"><code> init(from decoder: Decoder) throws {  
+        let container = try decoder.container(keyedBy: CodingKeys.self)  
+        self.firstName = try container.decode(String.self, forKey: .firstName)  
+        self.lastName = try container.decodeIfPresent(String.self, forKey: .lastName)  
+    }
+</code></pre><p>When dealing with optional properties during the encoding and decoding process, Swift provides additional methods to handle <code>nil</code> values explicitly. If you want to set a property to <code>nil</code> during the decoding process, you can use the <code>decodeNil</code> method provided by the <code>KeyedDecodingContainer</code>. This method allows you to differentiate between a missing field and an explicitly set <code>null</code> value in the JSON data.</p>
+<p>Similarly, during the encoding process, you can use the <code>encodeNil</code> method provided by the <code>KeyedEncodingContainer</code> to generate a <code>null</code> value in the JSON output for a property that is <code>nil</code>. This behavior differs from the <code>encodeIfPresent</code> method, which omits the field entirely from the JSON output if the value is <code>nil</code>.</p>
+<p>By leveraging these specialized methods, you gain granular control over how optional properties are handled during the encoding and decoding processes, ensuring accurate representation of <code>nil</code> values in the JSON data.</p>
+<h2 id="tweak-structure">Tweak structure</h2>
+<p>When writing custom <code>encode</code> and <code>decode</code> methods, there may be situations where you need to access values that are nested within the JSON data structure. For example, consider the following JSON data:</p>
+<pre tabindex="0"><code>let json =  
+&#34;&#34;&#34;  
+{   
+    &#34;name&#34;:  
+        {  
+            &#34;firstName&#34;: &#34;Tim&#34;  
+        }  
+}  
+&#34;&#34;&#34;
+</code></pre><p>In this case, the <code>firstName</code> propertie is part of the nested <code>name</code> object. While it&rsquo;s common to decode these values within a separate <code>Name</code> struct, there may be cases where you need to access them directly from the parent object.</p>
+<p>To handle such scenarios, Swift provides the <code>nestedContainer</code> and <code>nestedUnkeyedContainer</code> methods on the <code>KeyedDecodingContainer</code> and <code>UnkeyedDecodingContainer</code>, respectively. These methods allow you to navigate into nested containers, enabling you to access and decode values at different levels of the JSON hierarchy.</p>
+<pre tabindex="0"><code>let json =  
+&#34;&#34;&#34;  
+{   
+    &#34;name&#34;:  
+        {  
+            &#34;firstName&#34;: &#34;Tim&#34;  
+        }  
+}  
+&#34;&#34;&#34;  
+  
+struct Name: Codable {  
+    let firstName: String  
+    let lastName: String?  
+  
+    enum CodingKeys: String, CodingKey {  
+        case firstName  
+        case lastName  
+    }  
+}  
+  
+struct Person: Codable {  
+    let name: Name  
+  
+    init(name: Name) {  
+        self.name = name  
+    }  
+  
+    enum CodingKeys: String, CodingKey {  
+        case name  
+    }  
+  
+    init(from decoder: Decoder) throws {  
+        let container = try decoder.container(keyedBy: CodingKeys.self)  
+        // Use nestedContainer to access firstName here  
+        let nestedContainer = try container.nestedContainer(keyedBy: Name.CodingKeys.self, forKey: .name)  
+        print(try nestedContainer.decode(String.self, forKey: .firstName))  
+        self.name = try container.decode(Name.self, forKey: .name)  
+    }  
+}
+</code></pre><p>Similarly, the <code>KeyedEncodingContainer</code> provides the <code>nestedContainer</code> and <code>nestedUnkeyedContainer</code> methods, which enable encoding nested values directly at the parent level. These methods offer flexibility and control over the encoding process, allowing developers to customize the behavior as needed, even when dealing with nested data structures. Consider the following example:</p>
+<pre tabindex="0"><code> func encode(to encoder: Encoder) throws {  
+        var container = encoder.container(keyedBy: CodingKeys.self)  
+        var nested = container.nestedContainer(keyedBy: Name.CodingKeys.self, forKey: .name)  
+        try nested.encode(name.firstName, forKey: .firstName)  
+        try nested.encodeIfPresent(name.lastName, forKey: .lastName)  
+    }  
+  
+    func encode(to encoder: Encoder) throws {  
+        var container = encoder.container(keyedBy: CodingKeys.self)  
+        try container.encode(self.name, forKey: .name)  
+    }
+</code></pre><p>In the first <code>encode</code> method, the <code>nestedContainer(keyedBy:forKey:)</code> method is used to create a nested <code>KeyedEncodingContainer</code> for the <code>name</code> key. This nested container allows for encoding the <code>firstName</code> and <code>lastName</code> values directly at the parent level, even though they are properties of the nested <code>Name</code> struct. The <code>encodeIfPresent</code> method is used to conditionally encode the <code>lastName</code> property if it has a non-nil value.</p>
+<p>The second <code>encode</code> method leverages the default <code>Codable</code> implementation for the <code>Name</code> struct. It encodes the entire <code>name</code> instance directly using the <code>encode(_:forKey:)</code> method, relying on the conformance of the <code>Name</code> struct to the <code>Codable</code> protocol.</p>
+<p>When the <code>Name</code> struct uses the default <code>Codable</code> implementation, both encoding methods will produce the same JSON output. However, the first method provides greater control over the encoding process, allowing for customizations such as conditionally encoding properties or applying additional logic during encoding.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>In this article, we delved into the techniques of customizing the encode and decode methods using the various methods provided by the <code>KeyedContainer</code> types in Swift&rsquo;s <code>Codable</code> protocol. By encapsulating the mapping logic within custom encode and decode methods, we promote the separation of concerns and keep the logic contained within the appropriate layer of our application.</p>
+<p>Encapsulating this logic offers several benefits. Firstly, it enhances code organization and maintainability by separating the concerns of data transformation from the higher-level business logic. This separation promotes a more modular and extensible codebase, as changes to the data mapping can be made without impacting other layers of the application.</p>
+<p>Secondly, custom encode and decode methods provide greater control and flexibility over the serialization and deserialization processes. Developers can leverage methods such as <code>nestedContainer</code>, <code>nestedUnkeyedContainer</code>, <code>decodeNil</code>, and <code>encodeNil</code> to handle complex data structures, conditionally encode or decode properties, and apply custom logic as needed. This level of control is particularly valuable when working with nested data structures or when conforming to specific data formats.</p>
+<p>Furthermore, by encapsulating the mapping logic within custom methods, higher-level layers of the application can seamlessly leverage the benefits of Swift’s concise and expressive syntax without concern for the underlying transformation details. This abstraction promotes code clarity and readability, as the higher-level logic can focus on the core business requirements rather than being burdened with low-level data transformation details.</p>
+<p>Overall, customizing the encode and decode methods using the <code>KeyedContainer</code> methods in Swift&rsquo;s <code>Codable</code> protocol empowers developers to create robust, maintainable, and extensible solutions for handling data serialization and deserialization. By embracing this approach, developers can effectively manage complex data structures, enhance code organization, and promote a clear separation of concerns within their applications.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2fxploring-swifts-codable-protocol%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=http://localhost:1313/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fxploring-swifts-codable-protocol%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=http://localhost:1313/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fxploring-swifts-codable-protocol%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=http://localhost:1313/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/http://localhost:1313/posts/xploring-swifts-codable-protocol/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=http://localhost:1313/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=http%3a%2f%2flocalhost%3a1313%2fposts%2fxploring-swifts-codable-protocol%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=http://localhost:1313/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fxploring-swifts-codable-protocol%2f
+			&title=&summary=%3cblockquote%3e%0a%3cp%3e%3ca%20href%3d%22mailto%3amedium-to-markdown%400.0.3%22%3emedium-to-markdown%400.0.3%3c%2fa%3e%20convert%0anode%20index.js%20%3ca%20href%3d%22https%3a%2f%2fmedium.com%2fgitconnected%2fexploring-swifts-codable-protocol-60943e05287a%22%3ehttps%3a%2f%2fmedium.com%2fgitconnected%2fexploring-swifts-codable-protocol-60943e05287a%3c%2fa%3e%3c%2fp%3e%3c%2fblockquote%3e%0a%3ch1%20id%3d%22exploring-swifts-codable-protocol%22%3eExploring%20Swift%e2%80%99s%20Codable%20Protocol%3c%2fh1%3e%0a%3ch2%20id%3d%22keyedcontainer%22%3eKeyedContainer%3c%2fh2%3e%0a%3cp%3e%5b%3cimg%20src%3d%22https%3a%2f%2fmiro.medium.com%2fv2%2fresize%3afill%3a88%3a88%2f1%2akAxpuQGx_mzNh4e0l7uQTg%402x.jpeg%22%20alt%3d%22Tim%20Wang%22%3e%3c%2fp%3e%0a%3cp%3e%5d%28%3ca%20href%3d%22https%3a%2f%2fmedium.com%2f%40tim_wang%3fsource%3dpost_page---byline--60943e05287a---------------------------------------%29%255B%21%255BLevel%22%3ehttps%3a%2f%2fmedium.com%2f%40tim_wang%3fsource%3dpost_page---byline--60943e05287a---------------------------------------%29%5b%21%5bLevel%3c%2fa%3e%20Up%20Coding%5d%28%3ca%20href%3d%22https%3a%2f%2fmiro.medium.com%2fv2%2fresize%3afill%3a48%3a48%2f1%22%3ehttps%3a%2f%2fmiro.medium.com%2fv2%2fresize%3afill%3a48%3a48%2f1%3c%2fa%3e%2a5D9oYBd58pyjMkV_5-zXXQ.jpeg%29%3c%2fp%3e%0a%3cp%3e%5d%28%3ca%20href%3d%22https%3a%2f%2flevelup.gitconnected.com%2f%3fsource%3dpost_page---byline--60943e05287a---------------------------------------%29%255BTim%22%3ehttps%3a%2f%2flevelup.gitconnected.com%2f%3fsource%3dpost_page---byline--60943e05287a---------------------------------------%29%5bTim%3c%2fa%3e%20Wang%5d%28%3ca%20href%3d%22https%3a%2f%2fmedium.com%2f%40tim_wang%3fsource%3dpost_page---byline--60943e05287a---------------------------------------%22%3ehttps%3a%2f%2fmedium.com%2f%40tim_wang%3fsource%3dpost_page---byline--60943e05287a---------------------------------------%3c%2fa%3e%29%c2%b7%3c%2fp%3e%0a%3cp%3e%3ca%20href%3d%22https%3a%2f%2fmedium.com%2fm%2fsignin%3factionUrl%3dhttps%253A%252F%252Fmedium.com%252F_%252Fsubscribe%252Fuser%252F81b0e834f84%252F60943e05287a%26amp%3boperation%3dregister%26amp%3bredirect%3dhttps%253A%252F%252Flevelup.gitconnected.com%252Fexploring-swifts-codable-protocol-60943e05287a%26amp%3buser%3dTim%2bWang%26amp%3buserId%3d81b0e834f84%26amp%3bsource%3dpost_page-81b0e834f84--byline--60943e05287a---------------------post_header------------------%22%3eFollow%3c%2fa%3e%3c%2fp%3e%0a%3cp%3ePublished%20in%5b%3c%2fp%3e%0a%3cp%3eLevel%20Up%20Coding%3c%2fp%3e%0a%3cp%3e%5d%28%3ca%20href%3d%22https%3a%2f%2flevelup.gitconnected.com%2f%3fsource%3dpost_page---byline--60943e05287a---------------------------------------%22%3ehttps%3a%2f%2flevelup.gitconnected.com%2f%3fsource%3dpost_page---byline--60943e05287a---------------------------------------%3c%2fa%3e%29%c2%b77%20min%20read%c2%b7Jun%203%2c%202024%3c%2fp%3e&source=http%3a%2f%2flocalhost%3a1313%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=http://localhost:1313/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=&amp;body=Check out this site http%3a%2f%2flocalhost%3a1313%2fposts%2fxploring-swifts-codable-protocol%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=http://localhost:1313/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyD3th39BbiGQuSy4MzLzZE76BrCZCSiqW8"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

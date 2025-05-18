@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DynamicReplacement on Coding life</title>
+    <link>https://timwang.au/tags/dynamicreplacement/</link>
+    <description>Recent content in DynamicReplacement on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 23 Jan 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/dynamicreplacement/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mastering Swift’s `dynamic` and `@_dynamicReplacement(for:)` for Dynamic Behaviour</title>
+      <link>https://timwang.au/posts/swift-dynamicreplacement/</link>
+      <pubDate>Thu, 23 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/swift-dynamicreplacement/</guid>
+      <description>&lt;p&gt;Swift is primarily a statically dispatched language, but it does offer dynamic dispatch capabilities for times when flexibility trumps compile-time optimisation. In this article, we’ll dive into &lt;strong&gt;Swift’s&lt;/strong&gt; &lt;code&gt;**dynamic**&lt;/code&gt; &lt;strong&gt;keyword&lt;/strong&gt; and the underscored &lt;code&gt;**@_dynamicReplacement(for:)**&lt;/code&gt; &lt;strong&gt;attribute&lt;/strong&gt;, which together enable a form of &lt;em&gt;method swizzling&lt;/em&gt; in Swift.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

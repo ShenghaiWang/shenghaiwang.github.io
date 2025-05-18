@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Swift ServerSide on Coding life</title>
+    <link>https://timwang.au/tags/swift-serverside/</link>
+    <description>Recent content in Swift ServerSide on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 23 Feb 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/swift-serverside/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Swift Code Craft: TrieRouter from Vapor</title>
+      <link>https://timwang.au/posts/swift-code-craft_trierouter-from-vapor/</link>
+      <pubDate>Sun, 23 Feb 2025 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/swift-code-craft_trierouter-from-vapor/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Welcome to the Swift Code Craft series. This collection explores ingenious Swift solutions to practical problems, highlighting elegant implementations that balance performance with simplicity. Each piece examines how Swift’s features can be leveraged to create code that’s both powerful and maintainable. Join us as we uncover valuable insights and techniques from the Swift ecosystem that you can apply to your own projects.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Authentication on Coding life</title>
+    <link>https://timwang.au/tags/authentication/</link>
+    <description>Recent content in Authentication on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 23 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/authentication/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Passkey — Passwordless solution for authentication</title>
+      <link>https://timwang.au/posts/passkey--passwordless-solution-for-authentication/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/passkey--passwordless-solution-for-authentication/</guid>
+      <description>&lt;p&gt;Passkey is a passwordless solution from &lt;a href=&#34;https://fidoalliance.org/&#34;&gt;FIDO alliance&lt;/a&gt; to resolve the global password problem. It provides a simple user experience with phishing-resistant security and can be adopted in mobile and web applications. In this article, we are going to investigate this solution and discuss a how to implement it on iOS platform.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

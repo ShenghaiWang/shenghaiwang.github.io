@@ -1,16 +1,1092 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url>
-<loc>https://m.timwang.au/</loc>
-<lastmod>2023-07-09</lastmod>
-</url>
-<url>
-<loc>https://m.timwang.au/opensourceprojects.html</loc>
-</url>
-<url>
-<loc>https://m.timwang.au/swiftmacros/documentation/swiftmacros/</loc>
-</url>
-<url>
-<loc>https://m.timwang.au/swiftkeychain/documentation/swiftkeychain/documentation/</loc>
-</url>
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/ai/</loc>
+	    <lastmod>2025-03-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/</loc>
+	    <lastmod>2025-03-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/evolution/</loc>
+	    <lastmod>2025-03-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/how-ai-fits-into-humanitys-bigger-story-of-automation/</loc>
+	    <lastmod>2025-03-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/</loc>
+	    <lastmod>2025-03-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/</loc>
+	    <lastmod>2025-03-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/bad-codesmells/</loc>
+	    <lastmod>2025-02-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/bloaters/</loc>
+	    <lastmod>2025-02-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/code-efficiency/</loc>
+	    <lastmod>2025-02-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/code-smells/</loc>
+	    <lastmod>2025-02-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/dry/</loc>
+	    <lastmod>2025-02-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/ios/</loc>
+	    <lastmod>2025-02-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/swift/</loc>
+	    <lastmod>2025-02-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/swift-code-craft_trierouter-from-vapor/</loc>
+	    <lastmod>2025-02-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/swift-serverside/</loc>
+	    <lastmod>2025-02-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/dynamicreplacement/</loc>
+	    <lastmod>2025-01-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/swift-dynamicreplacement/</loc>
+	    <lastmod>2025-01-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/data-redaction/</loc>
+	    <lastmod>2024-12-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/initializer/</loc>
+	    <lastmod>2024-12-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/kotlin/</loc>
+	    <lastmod>2024-12-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/kotlin-type-system/</loc>
+	    <lastmod>2024-12-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/swift-type-system/</loc>
+	    <lastmod>2024-12-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/local-reasoning/</loc>
+	    <lastmod>2024-12-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/local-reasoning/</loc>
+	    <lastmod>2024-12-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/reference-type/</loc>
+	    <lastmod>2024-12-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/safeguard-data-in-ios-apps-using-swift/</loc>
+	    <lastmod>2024-12-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/security/</loc>
+	    <lastmod>2024-12-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/software-enginnering/</loc>
+	    <lastmod>2024-12-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/swift-object-creation-why-initializers-are-the-preferred-choice/</loc>
+	    <lastmod>2024-12-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/swifty-ways-to-handle-data-redaction-in-the-ui/</loc>
+	    <lastmod>2024-12-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/the-differences-between-value-types-and-reference-types-in-swift/</loc>
+	    <lastmod>2024-12-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/type-system/</loc>
+	    <lastmod>2024-12-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/value-type/</loc>
+	    <lastmod>2024-12-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/various-ways-to-secure-network-traffic-for-mobile-apps/</loc>
+	    <lastmod>2024-12-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/swift-testing/</loc>
+	    <lastmod>2024-10-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/testing/</loc>
+	    <lastmod>2024-10-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/unlocking-new-possibilities-a-comprehensive-guide-to-swift-testing/</loc>
+	    <lastmod>2024-10-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/embedded/</loc>
+	    <lastmod>2024-08-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/unlocking-the-power-of-embedded-swift-your-step-by-step-roadmap/</loc>
+	    <lastmod>2024-08-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/codable/</loc>
+	    <lastmod>2024-06-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/exploring-swifts-codable-protocol/</loc>
+	    <lastmod>2024-06-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/protocol/</loc>
+	    <lastmod>2024-06-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/exploring-swifts-codable-protocol-techniques-for-modifying-key-names/</loc>
+	    <lastmod>2024-05-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/git/</loc>
+	    <lastmod>2024-03-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/git-credential-helper/</loc>
+	    <lastmod>2024-03-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/git-credential-helper-using-swift/</loc>
+	    <lastmod>2024-03-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/actor/</loc>
+	    <lastmod>2024-01-26</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/concurrency/</loc>
+	    <lastmod>2024-01-26</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/swift-actors/</loc>
+	    <lastmod>2024-01-26</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/the-beauty-of-swift-language--protocol/</loc>
+	    <lastmod>2024-01-26</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/authentication/</loc>
+	    <lastmod>2024-01-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/bundle/</loc>
+	    <lastmod>2024-01-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/debugger/</loc>
+	    <lastmod>2024-01-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/lldb/</loc>
+	    <lastmod>2024-01-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/lldb-debugger-in-xcode--1/</loc>
+	    <lastmod>2024-01-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/lldb-debugger-in-xcode--2/</loc>
+	    <lastmod>2024-01-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/lldb-debugger-in-xcode--3/</loc>
+	    <lastmod>2024-01-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/passkey/</loc>
+	    <lastmod>2024-01-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/passkey--passwordless-solution-for-authentication/</loc>
+	    <lastmod>2024-01-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/password/</loc>
+	    <lastmod>2024-01-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/project-setup/</loc>
+	    <lastmod>2024-01-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/second-thoughts-on-ios-project-setup/</loc>
+	    <lastmod>2024-01-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/the-ins-and-outs-of-getting-the-bundle/</loc>
+	    <lastmod>2024-01-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/xcode/</loc>
+	    <lastmod>2024-01-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/keypath/</loc>
+	    <lastmod>2023-12-26</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/keypath-one-hidden-gem-in-swift/</loc>
+	    <lastmod>2023-12-26</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/macro/</loc>
+	    <lastmod>2023-12-26</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/the-beauty-of-swift-language--macro/</loc>
+	    <lastmod>2023-12-26</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/generics/</loc>
+	    <lastmod>2023-11-26</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/the-beauty-of-swift-language--generics/</loc>
+	    <lastmod>2023-11-26</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/structured-concurrency/</loc>
+	    <lastmod>2023-09-26</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/the-beauty-of-swift-language--structured-concurrency/</loc>
+	    <lastmod>2023-09-26</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/property-observer/</loc>
+	    <lastmod>2023-08-26</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/property-wrapper/</loc>
+	    <lastmod>2023-08-26</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/result-builder/</loc>
+	    <lastmod>2023-08-26</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/the-beauty-of-swift-language--builders/</loc>
+	    <lastmod>2023-08-26</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/the-beauty-of-swift-language--property-observer/</loc>
+	    <lastmod>2023-08-26</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/the-beauty-of-swift-language--property-wrapper/</loc>
+	    <lastmod>2023-08-26</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/consistency/</loc>
+	    <lastmod>2023-05-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/kiss/</loc>
+	    <lastmod>2023-05-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/logger/</loc>
+	    <lastmod>2023-05-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/test-coverage/</loc>
+	    <lastmod>2023-05-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/good-codebases/</loc>
+	    <lastmod>2023-05-23</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/asyncsequence/</loc>
+	    <lastmod>2023-05-20</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/implement-an-asyncsequence/</loc>
+	    <lastmod>2023-05-20</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/asyncsequence-vs-combine-publisher/</loc>
+	    <lastmod>2023-04-20</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/resultbuilder/</loc>
+	    <lastmod>2023-04-10</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/resultbuilder-in-swift/</loc>
+	    <lastmod>2023-04-10</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/propertywrapper/</loc>
+	    <lastmod>2023-03-10</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/propertywrapper-in-swift/</loc>
+	    <lastmod>2023-03-10</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/dry---dont-repeat-yourself/</loc>
+	    <lastmod>2023-01-10</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/set-up-to-develop-swift-macros/</loc>
+	    <lastmod>2023-01-10</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/macros/</loc>
+	    <lastmod>2023-01-10</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/macros-in-swift-vs-ksp-in-kotlin/</loc>
+	    <lastmod>2023-01-10</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/posts/my-experience-in-developing-swift-macros/</loc>
+	    <lastmod>2023-01-10</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/tags/programming/</loc>
+	    <lastmod>2023-01-10</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/about/</loc>
+	    <lastmod>0001-01-01</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/categories/</loc>
+	    <lastmod>0001-01-01</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://timwang.au/contact/</loc>
+	    <lastmod>0001-01-01</lastmod>
+        
+
+        
+	  </url>
+	  
+  
 </urlset>

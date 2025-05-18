@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Keypath on Coding life</title>
+    <link>https://timwang.au/tags/keypath/</link>
+    <description>Recent content in Keypath on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 26 Dec 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/keypath/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>KeyPath: one hidden gem in Swift</title>
+      <link>https://timwang.au/posts/keypath-one-hidden-gem-in-swift/</link>
+      <pubDate>Tue, 26 Dec 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/keypath-one-hidden-gem-in-swift/</guid>
+      <description>&lt;p&gt;&lt;code&gt;KeyPath&lt;/code&gt; in Swift provides a different way to access object properties apart from &lt;code&gt;dot syntax&lt;/code&gt;, which adds flexibilities in coding practice. The KeyPath can also &lt;a href=&#34;https://github.com/apple/swift-evolution/blob/main/proposals/0249-key-path-literal-function-expressions.md&#34;&gt;behave as a function&lt;/a&gt; since Swift 5.2 and this usage can been seen in many language APIs. For example:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    Swift Code Craft: TrieRouter From Vapor | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/swift-code-craft_trierouter-from-vapor/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    Swift Code Craft: TrieRouter from Vapor
+    "
+/>
+<meta property="og:description" content="
+    Swift Code Craft: TrieRouter from Vapor
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/swift-code-craft_trierouter-from-vapor/feature.jpeg" />
+
+
+
+
+<meta property="og:title" content="Swift Code Craft: TrieRouter from Vapor" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/swift-code-craft_trierouter-from-vapor/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2025-02-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2025-02-23T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/swift-code-craft_trierouter-from-vapor/feature.jpeg">
+  <meta name="twitter:title" content="Swift Code Craft: TrieRouter from Vapor">
+  <meta name="twitter:description" content="Swift Code Craft: TrieRouter from Vapor">
+
+
+  <meta itemprop="name" content="Swift Code Craft: TrieRouter from Vapor">
+  <meta itemprop="description" content="Swift Code Craft: TrieRouter from Vapor">
+  <meta itemprop="datePublished" content="2025-02-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-02-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1328">
+  <meta itemprop="image" content="https://timwang.au/posts/swift-code-craft_trierouter-from-vapor/feature.jpeg">
+  <meta itemprop="keywords" content="Swift,IOS,Swift ServerSide,Code Efficiency">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">Swift Code Craft: TrieRouter from Vapor</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Feb 23, 2025
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    7 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/ios"><span
+                                    class="tag bg-dark">iOS</span></a>
+                            
+                            <a href="https://timwang.au/tags/swift-serverside"><span
+                                    class="tag bg-dark">Swift ServerSide</span></a>
+                            
+                            <a href="https://timwang.au/tags/code-efficiency"><span
+                                    class="tag bg-dark">Code efficiency</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/swift-code-craft_trierouter-from-vapor/feature.jpeg alt="Swift Code Craft: TrieRouter from Vapor">
+                        </figure>
+                    
+                
+
+                <blockquote>
+<p>Welcome to the Swift Code Craft series. This collection explores ingenious Swift solutions to practical problems, highlighting elegant implementations that balance performance with simplicity. Each piece examines how Swift’s features can be leveraged to create code that’s both powerful and maintainable. Join us as we uncover valuable insights and techniques from the Swift ecosystem that you can apply to your own projects.</p></blockquote>
+<p>Vapor has been one of the most popular Web Server frameworks written in Swift. At its core, like any other web frameworks, lies a critical component: the router. Vapor’s implementation, the <code>TrieRouter&lt;Output&gt;</code>, represents an elegant combination of efficiency and simplicity.</p>
+<h1 id="understanding-the-problem">Understanding the Problem</h1>
+<p><strong>Web routing</strong> is the process of determining how a web server responds to different URLs (routes) requested by a client. It maps incoming HTTP requests (like <code>GET /home</code> or <code>POST /login</code>) to specific handler functions in the server’s code that generate a response.</p>
+<p>A key challenge in web routing is <strong>maintaining scalability and clarity</strong> as the number of routes grows. It becomes harder to manage nested routes, enforce consistent patterns, and avoid route conflicts or duplication — especially in large applications.</p>
+<ul>
+<li><strong>Performance</strong>: Considering the need of handling numerous of requests, routes must be matched quickly, even when there are hundreds or thousands of routes.</li>
+<li><strong>Parameter extraction</strong>: Dynamic path components must be efficiently captured, which is very common in Restful api design patterns, where certain parameters are part of the URL path.</li>
+</ul>
+<h1 id="the-trie-data-structure">The Trie data structure</h1>
+<p>Unlike many other web server frameworks, which are using hash table, dictionary search or regex-based solutions, the Vapor uses a trie data structure, a specialised tree where each node represents a path component.</p>
+<p>For example, for the list of url paths below:</p>
+<pre tabindex="0"><code>GET /api/users  
+POST /api/users  
+GET /api/users/:id  
+PUT /api/users/:id  
+DELETE /api/users/:id  
+GET /api/products  
+POST /api/products  
+GET /api/products/:id  
+PATCH /api/products/:id  
+DELETE /api/products/:id  
+GET /api/orders  
+POST /api/orders  
+GET /api/orders/:id  
+PUT /api/orders/:id  
+DELETE /api/orders/:id  
+GET /api/categories  
+POST /api/categories  
+GET /api/categories/:id/items  
+GET /api/items/:id/reviews  
+POST /api/items/:id/reviews
+</code></pre><p>Vapor will generate a Trie tree like below.</p>
+<pre tabindex="0"><code>api  
+├── GET  
+│   ├── users  
+│   ├── users  
+│   │   └── parameter(&#34;id&#34;)  
+│   ├── products  
+│   ├── products  
+│   │   └── parameter(&#34;id&#34;)  
+│   ├── orders  
+│   ├── orders  
+│   │   └── parameter(&#34;id&#34;)  
+│   ├── categories  
+│   └── categories  
+│       └── parameter(&#34;id&#34;)  
+│           └── items  
+├── POST  
+│   ├── users  
+│   ├── products  
+│   ├── orders  
+│   ├── categories  
+│   └── items  
+│       └── parameter(&#34;id&#34;)  
+│           └── reviews  
+├── PUT  
+│   ├── users  
+│   │   └── parameter(&#34;id&#34;)  
+│   └── orders  
+│       └── parameter(&#34;id&#34;)  
+├── DELETE  
+│   ├── users  
+│   │   └── parameter(&#34;id&#34;)  
+│   ├── products  
+│   │   └── parameter(&#34;id&#34;)  
+│   └── orders  
+│       └── parameter(&#34;id&#34;)  
+└── PATCH  
+    └── products  
+        └── parameter(&#34;id&#34;)
+</code></pre><p>Basically, firstly it groups APIs based on the http methods, then the path components. For the routing process, it just follows the tree structure to match the request url path, then call the responder method it stored in the node.</p>
+<p>A trie offers <code>O(k)</code> lookup complexity, where <code>k</code> is the path depth (number of components). This means performance remains consistent regardless of how many routes we have in the application.</p>
+<h1 id="the-implementation">The Implementation</h1>
+<p>Let’s explore the core components of Vapor’s <code>TrieRouter</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">// Extracted from https://github.com/vapor/routing-kit/blob/main/Sources/RoutingKit/TrieRouter.swift  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TrieRouter</span>&lt;Output&gt;: Router, CustomStringConvertible {  
+</span></span><span style="display:flex;"><span>...  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">init</span>(<span style="color:#66d9ef">_</span> type: Output.<span style="color:#66d9ef">Type</span> = Output.<span style="color:#66d9ef">self</span>, options: Set&lt;ConfigurationOption&gt; = []) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.root = Node()  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.options = options  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.logger = .<span style="color:#66d9ef">init</span>(label: <span style="color:#e6db74">&#34;codes.vapor.routingkit&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>...  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The <code>TrieRouter</code> was defined as a Genetic class to make the its nodes be able to hold different types of values. In Vapor, the <code>Output</code> is a type that contains<code>Responder</code> that responds to the URL path that the node matches.</p>
+<p>The <code>register(_ output: Output, at path: [PathComponent])</code> method is responsible to register a path into router and build the Trie tree. The magic of creating and organising node into the right position happens in the <code>Node</code> structure.</p>
+<p>The <code>route(path: [String], parameters: inout Parameters) -&gt; Output?</code> method is responsible for retrieving the <code>Responder</code> from the Tri tree, which is a standard Tri tree search algorithm implementation and done using this loop <code>search: for (index, slice) in path.enumerated() {...}</code>.</p>
+<h1 id="the-node-structure">The Node Structure</h1>
+<p>Each node in the trie represents a path component and contains an output value depending on the registration:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">// Extracted from https://github.com/vapor/routing-kit/blob/main/Sources/RoutingKit/TrieRouter.swift  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Node</span>: CustomStringConvertible {  
+</span></span><span style="display:flex;"><span>...  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">init</span>(output: Output? = <span style="color:#66d9ef">nil</span>) {  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">self</span>.output = output  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">self</span>.constants = [String: Node]()  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>          
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildOrFetchChild</span>(<span style="color:#66d9ef">for</span> component: PathComponent, options: Set&lt;ConfigurationOption&gt;) -&gt; Node {  
+</span></span><span style="display:flex;"><span>            ...  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>The magic of building Trie is inside method <code>func buildOrFetchChild(for component: PathComponent, options: Set&lt;ConfigurationOption&gt;) -&gt; Node</code> . When registering a url path, this method is responsible to add this into the proper position of the Trie tree.</p>
+<h1 id="path-components">Path Components</h1>
+<p>The <code>PathComponent</code> is another amazing type that generalise the parts of the url path.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">// Extracted from https://github.com/vapor/routing-kit/blob/main/Sources/RoutingKit/TrieRouter.swift  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">PathComponent</span>: ExpressibleByStringInterpolation, CustomStringConvertible, Sendable, Hashable {  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// A normal, constant path component.  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> constant(String)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// A dynamic parameter component.  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">///  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// The supplied identifier will be used to fetch the associated  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// value from `Parameters`.  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">///  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// Represented as `:` followed by the identifier.  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> parameter(String)  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// A dynamic parameter component with discarded value.  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">///  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// Represented as `*`  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> anything  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// A fallback component that will match one *or more* dynamic  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// parameter components with discarded values.  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">///  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// Catch alls have the lowest precedence, and will only be matched  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// if no more specific path components are found.  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">///  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// The matched subpath will be stored into `Parameters.catchall`.  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">///  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// Represented as `**`  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> catchall  
+</span></span><span style="display:flex;"><span>...  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>It is an enum type and this elegant enum encapsulates the various types of path components Vapor needs to handle:</p>
+<ul>
+<li>Constants like “<code>users</code>” or “<code>products</code>”</li>
+<li>Parameters like values in the url path</li>
+<li>Anything and Catchalls for wildcard routes</li>
+</ul>
+<h1 id="how-vapor-puts-everything-together">How Vapor Puts everything together</h1>
+<h2 id="registration">Registration</h2>
+<p>There are a few ways to register routs in Vapor, some of which are the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">get</span>&lt;Response&gt;(  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">_</span> path: PathComponent...,  
+</span></span><span style="display:flex;"><span>        use closure: @Sendable @escaping (Request) async <span style="color:#66d9ef">throws</span> -&gt; Response  
+</span></span><span style="display:flex;"><span>    ) -&gt; Route  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">where</span> Response: AsyncResponseEncodable  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">get</span>&lt;Response&gt;(  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">_</span> path: [PathComponent],  
+</span></span><span style="display:flex;"><span>        use closure: @Sendable @escaping (Request) async <span style="color:#66d9ef">throws</span> -&gt; Response  
+</span></span><span style="display:flex;"><span>    ) -&gt; Route  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">where</span> Response: AsyncResponseEncodable  
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><p>It’s worth mentioning that <a href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/functions/#Variadic-Parameters">Variadic Parameters</a> usage in the first method, which allows flexible usage like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>app.<span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;api&#34;</span>, <span style="color:#e6db74">&#34;users&#34;</span>) { req <span style="color:#66d9ef">in</span>  
+</span></span><span style="display:flex;"><span>    ...  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>app.<span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;api&#34;</span>, <span style="color:#e6db74">&#34;users&#34;</span>, <span style="color:#e6db74">&#34;:id&#34;</span>) { req <span style="color:#66d9ef">in</span>  
+</span></span><span style="display:flex;"><span>    ...  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="routing">Routing</h2>
+<p>When a request arrives, Vapor splits the path like below and extracts the path components from the URL and feeds them to the <code>public func route(path: [String], parameters: inout Parameters) -&gt; Output?</code> method of <code>TrieRouter</code> and get the Responder to process the request.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> pathComponents = request.url.path.split(separator: <span style="color:#e6db74">&#34;/&#34;</span>).map(String.<span style="color:#66d9ef">init</span>)
+</span></span></code></pre></div><h1 id="the-beauty-in-simplicity">The Beauty in Simplicity</h1>
+<p>What makes <code>TrieRouter</code> elegant isn&rsquo;t just its efficiency, but its simplicity. The entire implementation is remarkably concise, yet it handles the complex requirements of web routing with grace.</p>
+<p>The design follows several Swift best practices:</p>
+<ul>
+<li>Use of generics (<code>Output</code>) for flexibility</li>
+<li>Clear separation of concerns</li>
+<li>Strong typing with enums for path components</li>
+<li>Efficient algorithms under a clean API</li>
+</ul>
+<p>Several valuable lessons can be extracted from studying <code>TrieRouter</code>:</p>
+<ol>
+<li><strong>Choose the right data structure</strong>: The trie structure perfectly matches the hierarchical nature of URL paths</li>
+<li><strong>Use generics strategically</strong>: The <code>Output</code> type parameter allows the router to be used for different purposes</li>
+<li><strong>Balance flexibility and performance</strong>: The implementation doesn’t sacrifice speed for features</li>
+<li><strong>Keep the API simple</strong>: Despite its complex internals, using the router is straightforward</li>
+<li><strong>Separate concerns cleanly</strong>: Path matching, parameter extraction, and response handling are distinct</li>
+</ol>
+<h1 id="beyond-vapor-when-to-use-a-trie">Beyond Vapor: When to Use a Trie</h1>
+<p>The trie approach isn’t just valuable for web routing. Consider this data structure when:</p>
+<ul>
+<li>Need to match hierarchical paths or prefixes</li>
+<li>Lookup performance is critical</li>
+<li>Memory efficiency matters for a large number of entries</li>
+</ul>
+<p>Examples include:</p>
+<ul>
+<li>File system path resolution</li>
+<li>Auto-completion systems</li>
+<li>IP routing tables</li>
+<li>Permission systems</li>
+</ul>
+<h1 id="conclusion">Conclusion</h1>
+<p>Vapor’s <code>TrieRouter</code> exemplifies Swift code craft at its finest – solving a complex problem with an elegant, efficient implementation. Its design balances performance needs with API simplicity, creating a component that works reliably at scale while remaining easy to understand and maintain.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fswift-code-craft_trierouter-from-vapor%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=Swift%20Code%20Craft%3a%20TrieRouter%20from%20Vapor&url=https%3a%2f%2ftimwang.au%2fposts%2fswift-code-craft_trierouter-from-vapor%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fswift-code-craft_trierouter-from-vapor%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/swift-code-craft_trierouter-from-vapor/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fswift-code-craft_trierouter-from-vapor%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fswift-code-craft_trierouter-from-vapor%2f
+			&title=Swift%20Code%20Craft%3a%20TrieRouter%20from%20Vapor&summary=%3cblockquote%3e%0a%3cp%3eWelcome%20to%20the%20Swift%20Code%20Craft%20series.%20This%20collection%20explores%20ingenious%20Swift%20solutions%20to%20practical%20problems%2c%20highlighting%20elegant%20implementations%20that%20balance%20performance%20with%20simplicity.%20Each%20piece%20examines%20how%20Swift%e2%80%99s%20features%20can%20be%20leveraged%20to%20create%20code%20that%e2%80%99s%20both%20powerful%20and%20maintainable.%20Join%20us%20as%20we%20uncover%20valuable%20insights%20and%20techniques%20from%20the%20Swift%20ecosystem%20that%20you%20can%20apply%20to%20your%20own%20projects.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=Swift%20Code%20Craft%3a%20TrieRouter%20from%20Vapor&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fswift-code-craft_trierouter-from-vapor%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Coding life</title>
+    <link>https://timwang.au/</link>
+    <description>Recent content on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 23 Mar 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How AI Fits Into Humanity’s Bigger Story of Automation</title>
+      <link>https://timwang.au/posts/how-ai-fits-into-humanitys-bigger-story-of-automation/</link>
+      <pubDate>Sun, 23 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/how-ai-fits-into-humanitys-bigger-story-of-automation/</guid>
+      <description>&lt;h1 id=&#34;introduction-ai-as-the-latest-milestone-in-automation&#34;&gt;Introduction: AI as the Latest Milestone in Automation&lt;/h1&gt;&#xA;&lt;p&gt;Artificial Intelligence (AI) is everywhere now — talking like humans, working with huge amounts of data, and even driving cars. But AI is not just another cool technology. It’s part of a bigger story about how humans have always wanted to make things easier through automation.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Bad Code Smells: The Silent Killers of Swift Elegance</title>
+      <link>https://timwang.au/posts/bad-codesmells/</link>
+      <pubDate>Sun, 23 Feb 2025 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/bad-codesmells/</guid>
+      <description>&lt;p&gt;Understanding code smells is essential for maintaining clean, efficient, and manageable Swift codebases. This tech blog explains various code smells that should be avoided by us as Swift developers to keep its elegance.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Swift Code Craft: TrieRouter from Vapor</title>
+      <link>https://timwang.au/posts/swift-code-craft_trierouter-from-vapor/</link>
+      <pubDate>Sun, 23 Feb 2025 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/swift-code-craft_trierouter-from-vapor/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Welcome to the Swift Code Craft series. This collection explores ingenious Swift solutions to practical problems, highlighting elegant implementations that balance performance with simplicity. Each piece examines how Swift’s features can be leveraged to create code that’s both powerful and maintainable. Join us as we uncover valuable insights and techniques from the Swift ecosystem that you can apply to your own projects.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Mastering Swift’s `dynamic` and `@_dynamicReplacement(for:)` for Dynamic Behaviour</title>
+      <link>https://timwang.au/posts/swift-dynamicreplacement/</link>
+      <pubDate>Thu, 23 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/swift-dynamicreplacement/</guid>
+      <description>&lt;p&gt;Swift is primarily a statically dispatched language, but it does offer dynamic dispatch capabilities for times when flexibility trumps compile-time optimisation. In this article, we’ll dive into &lt;strong&gt;Swift’s&lt;/strong&gt; &lt;code&gt;**dynamic**&lt;/code&gt; &lt;strong&gt;keyword&lt;/strong&gt; and the underscored &lt;code&gt;**@_dynamicReplacement(for:)**&lt;/code&gt; &lt;strong&gt;attribute&lt;/strong&gt;, which together enable a form of &lt;em&gt;method swizzling&lt;/em&gt; in Swift.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Leveraging Kotlin’s Type System to Guard Code Quality and Prevent Errors</title>
+      <link>https://timwang.au/posts/kotlin-type-system/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/kotlin-type-system/</guid>
+      <description>&lt;p&gt;In modern software development, preventing bugs before they happen is infinitely more valuable than fixing them after they’ve occurred. Kotlin provides developers with a powerful type system specifically designed to catch errors at compile time rather than runtime. This article explores how Kotlin’s sophisticated type features can be leveraged to write safer, more maintainable code.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Leveraging Swift’s Type System to Guard Code Quality and Prevent Errors</title>
+      <link>https://timwang.au/posts/swift-type-system/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/swift-type-system/</guid>
+      <description>&lt;p&gt;Swift’s robust type system is one of its greatest strengths, offering developers powerful tools to catch errors at compile time rather than runtime. In this blog, we’ll explore how to leverage it as a first line of defense against bugs.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Local Reasoning</title>
+      <link>https://timwang.au/posts/local-reasoning/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/local-reasoning/</guid>
+      <description>&lt;h1 id=&#34;understanding-local-reasoning&#34;&gt;Understanding Local Reasoning&lt;/h1&gt;&#xA;&lt;p&gt;Local reasoning is a principle in software development that allows programmers to understand and modify code by focusing on small, isolated sections without needing to comprehend the entire system simultaneously.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Safeguard Data in IOS Apps Using Swift</title>
+      <link>https://timwang.au/posts/safeguard-data-in-ios-apps-using-swift/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/safeguard-data-in-ios-apps-using-swift/</guid>
+      <description>&lt;p&gt;In today’s mobile‑first world, safeguarding our apps’ most sensitive data — whether it lives in memory or on disk — is non‑negotiable. In this guide, we’ll explore how we can protect data in our apps by leveraging Swift‑native APIs and industry best practices.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Swift Object Creation: Why Initializers are the Preferred Choice</title>
+      <link>https://timwang.au/posts/swift-object-creation-why-initializers-are-the-preferred-choice/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/swift-object-creation-why-initializers-are-the-preferred-choice/</guid>
+      <description>&lt;p&gt;In Swift programming, creating objects is a fundamental task that developers perform regularly. While there are multiple ways to instantiate objects, initializers stand out as the preferred and most idiomatic approach. This article explores why initializers should be your go-to method for object creation in Swift, while also touching on alternatives like static methods.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Swifty Ways to Handle Data Redaction in the UI</title>
+      <link>https://timwang.au/posts/swifty-ways-to-handle-data-redaction-in-the-ui/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/swifty-ways-to-handle-data-redaction-in-the-ui/</guid>
+      <description>&lt;h1 id=&#34;the-problem-redacting-sensitive-info&#34;&gt;The Problem: Redacting Sensitive Info&lt;/h1&gt;&#xA;&lt;p&gt;We’ve all been there — we need to display some sensitive info on the UI, but can’t just show it all. The naive approach? Implementing redaction logic every single time when need it. Yawn. 😴 One step further, we can wrap the logic into some common methods or objects. You know what, we can do even better! There are some seriously cool Swift techniques that can make our life easier.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The Differences Between Value Types and Reference Types in Swift</title>
+      <link>https://timwang.au/posts/the-differences-between-value-types-and-reference-types-in-swift/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/the-differences-between-value-types-and-reference-types-in-swift/</guid>
+      <description>&lt;p&gt;Swift is a powerful and intuitive programming language that combines safety and performance. One of the key concepts that Swift developers encounter is the distinction between &lt;strong&gt;value types&lt;/strong&gt; and &lt;strong&gt;reference types&lt;/strong&gt;. Understanding these two types is crucial to further develop our Swift skills.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Various ways to secure network traffic for mobile apps</title>
+      <link>https://timwang.au/posts/various-ways-to-secure-network-traffic-for-mobile-apps/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/various-ways-to-secure-network-traffic-for-mobile-apps/</guid>
+      <description>&lt;p&gt;In today’s mobile-first world, securing communication between the mobile app and backend servers is no longer optional — it’s essential.&lt;/p&gt;&#xA;&lt;p&gt;While HTTPS protects data in transit, it doesn’t protect against:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Unlocking New Possibilities: A Comprehensive Guide to Swift Testing</title>
+      <link>https://timwang.au/posts/unlocking-new-possibilities-a-comprehensive-guide-to-swift-testing/</link>
+      <pubDate>Wed, 23 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/unlocking-new-possibilities-a-comprehensive-guide-to-swift-testing/</guid>
+      <description>&lt;p&gt;As iOS development continues to evolve, the tools and frameworks available to developers have also seen significant advancements. One such innovation is the introduction of Swift Testing, a modern approach to writing tests in the Swift programming language. In this guide, we’ll dive into the key features and advantages of Swift Testing, helping you elevate your testing practices and streamline our iOS development workflow.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Unlocking the Power of Embedded Swift: Your Step-by-Step Roadmap</title>
+      <link>https://timwang.au/posts/unlocking-the-power-of-embedded-swift-your-step-by-step-roadmap/</link>
+      <pubDate>Fri, 23 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/unlocking-the-power-of-embedded-swift-your-step-by-step-roadmap/</guid>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;&#xA;&lt;p&gt;Swift, the general-purpose programming language beloved by Apple developers, is expanding its reach into the embedded systems world. While this feature hasn’t been officially released yet, it’s already demonstrating significant potential. Much like Swift’s move into server-side development a few years ago, this expansion could open up exciting new opportunities for Swift developers.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Exploring Swift’s Codable Protocol</title>
+      <link>https://timwang.au/posts/exploring-swifts-codable-protocol/</link>
+      <pubDate>Sun, 23 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/exploring-swifts-codable-protocol/</guid>
+      <description>&lt;p&gt;In the previous article, we explored techniques for modifying key names when working with the Codable protocol in Swift. This article will focus on customizing the values within JSON data. The desired transformations can be accomplished by implementing custom encode/decode methods. Specifically, within these methods, we can leverage the &lt;strong&gt;Keyed Container&lt;/strong&gt;, &lt;strong&gt;Unkeyed Container&lt;/strong&gt;, and &lt;strong&gt;Single Value Container&lt;/strong&gt; types to handle encoding values into and decoding values from JSON data. In this article, we will explore the &lt;strong&gt;Keyed Container&lt;/strong&gt;, leaving the remaining types to be covered in subsequent articles.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Exploring Swift’s Codable Protocol: Techniques for Modifying Key Names</title>
+      <link>https://timwang.au/posts/exploring-swifts-codable-protocol-techniques-for-modifying-key-names/</link>
+      <pubDate>Thu, 23 May 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/exploring-swifts-codable-protocol-techniques-for-modifying-key-names/</guid>
+      <description>&lt;p&gt;The Codable protocol in Swift is a powerful feature that enables the seamless transformation of data structures into external representations and vice versa. It provides a mechanism for encoding and decoding values to and from Data instances, facilitating the serialization and deserialization of data. Complementing this functionality, the Swift compiler offers an exceptional capability: it can automatically generate the necessary code to conform to the Codable protocol for struct types, provided they meet the required criteria. This compiler-generated code alleviates the burden of manual implementation, enhancing developer productivity and reducing the potential for errors. By leveraging the Codable protocol and its compiler support, developers can streamline the process of data exchange, ensuring consistent and efficient data handling across various components of their applications.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Git credential helper using Swift</title>
+      <link>https://timwang.au/posts/git-credential-helper-using-swift/</link>
+      <pubDate>Sat, 23 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/git-credential-helper-using-swift/</guid>
+      <description>&lt;h1 id=&#34;whats-git-credential-helper&#34;&gt;What’s git credential helper&lt;/h1&gt;&#xA;&lt;p&gt;Git needs a way to know the credentials if we use it to access the repos that are not public. If using repo&amp;rsquo;s &lt;code&gt;ssh&lt;/code&gt; address, configuring &lt;code&gt;ssh&lt;/code&gt; key is enough. For repos address that are in https url format, &lt;code&gt;username&lt;/code&gt; and &lt;code&gt;password&lt;/code&gt; are needed, where password can be personal access token or OAuth access token depending on the server configuration.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Swift Actors</title>
+      <link>https://timwang.au/posts/swift-actors/</link>
+      <pubDate>Fri, 26 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/swift-actors/</guid>
+      <description>&lt;p&gt;The &lt;strong&gt;actor model&lt;/strong&gt; is a popular model for concurrency computing. Swift adopts this model and adds actor as an integral part of Swift concurrency since Swift 5.5. Swift actors encapsulate state variables and operations that defined upon states to ensure mutually exclusive access to these states. In this article, we are going to explore how to utilise this feature.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The beauty of Swift Language – protocol</title>
+      <link>https://timwang.au/posts/the-beauty-of-swift-language--protocol/</link>
+      <pubDate>Fri, 26 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/the-beauty-of-swift-language--protocol/</guid>
+      <description>&lt;p&gt;Swift promotes protocol oriented programming and the protocol in Swift is designed to provide rich functionalities to support this goal. Conceptually, it is like interface in Kotlin and C# but with many syntax and functionality differences. In this article, we are going to focus on the wonderful design of the protocol in Swift.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>LLDB debugger in Xcode — 1</title>
+      <link>https://timwang.au/posts/lldb-debugger-in-xcode--1/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/lldb-debugger-in-xcode--1/</guid>
+      <description>&lt;h2 id=&#34;get-help--manage-breakpoints&#34;&gt;Get help &amp;amp; manage breakpoints&lt;/h2&gt;&#xA;&lt;p&gt;LLDB is the current debugger tool that is integrated into Xcode. Even though lldb is a command line tool but Xcode provides UIs allowing us to access to certain lldb functionalities, which made it easier to use. However, not all of the lldb functions have a corresponding Xcode UI and learning the knowledge of lldb can definitely help us fully leverage this awesome tool in both tackling bugs and understanding how certain functions work as well, which will surely bring us to a next level as iOS developers.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>LLDB debugger in Xcode — 2</title>
+      <link>https://timwang.au/posts/lldb-debugger-in-xcode--2/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/lldb-debugger-in-xcode--2/</guid>
+      <description>&lt;h2 id=&#34;step-through-the-code--inspect-values&#34;&gt;Step through the code &amp;amp; inspect values&lt;/h2&gt;&#xA;&lt;p&gt;From &lt;a href=&#34;https://medium.com/gitconnected/lldb-debugger-in-xcode-1-772dbd9abc9a&#34;&gt;the previous article&lt;/a&gt;, we have learnt how to set breakpoints. Once they are set, the app will pause at the breakpoints accordingly. In this article, we are going to explore the ways to interact with the app runtime at the paused breakpoints.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>LLDB debugger in Xcode — 3</title>
+      <link>https://timwang.au/posts/lldb-debugger-in-xcode--3/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/lldb-debugger-in-xcode--3/</guid>
+      <description>&lt;h2 id=&#34;manage-watchpoints&#34;&gt;Manage watchpoints&lt;/h2&gt;&#xA;&lt;p&gt;From the the &lt;a href=&#34;https://medium.com/gitconnected/lldb-debugger-in-xcode-1-772dbd9abc9a&#34;&gt;first&lt;/a&gt; and the &lt;a href=&#34;https://medium.com/gitconnected/lldb-debugger-in-xcode-2-05ce80359f78&#34;&gt;second&lt;/a&gt; articles of this series, we have known how to set breakpoints to pause the code and explore the app runtime. Apart from breakpoints, LLDB offers another way to pause the code called watchpoint, which will be the topics of this article.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Passkey — Passwordless solution for authentication</title>
+      <link>https://timwang.au/posts/passkey--passwordless-solution-for-authentication/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/passkey--passwordless-solution-for-authentication/</guid>
+      <description>&lt;p&gt;Passkey is a passwordless solution from &lt;a href=&#34;https://fidoalliance.org/&#34;&gt;FIDO alliance&lt;/a&gt; to resolve the global password problem. It provides a simple user experience with phishing-resistant security and can be adopted in mobile and web applications. In this article, we are going to investigate this solution and discuss a how to implement it on iOS platform.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Second Thoughts on iOS Project Setup</title>
+      <link>https://timwang.au/posts/second-thoughts-on-ios-project-setup/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/second-thoughts-on-ios-project-setup/</guid>
+      <description>&lt;p&gt;In the last few years, I have been working on a few medium to big iOS projects. All of these projects have great modular architecture — functionalities and features are broken down and implemented in their own libraries or frameworks. One project had more than forty libraries and another had more than sixty. But here came the question: what’s the best practice to set up a project with so many dependencies, especially when they are all under heavy development? I had the fortune to work with my team to improve these project setups. The following is what I learned from the process.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The Ins and Outs of Getting the Bundle</title>
+      <link>https://timwang.au/posts/the-ins-and-outs-of-getting-the-bundle/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/the-ins-and-outs-of-getting-the-bundle/</guid>
+      <description>&lt;h1 id=&#34;background&#34;&gt;Background&lt;/h1&gt;&#xA;&lt;p&gt;Apple uses bundles to represent apps, frameworks, plug-ins, and many other specific types of content and we often need to access to the resources like image assets, localised string resources or other types of files that embedded in these bundles, for which, we need to get hold of the bundle objects.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>KeyPath: one hidden gem in Swift</title>
+      <link>https://timwang.au/posts/keypath-one-hidden-gem-in-swift/</link>
+      <pubDate>Tue, 26 Dec 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/keypath-one-hidden-gem-in-swift/</guid>
+      <description>&lt;p&gt;&lt;code&gt;KeyPath&lt;/code&gt; in Swift provides a different way to access object properties apart from &lt;code&gt;dot syntax&lt;/code&gt;, which adds flexibilities in coding practice. The KeyPath can also &lt;a href=&#34;https://github.com/apple/swift-evolution/blob/main/proposals/0249-key-path-literal-function-expressions.md&#34;&gt;behave as a function&lt;/a&gt; since Swift 5.2 and this usage can been seen in many language APIs. For example:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The Beauty of Swift Language — Macro</title>
+      <link>https://timwang.au/posts/the-beauty-of-swift-language--macro/</link>
+      <pubDate>Tue, 26 Dec 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/the-beauty-of-swift-language--macro/</guid>
+      <description>&lt;p&gt;A &lt;strong&gt;macro&lt;/strong&gt; in computer languages is a rule or pattern that can expand the input into output and it is a great way to reuse the code in macro to avoid code duplication.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The Beauty of Swift Language – Generics</title>
+      <link>https://timwang.au/posts/the-beauty-of-swift-language--generics/</link>
+      <pubDate>Sun, 26 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/the-beauty-of-swift-language--generics/</guid>
+      <description>&lt;p&gt;Generic is a very important concept in strongly typed languages. For type safety, without generics, any types and methods can only handle the types they’re designed for. On the other hand, generics allows types or methods to handle more than one types. For example, in Swift, all collection types like Array, Set and Dictionary are generic types. Thus, we can we can use them with many types. For instance, an Int Array and a String Array etc.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The Beauty of Swift Language — Structured Concurrency</title>
+      <link>https://timwang.au/posts/the-beauty-of-swift-language--structured-concurrency/</link>
+      <pubDate>Tue, 26 Sep 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/the-beauty-of-swift-language--structured-concurrency/</guid>
+      <description>&lt;p&gt;Modern CPUs usually have multiple cores and some computers even have more than one CPUs, which means they can run multiple instructions in parallel. In order to utilise this hardware feature, we need to structure our code in such way that it can run concurrently. Structured concurrency that exists in many modern languages is invented just for this purpose.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The beauty of Swift Language — Builders</title>
+      <link>https://timwang.au/posts/the-beauty-of-swift-language--builders/</link>
+      <pubDate>Sat, 26 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/the-beauty-of-swift-language--builders/</guid>
+      <description>&lt;p&gt;The famous SwiftUI is loved by almost every iOS developer. One of the reason is its elegant syntax for building views thanks to @ViewBuilder . This is a builder pattern that is known in Swift as @resultBuiler that has been explained here.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The beauty of Swift Language — Property Observer</title>
+      <link>https://timwang.au/posts/the-beauty-of-swift-language--property-observer/</link>
+      <pubDate>Sat, 26 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/the-beauty-of-swift-language--property-observer/</guid>
+      <description>&lt;p&gt;Swift is one of my favourite computer languages. I would like to write a series of articles to demonstrate its beauty by comparing it with some other languages(C#, Kotlin) in areas like &lt;code&gt;Property Observation&lt;/code&gt; , &lt;code&gt;Property wrapper&lt;/code&gt;, &lt;code&gt;Builders&lt;/code&gt;, &lt;code&gt;Macros&lt;/code&gt; , &lt;code&gt;Structured concurrency&lt;/code&gt; etc. This article , as the first of this series, will focus on the Property Observation.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The beauty of Swift Language — Property Wrapper</title>
+      <link>https://timwang.au/posts/the-beauty-of-swift-language--property-wrapper/</link>
+      <pubDate>Sat, 26 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/the-beauty-of-swift-language--property-wrapper/</guid>
+      <description>&lt;p&gt;In essence, a property of an object in OO languages can access to its backed storage directly or can have &lt;code&gt;getter&lt;/code&gt; /&lt;code&gt;setter&lt;/code&gt; to access to the backed storage indirectly. For the latter case, we can write logic needed in the &lt;code&gt;getter&lt;/code&gt;/&lt;code&gt;setter&lt;/code&gt;. To develop this idea further, what if we need to reuse the logic in &lt;code&gt;getter&lt;/code&gt;/&lt;code&gt;setter&lt;/code&gt; for other properties of this object and even properties of other objects? Proper Wrapper in Swift is invented for this purpose. Even though there’s no such concept in C# and Kotlin, but we can achieve the similar goal in those languages as well, which will be discussed in this article.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The standard of good codebases</title>
+      <link>https://timwang.au/posts/good-codebases/</link>
+      <pubDate>Tue, 23 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/good-codebases/</guid>
+      <description>&lt;p&gt;As software engineers, it’s no surprise that we often find ourselves in a conversation talking about working on a bad codebase or seldomly a good one. But what makes a good codebase exactly? I will summarise my opinion here and please comment below if you have different thoughts.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Implement an AsyncSequence</title>
+      <link>https://timwang.au/posts/implement-an-asyncsequence/</link>
+      <pubDate>Sat, 20 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/implement-an-asyncsequence/</guid>
+      <description>&lt;p&gt;We have known &lt;code&gt;AsyncSequence&lt;/code&gt; is a great part of Swift Concurrency feature and learnt the difference between it and &lt;code&gt;Combine Publishers&lt;/code&gt; from &lt;a href=&#34;https://medium.com/@tim_wang/asyncsequence-vs-combine-publisher-40ee3f5f48b9&#34;&gt;this article&lt;/a&gt;. We’re going to look into ways of creating of an &lt;code&gt;AsyncSequence&lt;/code&gt; in this one.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>AsyncSequence vs. Combine Publisher</title>
+      <link>https://timwang.au/posts/asyncsequence-vs-combine-publisher/</link>
+      <pubDate>Thu, 20 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/asyncsequence-vs-combine-publisher/</guid>
+      <description>&lt;p&gt;AsyncSequence and Combine Publisher are different ways of handling future data. Both of them have rich operators/methods like &lt;code&gt;map, filter, combineLatest&lt;/code&gt; etc. to manage the data flow. But what are the differences and which one should we use?&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>ResultBuilder in Swift</title>
+      <link>https://timwang.au/posts/resultbuilder-in-swift/</link>
+      <pubDate>Mon, 10 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/resultbuilder-in-swift/</guid>
+      <description>&lt;p&gt;If you like SwiftUI and appreciate the elegant syntax brought into SwiftUI by &lt;code&gt;@ViewBuilder&lt;/code&gt;, you must know and love &lt;code&gt;@resultBuilder&lt;/code&gt; in Swift that makes this magic happen. In this article, I would like to review this technology and explore how to create our own builders.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>PropertyWrapper in Swift</title>
+      <link>https://timwang.au/posts/propertywrapper-in-swift/</link>
+      <pubDate>Fri, 10 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/propertywrapper-in-swift/</guid>
+      <description>&lt;p&gt;Recently, I had some queries about property-wrapper in Swift. While I recommended them to had a read of &lt;a href=&#34;https://medium.com/@tim_wang/use-swift-propertywrapper-to-simply-subject-publisher-pattern-e5bdea3e5155&#34;&gt;this article&lt;/a&gt;, I also prepared a swift playground, which I would like to share here.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>DRY - Don’t Repeat Yourself</title>
+      <link>https://timwang.au/posts/dry---dont-repeat-yourself/</link>
+      <pubDate>Tue, 10 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/dry---dont-repeat-yourself/</guid>
+      <description>&lt;p&gt;DRY(&lt;strong&gt;D&lt;/strong&gt;on’t &lt;strong&gt;R&lt;/strong&gt;epeat &lt;strong&gt;Y&lt;/strong&gt;ourself) aims at reducing the repetition of code chunks and patterns, which was first defined in the book The Pragmatic Programmer as “every piece of knowledge must have a single, unambiguous, authoritative representation within a system.” In this article, we are going to discuss this principle in details.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>How to develop Swift Macros</title>
+      <link>https://timwang.au/posts/set-up-to-develop-swift-macros/</link>
+      <pubDate>Tue, 10 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/set-up-to-develop-swift-macros/</guid>
+      <description>&lt;p&gt;This tutorial is a step-by-step guide to develop Swift Macros. We will develop an attached Macro called &lt;code&gt;Singleton&lt;/code&gt; , which helps reduce the tedious code of writing a singleton struct or type.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Macros in Swift vs. KSP in Kotlin</title>
+      <link>https://timwang.au/posts/macros-in-swift-vs-ksp-in-kotlin/</link>
+      <pubDate>Tue, 10 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/macros-in-swift-vs-ksp-in-kotlin/</guid>
+      <description>&lt;h1 id=&#34;preface&#34;&gt;Preface&lt;/h1&gt;&#xA;&lt;p&gt;In essence, these two technologies are completely different. While one is generating code by expanding the macro patterns, another is generating code freely based on the meta data stored in the complied code.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>My Experience in Developing Swift Macros</title>
+      <link>https://timwang.au/posts/my-experience-in-developing-swift-macros/</link>
+      <pubDate>Tue, 10 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/my-experience-in-developing-swift-macros/</guid>
+      <description>&lt;p&gt;I have developed a collection of Swift Macros in this &lt;a href=&#34;https://github.com/ShenghaiWang/SwiftMacros&#34;&gt;repo&lt;/a&gt; recently. This article will summarise my experience and hopefully it would be helpful for your tasks.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>About</title>
+      <link>https://timwang.au/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/about/</guid>
+      <description>&lt;p&gt;This is Tim Wang and I like coding. Nice to meet you all here.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Contact</title>
+      <link>https://timwang.au/contact/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/contact/</guid>
+      <description>&lt;script&gt;&#xA;function emailRevealer(){&#xA;    var buttonText = document.getElementById(&#34;button-text&#34;);&#xA;    buttonText.innerText = &#34;&#34;;&#xA;    &#xA;    var spinner = document.getElementById(&#39;spinner&#39;);&#xA;    spinner.classList.add(&#34;spinner-border&#34;, &#34;spinner-border-sm&#34;);&#xA;&#xA;    function displayEmail() {&#xA;        &#xA;            var text = &#34;me@timwang.au&#34;&#xA;        &#xA;&#xA;        var emailDisplay = document.getElementById(&#34;email-display&#34;);&#xA;        emailDisplay.innerText = text&#xA;&#xA;        spinner.classList.remove(&#34;spinner-border&#34;, &#34;spinner-border-sm&#34;);&#xA;        buttonText.innerText = &#34;Click me&#34;;&#xA;    }&#xA;&#xA;    setTimeout(displayEmail, 2000);&#xA;}&#xA;&lt;/script&gt;&#xA;&#xA;&lt;p&gt;&#xA;&lt;button class=&#34;btn btn-dark&#34; type=&#34;button&#34; onclick=&#34;emailRevealer();&#34;&gt;&#xA;    &lt;span id=&#34;spinner&#34; role=&#34;status&#34; aria-hidden=&#34;true&#34;&gt;&lt;/span&gt;&#xA;    &lt;span id=&#34;button-text&#34;&gt;Click me&lt;/span&gt;&#xA;&lt;/button&gt; to reveal my email.&#xA;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

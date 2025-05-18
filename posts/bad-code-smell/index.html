@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><title>
+    
+    Bad Code Smells: The Silent Killers of Swift Elegance | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="http://localhost:1313/posts/bad-code-smell/" />
+<link rel="icon" type="image/png" href="http://localhost:1313/image/favicon.ico">
+
+
+<meta name="description" content="
+    Understanding code smells is essential for maintaining clean, efficient, and manageable Swift codebases. This tech blog explains various code smells that should be avoided by us as Swift developers to keep its elegance.
+    "
+/>
+<meta property="og:description" content="
+    Understanding code smells is essential for maintaining clean, efficient, and manageable Swift codebases. This tech blog explains various code smells that should be avoided by us as Swift developers to keep its elegance.
+    " 
+/>
+
+
+
+
+<meta property="og:title" content="Bad Code Smells: The Silent Killers of Swift Elegance" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/bad-code-smell/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2025-02-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2025-02-23T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/posts/bad-code-smell/feature.jpeg">
+  <meta name="twitter:title" content="Bad Code Smells: The Silent Killers of Swift Elegance">
+  <meta name="twitter:description" content="Understanding code smells is essential for maintaining clean, efficient, and manageable Swift codebases. This tech blog explains various code smells that should be avoided by us as Swift developers to keep its elegance.">
+
+
+  <meta itemprop="name" content="Bad Code Smells: The Silent Killers of Swift Elegance">
+  <meta itemprop="description" content="Understanding code smells is essential for maintaining clean, efficient, and manageable Swift codebases. This tech blog explains various code smells that should be avoided by us as Swift developers to keep its elegance.">
+  <meta itemprop="datePublished" content="2025-02-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-02-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="4110">
+  <meta itemprop="image" content="http://localhost:1313/posts/bad-code-smell/feature.jpeg">
+  <meta itemprop="keywords" content="Swift,IOS,Swift ServerSide,Code Efficiency">
+
+
+
+
+<link rel="stylesheet" href="http://localhost:1313/main.min.css">
+
+
+
+
+
+<script src="http://localhost:1313/bundle.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="http://localhost:1313/katex/katex.min.css">
+<script defer src="http://localhost:1313/katex/katex.min.js"></script>
+<script defer src="http://localhost:1313/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="http://localhost:1313/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><a href="http://localhost:1313/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="http://localhost:1313/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="http://localhost:1313/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="http://localhost:1313/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="http://localhost:1313/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">Bad Code Smells: The Silent Killers of Swift Elegance</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Feb 23, 2025
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    23 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="http://localhost:1313/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="http://localhost:1313/tags/ios"><span
+                                    class="tag bg-dark">iOS</span></a>
+                            
+                            <a href="http://localhost:1313/tags/swift-serverside"><span
+                                    class="tag bg-dark">Swift ServerSide</span></a>
+                            
+                            <a href="http://localhost:1313/tags/code-efficiency"><span
+                                    class="tag bg-dark">Code efficiency</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=http://localhost:1313/posts/bad-code-smell/feature.jpeg alt="Bad Code Smells: The Silent Killers of Swift Elegance">
+                        </figure>
+                    
+                
+
+                <p>Understanding code smells is essential for maintaining clean, efficient, and manageable Swift codebases. This tech blog explains various code smells that should be avoided by us as Swift developers to keep its elegance.</p>
+<h1 id="1-bloaters">1. Bloaters</h1>
+<h1 id="a-long-method">a) Long Method</h1>
+<p>Long methods handle multiple tasks and reduce readability.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">processOrder</span>(order: Order) {  
+</span></span><span style="display:flex;"><span>    validate(order)  
+</span></span><span style="display:flex;"><span>    calculatePrice(order)  
+</span></span><span style="display:flex;"><span>    applyDiscount(order)  
+</span></span><span style="display:flex;"><span>    generateInvoice(order)  
+</span></span><span style="display:flex;"><span>    sendConfirmation(order)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>Solution:</strong> Refactor into smaller methods.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">processOrder</span>(order: Order) {  
+</span></span><span style="display:flex;"><span>    validate(order)  
+</span></span><span style="display:flex;"><span>    finalizeOrder(order)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">finalizeOrder</span>(order: Order) {  
+</span></span><span style="display:flex;"><span>    calculatePrice(order)  
+</span></span><span style="display:flex;"><span>    applyDiscount(order)  
+</span></span><span style="display:flex;"><span>    generateInvoice(order)  
+</span></span><span style="display:flex;"><span>    sendConfirmation(order)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="b-large-class">b) Large Class</h1>
+<p>A class with too many responsibilities.</p>
+<p><strong>Solution:</strong> Break into smaller classes with clear responsibilities.</p>
+<h1 id="c-primitive-obsession">c) Primitive Obsession</h1>
+<p>Excessive use of primitives instead of meaningful objects.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> userName: String  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> userEmail: String  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> userAddress: String
+</span></span></code></pre></div><p><strong>Solution:</strong> Create a dedicated object.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">UserProfile</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> name: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> email: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> address: String  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="d-data-clumpslong-parameter-list">d) Data Clumps/Long Parameter List</h1>
+<p>Frequent use of grouped variables or methods with many parameters.</p>
+<p><strong>Solution:</strong> Encapsulate them into classes or structs.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">UserDetails</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> name: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> age: Int  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> email: String  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">createUser</span>(details: UserDetails) {}
+</span></span></code></pre></div><h1 id="2-object-orientation-abusers">2. Object-Orientation Abusers</h1>
+<h1 id="a-switch-statements">a) Switch Statements</h1>
+<p>Overuse of conditional logic.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">PaymentType</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> creditCard  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> paypal  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> applePay  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">processPayment</span>(type: PaymentType, amount: Double) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span> type {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> .creditCard:  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Processing credit card payment of </span><span style="color:#e6db74">\(</span>amount<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> .paypal:  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Processing PayPal payment of </span><span style="color:#e6db74">\(</span>amount<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> .applePay:  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Processing Apple Pay payment of </span><span style="color:#e6db74">\(</span>amount<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>Solution:</strong> Employ polymorphism or strategy pattern.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">PaymentStrategy</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">pay</span>(amount: Double)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CreditCardPayment</span>: PaymentStrategy {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">pay</span>(amount: Double) {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Processing credit card payment of </span><span style="color:#e6db74">\(</span>amount<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PayPalPayment</span>: PaymentStrategy {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">pay</span>(amount: Double) {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Processing PayPal payment of </span><span style="color:#e6db74">\(</span>amount<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ApplePayPayment</span>: PaymentStrategy {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">pay</span>(amount: Double) {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Processing Apple Pay payment of </span><span style="color:#e6db74">\(</span>amount<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">processPayment</span>(strategy: PaymentStrategy, amount: Double) {  
+</span></span><span style="display:flex;"><span>    strategy.pay(amount: amount)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Example Usage  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> paymentStrategy = PayPalPayment()  
+</span></span><span style="display:flex;"><span>processPayment(strategy: paymentStrategy, amount: <span style="color:#ae81ff">50.0</span>)
+</span></span></code></pre></div><p>Using the strategy pattern eliminates conditional complexity, enhances flexibility, and adheres to the Open/Closed principle.</p>
+<h1 id="b-temporary-field"><strong>b) Temporary Field</strong></h1>
+<p>Fields used only under certain conditions, indicating poor design.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserSession</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> userName: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> sessionToken: String?  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> expiryDate: Date?  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(userName: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.userName = userName  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">login</span>(token: String, expiry: Date) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.sessionToken = token  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.expiryDate = expiry  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">logout</span>() {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.sessionToken = <span style="color:#66d9ef">nil</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.expiryDate = <span style="color:#66d9ef">nil</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In this example, <code>sessionToken</code> and <code>expiryDate</code> are temporary fields, only relevant during an active session.</p>
+<p><strong>Solution</strong>: Extract fields into separate classes or contexts.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Session</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> token: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> expiryDate: Date  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> userName: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> session: Session?  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(userName: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.userName = userName  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">login</span>(session: Session) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.session = session  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">logout</span>() {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.session = <span style="color:#66d9ef">nil</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>By extracting temporary fields into their own context (<code>Session</code>), we improve class clarity, ensure single responsibility, and make our code easier to maintain.</p>
+<h1 id="c-refused-bequest"><strong>c) Refused Bequest</strong></h1>
+<p>Subclasses that don’t use all inherited methods.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Bird</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fly</span>() {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Flying&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">swim</span>() {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Swimming&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Sparrow</span>: Bird {  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Sparrows can&#39;t swim; the swim method is irrelevant  </span>
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> sparrow = Sparrow()  
+</span></span><span style="display:flex;"><span>sparrow.fly()    <span style="color:#75715e">// Fine  </span>
+</span></span><span style="display:flex;"><span>sparrow.swim()   <span style="color:#75715e">// Irrelevant method inherited unnecessarily</span>
+</span></span></code></pre></div><p>In this scenario, <code>Sparrow</code> inherits the method <code>swim()</code> which it doesn&rsquo;t need, resulting in refused bequest.</p>
+<p><strong>Solution</strong>: Use composition instead of inheritance.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Flyable</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fly</span>()  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Flyable</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fly</span>() {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;fly&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Swimmable</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">swim</span>()  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Swimmable</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">swim</span>() {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;swim&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Sparrow</span>: Flyable {  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Duck</span>: Flyable <span style="color:#f92672">&amp;</span> Swimmable {      
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> sparrow = Sparrow()  
+</span></span><span style="display:flex;"><span>sparrow.fly()  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> duck = Duck()  
+</span></span><span style="display:flex;"><span>duck.fly()  
+</span></span><span style="display:flex;"><span>duck.swim()
+</span></span></code></pre></div><p>Using composition (via protocols and separate behavior classes) avoids unnecessary method inheritance and leads to clearer, more flexible, and maintainable designs.</p>
+<h1 id="d-alternative-classes-with-different-interfaces"><strong>d) Alternative Classes with Different Interfaces</strong></h1>
+<p>Similar functionality with inconsistent interfaces.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">JSONLogger</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">logJSON</span>(message: String) {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;{</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">log</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">: </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">\(</span>message<span style="color:#e6db74">)</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">}&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">XMLLogger</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">writeXMLLog</span>(message: String) {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;&lt;log&gt;</span><span style="color:#e6db74">\(</span>message<span style="color:#e6db74">)</span><span style="color:#e6db74">&lt;/log&gt;&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> jsonLogger = JSONLogger()  
+</span></span><span style="display:flex;"><span>jsonLogger.logJSON(message: <span style="color:#e6db74">&#34;System error&#34;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> xmlLogger = XMLLogger()  
+</span></span><span style="display:flex;"><span>xmlLogger.writeXMLLog(message: <span style="color:#e6db74">&#34;System error&#34;</span>)
+</span></span></code></pre></div><p>In this example, both classes perform similar logging tasks but with inconsistent interfaces.</p>
+<p><strong>Solution</strong>: Refactor into common interfaces or inheritance.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Logger</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">log</span>(message: String)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">JSONLogger</span>: Logger {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">log</span>(message: String) {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;{</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">log</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">: </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">\(</span>message<span style="color:#e6db74">)</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">}&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">XMLLogger</span>: Logger {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">log</span>(message: String) {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;&lt;log&gt;</span><span style="color:#e6db74">\(</span>message<span style="color:#e6db74">)</span><span style="color:#e6db74">&lt;/log&gt;&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> loggers: [Logger] = [JSONLogger(), XMLLogger()]  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> logger <span style="color:#66d9ef">in</span> loggers {  
+</span></span><span style="display:flex;"><span>    logger.log(message: <span style="color:#e6db74">&#34;System error&#34;</span>)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>By refactoring into a shared interface (<code>Logger</code> protocol), consistency improves, enhancing flexibility, readability, and maintainability.</p>
+<h1 id="3-change-preventers">3. Change Preventers</h1>
+<h1 id="a-divergent-change">a) Divergent Change</h1>
+<p>One class changing for multiple reasons.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserManager</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">authenticateUser</span>(username: String, password: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// authentication logic  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">updateProfile</span>(userID: Int, newProfileData: [String: Any]) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// update user profile logic  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">logActivity</span>(activity: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// logging user activities  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In this example, <code>UserManager</code> changes for unrelated reasons—authentication logic, profile management, and logging.</p>
+<p><strong>Solution:</strong> Split into classes based on responsibilities.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AuthenticationService</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">authenticate</span>(username: String, password: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// authentication logic  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserProfileService</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">updateProfile</span>(userID: Int, newProfileData: [String: Any]) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// profile update logic  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ActivityLogger</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">log</span>(activity: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// logging logic  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> authService = AuthenticationService()  
+</span></span><span style="display:flex;"><span>authService.authenticate(username: <span style="color:#e6db74">&#34;user&#34;</span>, password: <span style="color:#e6db74">&#34;password123&#34;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> profileService = UserProfileService()  
+</span></span><span style="display:flex;"><span>profileService.updateProfile(userID: <span style="color:#ae81ff">42</span>, newProfileData: [<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Jane&#34;</span>])  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> logger = ActivityLogger()  
+</span></span><span style="display:flex;"><span>logger.log(activity: <span style="color:#e6db74">&#34;User logged in&#34;</span>)
+</span></span></code></pre></div><p>By clearly separating these responsibilities, the classes become cohesive, easier to maintain, and less prone to unintended side effects during changes.</p>
+<h1 id="b-shotgun-surgery"><strong>b) Shotgun Surgery</strong></h1>
+<p>Single changes affecting multiple classes.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserProfile</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">updateName</span>(userID: Int, newName: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// update logic  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserSettings</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">updateName</span>(userID: Int, newName: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// update logic  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserNotifications</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">updateName</span>(userID: Int, newName: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// update logic  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Here, updating the user’s name requires modifying multiple unrelated classes, causing scattered and duplicated changes.</p>
+<p><strong>Solution</strong>: Consolidate related behavior into fewer classes.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">updateName</span>(userID: Int, newName: String) {  
+</span></span><span style="display:flex;"><span>        updateProfileName(userID: userID, newName: newName)  
+</span></span><span style="display:flex;"><span>        updateSettingsName(userID: userID, newName: newName)  
+</span></span><span style="display:flex;"><span>        updateNotificationsName(userID: userID, newName: newName)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">updateProfileName</span>(userID: Int, newName: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// profile name update logic  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">updateSettingsName</span>(userID: Int, newName: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// settings name update logic  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">updateNotificationsName</span>(userID: Int, newName: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// notifications name update logic  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> user = User()  
+</span></span><span style="display:flex;"><span>user.updateName(userID: <span style="color:#ae81ff">42</span>, newName: <span style="color:#e6db74">&#34;Alice&#34;</span>)
+</span></span></code></pre></div><p>By centralizing the related behavior into a single class (<code>User</code>), changes are streamlined, reducing the complexity and risk associated with scattered updates.</p>
+<h1 id="c-parallel-inheritance-hierarchies"><strong>c) Parallel Inheritance Hierarchies</strong></h1>
+<p>Multiple related hierarchies changing together.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">// UI Elements hierarchy  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Button</span> {}  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RoundedButton</span>: Button {}  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SquareButton</span>: Button {}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Style hierarchy  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ButtonStyle</span> {}  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RoundedButtonStyle</span>: ButtonStyle {}  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SquareButtonStyle</span>: ButtonStyle {}
+</span></span></code></pre></div><p>In this example, every time a new type of <code>Button</code> is added, a corresponding style subclass must be created, leading to tightly coupled parallel hierarchies.</p>
+<p><strong>Solution</strong>: Merge hierarchies or use composition.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">// Button styles  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Style</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">applyStyle</span>()  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RoundedStyle</span>: Style {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">applyStyle</span>() {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Applying rounded style&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SquareStyle</span>: Style {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">applyStyle</span>() {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Applying square style&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Button with composition  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Button</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">let</span> style: Style  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(style: Style) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.style = style  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">render</span>() {  
+</span></span><span style="display:flex;"><span>        style.applyStyle()  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Rendering button&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> roundedButton = Button(style: RoundedStyle())  
+</span></span><span style="display:flex;"><span>roundedButton.render()  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> squareButton = Button(style: SquareStyle())  
+</span></span><span style="display:flex;"><span>squareButton.render()
+</span></span></code></pre></div><p>Using composition to combine different styles eliminates parallel inheritance, reduces tight coupling, and significantly improves flexibility and maintainability.</p>
+<h1 id="4-dispensables">4. Dispensables</h1>
+<h1 id="a-comments"><strong>a) Comments</strong></h1>
+<p>Excessive or outdated comments indicating poor readability.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">// User class stores user information  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// User&#39;s name  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> name: String    
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Initialize a new User  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(name: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Set user&#39;s name  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.name = name  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Function to update user&#39;s name  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">updateName</span>(newName: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Assign new name to user  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.name = newName  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>These comments don’t add clarity, as the code itself is already clear and readable.</p>
+<p><strong>Solution</strong>: Improve code readability and remove redundant comments.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> name: String    
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(name: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.name = name  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">updateName</span>(to newName: String) {  
+</span></span><span style="display:flex;"><span>        name = newName  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>By writing self-explanatory, clearly named methods and variables, we reduce the need for excessive comments, resulting in cleaner and more maintainable code.</p>
+<h1 id="b-duplicate-code">b) Duplicate Code</h1>
+<p>Repeated code segments.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProfileViewController</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">displayFormattedDate</span>(date: Date) -&gt; String {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> formatter = DateFormatter()  
+</span></span><span style="display:flex;"><span>        formatter.dateStyle = .medium  
+</span></span><span style="display:flex;"><span>        formatter.timeStyle = .short  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> formatter.string(from: date)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NotificationViewController</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">showFormattedDate</span>(date: Date) -&gt; String {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> formatter = DateFormatter()  
+</span></span><span style="display:flex;"><span>        formatter.dateStyle = .medium  
+</span></span><span style="display:flex;"><span>        formatter.timeStyle = .short  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> formatter.string(from: date)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Here, both classes contain identical date formatting logic, leading to repetitive and duplicated code.</p>
+<p><strong>Solution:</strong> Extract common functionality.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">DateFormatterHelper</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">let</span> shared = DateFormatterHelper()  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">let</span> formatter: DateFormatter  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">init</span>() {  
+</span></span><span style="display:flex;"><span>        formatter = DateFormatter()  
+</span></span><span style="display:flex;"><span>        formatter.dateStyle = .medium  
+</span></span><span style="display:flex;"><span>        formatter.timeStyle = .short  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">formattedDate</span>(<span style="color:#66d9ef">_</span> date: Date) -&gt; String {  
+</span></span><span style="display:flex;"><span>        formatter.string(from: date)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProfileViewController</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">displayFormattedDate</span>(date: Date) -&gt; String {  
+</span></span><span style="display:flex;"><span>        DateFormatterHelper.shared.formattedDate(date)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NotificationViewController</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">showFormattedDate</span>(date: Date) -&gt; String {  
+</span></span><span style="display:flex;"><span>        DateFormatterHelper.shared.formattedDate(date)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Extracting repetitive code into reusable components (like <code>DateFormatterHelper</code>) ensures a single source of truth, simplifies maintenance, and prevents inconsistencies.</p>
+<h1 id="c-dead-code"><strong>c) Dead Code</strong></h1>
+<p>Unused code cluttering the codebase.</p>
+<p>Example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PaymentProcessor</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">processPayment</span>(amount: Double) {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Processing payment of </span><span style="color:#e6db74">\(</span>amount<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Unused function left behind  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">oldPaymentMethod</span>(amount: Double) {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Old payment method for </span><span style="color:#e6db74">\(</span>amount<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> processor = PaymentProcessor()  
+</span></span><span style="display:flex;"><span>processor.processPayment(amount: <span style="color:#ae81ff">100.0</span>)  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// oldPaymentMethod is never called</span>
+</span></span></code></pre></div><p>In this example, <code>oldPaymentMethod</code> is dead code, adding unnecessary clutter to the class.</p>
+<p><strong>Solution</strong>: Regularly remove unnecessary code.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PaymentProcessor</span> {  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">processPayment</span>(amount: Double) {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Processing payment of </span><span style="color:#e6db74">\(</span>amount<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> processor = PaymentProcessor()  
+</span></span><span style="display:flex;"><span>processor.processPayment(amount: <span style="color:#ae81ff">100.0</span>)
+</span></span></code></pre></div><p>Regularly removing dead code streamlines our codebase, reduces complexity, and makes future maintenance tasks simpler and more efficient.</p>
+<h1 id="d-speculative-generality"><strong>d) Speculative Generality</strong></h1>
+<p>Code written for hypothetical future requirements.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">DataSource</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fetchData</span>() -&gt; [String]  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LocalDataSource</span>: DataSource {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fetchData</span>() -&gt; [String] {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> [<span style="color:#e6db74">&#34;Local data&#34;</span>]  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Hypothetical class created for future remote source, currently unused  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RemoteDataSource</span>: DataSource {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fetchData</span>() -&gt; [String] {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Implementation to be added in future  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> []  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DataManager</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> dataSource: DataSource = LocalDataSource()  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">loadData</span>() -&gt; [String] {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> dataSource.fetchData()  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Here, <code>RemoteDataSource</code> is speculative generality, added without a clear, immediate requirement.</p>
+<p><strong>Solution</strong>: Remove or simplify unnecessary abstractions.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LocalDataSource</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fetchData</span>() -&gt; [String] {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> [<span style="color:#e6db74">&#34;Local data&#34;</span>]  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DataManager</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> dataSource = LocalDataSource()  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">loadData</span>() -&gt; [String] {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> dataSource.fetchData()  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Simplifying by removing speculative or unnecessary abstractions leads to cleaner, simpler, and more maintainable code. Add complexity only when it’s genuinely needed.</p>
+<h1 id="5-couplers">5. Couplers</h1>
+<h1 id="a-inappropriate-intimacy"><strong>a) Inappropriate Intimacy</strong></h1>
+<p>Classes excessively accessing internal details of other classes.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Customer</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> name: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> orders: [Double]  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(name: String, orders: [Double]) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.name = name  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.orders = orders  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ReportGenerator</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">printCustomerReport</span>(customer: Customer) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> totalAmount = customer.orders.reduce(<span style="color:#ae81ff">0</span>, <span style="color:#f92672">+</span>)  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Customer </span><span style="color:#e6db74">\(</span>customer.name<span style="color:#e6db74">)</span><span style="color:#e6db74"> spent a total of </span><span style="color:#e6db74">\(</span>totalAmount<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Here, <code>ReportGenerator</code> accesses data from <code>Customer</code> extensively, indicating the method might belong closer to the customer itself.</p>
+<p><strong>Solution</strong>: Decouple classes and use clear interfaces.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Customer</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> name: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> orders: [Double]  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(name: String, orders: [Double]) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.name = name  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.orders = orders  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">totalOrderAmount</span>() -&gt; Double {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> orders.reduce(<span style="color:#ae81ff">0</span>, <span style="color:#f92672">+</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">generateReport</span>() {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Customer </span><span style="color:#e6db74">\(</span>name<span style="color:#e6db74">)</span><span style="color:#e6db74"> spent a total of </span><span style="color:#e6db74">\(</span>totalOrderAmount<span style="color:#e6db74">())</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> customer = Customer(name: <span style="color:#e6db74">&#34;Alice&#34;</span>, orders: [<span style="color:#ae81ff">120.0</span>, <span style="color:#ae81ff">35.5</span>, <span style="color:#ae81ff">220.0</span>])  
+</span></span><span style="display:flex;"><span>customer.generateReport()
+</span></span></code></pre></div><p>By moving the functionality closer to the relevant data (<code>Customer</code>), the code becomes more cohesive, readable, and maintainable.</p>
+<h1 id="b-message-chains"><strong>b) Message Chains</strong></h1>
+<p>Excessively long method call chains.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Address</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> street: String  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(street: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.street = street  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Profile</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> address: Address  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(address: Address) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.address = address  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> profile: Profile  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(profile: Profile) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.profile = profile  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Excessively long message chain  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> user = User(profile: Profile(address: Address(street: <span style="color:#e6db74">&#34;123 Main St&#34;</span>)))  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> street = user.profile.address.street  
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;User&#39;s street: </span><span style="color:#e6db74">\(</span>street<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)
+</span></span></code></pre></div><p>This chain (<code>user.profile.address.street</code>) is excessively long, decreasing readability.</p>
+<p><strong>Solution</strong>: Introduce intermediate methods to simplify call chains.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> profile: Profile  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(profile: Profile) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.profile = profile  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">streetAddress</span>() -&gt; String {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> profile.streetAddress()  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Profile</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> address: Address  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(address: Address) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.address = address  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">streetAddress</span>() -&gt; String {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> address.street  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Address</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> street: String  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(street: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.street = street  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Simplified usage  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> user = User(profile: Profile(address: Address(street: <span style="color:#e6db74">&#34;123 Main St&#34;</span>)))  
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;User&#39;s street: </span><span style="color:#e6db74">\(</span>user.streetAddress<span style="color:#e6db74">())</span><span style="color:#e6db74">&#34;</span>)
+</span></span></code></pre></div><p>Introducing intermediate methods (<code>streetAddress()</code>) reduces complexity, improves readability, and minimizes potential null-reference errors.</p>
+<h1 id="6-concurrency-smells">6. Concurrency Smells</h1>
+<h1 id="a-temporal-coupling"><strong>a) Temporal Coupling</strong></h1>
+<p>Methods that must be executed in a specific order.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Database</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> isConnected = <span style="color:#66d9ef">false</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">connect</span>() {  
+</span></span><span style="display:flex;"><span>        isConnected = <span style="color:#66d9ef">true</span>  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Database connected.&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fetchData</span>() {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> isConnected <span style="color:#66d9ef">else</span> {  
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;Error: Database not connected.&#34;</span>)  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Fetching data...&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage (Temporal coupling: connect() must be called before fetchData())  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> db = Database()  
+</span></span><span style="display:flex;"><span>db.connect()  
+</span></span><span style="display:flex;"><span>db.fetchData()
+</span></span></code></pre></div><p>Here, <code>fetchData()</code> depends on <code>connect()</code> being called first, creating temporal coupling.</p>
+<p><strong>Solution</strong>: Refactor methods to make calls independent.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Database</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> isConnected = <span style="color:#66d9ef">false</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">connectIfNeeded</span>() {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>isConnected {  
+</span></span><span style="display:flex;"><span>            isConnected = <span style="color:#66d9ef">true</span>  
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;Database connected.&#34;</span>)  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fetchData</span>() {  
+</span></span><span style="display:flex;"><span>        connectIfNeeded()  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Fetching data...&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage (No longer order-dependent)  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> db = Database()  
+</span></span><span style="display:flex;"><span>db.fetchData()
+</span></span></code></pre></div><p>By refactoring the methods to internally manage their dependencies, we eliminate temporal coupling, creating safer and more robust code.</p>
+<h1 id="b-excessive-synchronization">b) Excessive Synchronization</h1>
+<p>Heavy use of synchronization mechanisms.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Counter</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">let</span> lock = NSLock()  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> count = <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">increment</span>() {  
+</span></span><span style="display:flex;"><span>        lock.lock()  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">defer</span> { lock.unlock() }  
+</span></span><span style="display:flex;"><span>        count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">getCount</span>() -&gt; Int {  
+</span></span><span style="display:flex;"><span>        lock.lock()  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">defer</span> { lock.unlock() }  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> count  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> counter = Counter()  
+</span></span><span style="display:flex;"><span>counter.increment()  
+</span></span><span style="display:flex;"><span>print(counter.getCount())
+</span></span></code></pre></div><p>Here, using <code>NSLock</code> excessively can degrade performance by locking even during simple read operations.</p>
+<p><strong>Solution:</strong> Employ Swift’s concurrency patterns like actors.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>actor Counter {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> count = <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">increment</span>() {  
+</span></span><span style="display:flex;"><span>        count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">getCount</span>() -&gt; Int {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> count  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> counter = Counter()  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>Task {  
+</span></span><span style="display:flex;"><span>    await counter.increment()  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> currentCount = await counter.getCount()  
+</span></span><span style="display:flex;"><span>    print(currentCount)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>By utilizing granular locking or actor-based concurrency, we significantly improve performance, simplify synchronization logic, and make the code safer and easier to maintain.</p>
+<h1 id="7-readability-issues">7. <strong>Readability Issues</strong></h1>
+<h1 id="a-poor-naming">a) Poor Naming</h1>
+<p>Ambiguous or unclear naming of code elements.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Data</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> val: Int  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(v: Int) {  
+</span></span><span style="display:flex;"><span>        val = v  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">calc</span>() -&gt; Int {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> val <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> obj = Data(v: <span style="color:#ae81ff">10</span>)  
+</span></span><span style="display:flex;"><span>print(obj.calc()) <span style="color:#75715e">// unclear purpose</span>
+</span></span></code></pre></div><p>In this example, the class name (<code>Data</code>), variable (<code>val</code>), and method (<code>calc</code>) are ambiguous, making the code hard to understand.</p>
+<p><strong>Solution:</strong> Adopt clear, descriptive naming conventions.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ScoreCalculator</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> baseScore: Int  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(baseScore: Int) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.baseScore = baseScore  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">calculateTotalScore</span>() -&gt; Int {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> baseScore <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> calculator = ScoreCalculator(baseScore: <span style="color:#ae81ff">10</span>)  
+</span></span><span style="display:flex;"><span>print(calculator.calculateTotalScore()) <span style="color:#75715e">// Clearly conveys its purpose</span>
+</span></span></code></pre></div><p>Clear and descriptive naming significantly improves readability, makes intent explicit, and simplifies future maintenance.</p>
+<h1 id="b-magic-numbers"><strong>b) Magic numbers</strong></h1>
+<p>Unexplained numeric literals in code.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">isEligibleForDiscount</span>(orderAmount: Double) -&gt; Bool {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> orderAmount <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">100.0</span> <span style="color:#75715e">// Magic number: unclear why 100 is used  </span>
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> orderTotal = <span style="color:#ae81ff">120.0</span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> isEligibleForDiscount(orderAmount: orderTotal) {  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Discount applied!&#34;</span>)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Using <code>100.0</code> directly in the code is unclear and can confuse readers about its significance.</p>
+<h1 id="solution-replace-with-named-constants"><strong>Solution</strong>: Replace with named constants.</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">isEligibleForDiscount</span>(orderAmount: Double) -&gt; Bool {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> orderAmount <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">100.0</span> <span style="color:#75715e">// Magic number: unclear why 100 is used  </span>
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> orderTotal = <span style="color:#ae81ff">120.0</span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> isEligibleForDiscount(orderAmount: orderTotal) {  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Discount applied!&#34;</span>)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Replacing magic numbers with clearly named constants improves readability, maintainability, and makes the code self-explanatory.</p>
+<h1 id="c-deep-nesting"><strong>c) Deep Nesting</strong></h1>
+<p>Excessive nesting reducing readability.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">authenticateUser</span>(username: String?, password: String?) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> username = username {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>username.isEmpty {  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> password = password {  
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> password.count <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">8</span> {  
+</span></span><span style="display:flex;"><span>                    print(<span style="color:#e6db74">&#34;Authentication successful.&#34;</span>)  
+</span></span><span style="display:flex;"><span>                } <span style="color:#66d9ef">else</span> {  
+</span></span><span style="display:flex;"><span>                    print(<span style="color:#e6db74">&#34;Password too short.&#34;</span>)  
+</span></span><span style="display:flex;"><span>                }  
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {  
+</span></span><span style="display:flex;"><span>                print(<span style="color:#e6db74">&#34;Password is missing.&#34;</span>)  
+</span></span><span style="display:flex;"><span>            }  
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {  
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;Username is empty.&#34;</span>)  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Username is missing.&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Deep nesting significantly reduces readability and makes it hard to follow logic clearly.</p>
+<p><strong>Solution</strong>: Refactor using methods, guard clauses, or early returns.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">authenticateUser</span>(username: String?, password: String?) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">guard</span> <span style="color:#66d9ef">let</span> username = username, <span style="color:#f92672">!</span>username.isEmpty <span style="color:#66d9ef">else</span> {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Username is missing or empty.&#34;</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">guard</span> <span style="color:#66d9ef">let</span> password = password, password.count <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">8</span> <span style="color:#66d9ef">else</span> {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Password is missing or too short.&#34;</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Authentication successful.&#34;</span>)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Refactoring deep nesting into guard clauses or early returns greatly enhances readability, simplifies logic, and clearly states conditions upfront.</p>
+<h1 id="8-exception-handling-smells">8. Exception Handling Smells</h1>
+<h1 id="a-swallowed-exceptions">a) Swallowed Exceptions</h1>
+<p>Ignoring errors silently.</p>
+<p>Example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">FileError</span>: Error {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> notFound  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">readFile</span>(named fileName: String) <span style="color:#66d9ef">throws</span> -&gt; String {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">throw</span> FileError.notFound  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">loadData</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">do</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> data = <span style="color:#66d9ef">try</span> readFile(named: <span style="color:#e6db74">&#34;data.txt&#34;</span>)  
+</span></span><span style="display:flex;"><span>        print(data)  
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">catch</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Exception is swallowed silently  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>loadData()
+</span></span></code></pre></div><p>Here, the exception is caught but ignored, providing no information about the error.</p>
+<p><strong>Solution:</strong> Explicitly handle errors.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">loadData</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">do</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> data = <span style="color:#66d9ef">try</span> readFile(named: <span style="color:#e6db74">&#34;data.txt&#34;</span>)  
+</span></span><span style="display:flex;"><span>        print(data)  
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">catch</span> {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Failed to load data: </span><span style="color:#e6db74">\(</span>error<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Consider logging or handling the error appropriately  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>loadData()
+</span></span></code></pre></div><p>Explicitly handling and logging exceptions provides better error visibility, aiding debugging and ensuring issues can be addressed promptly.</p>
+<h1 id="b-broad-exception-catching"><strong>b) Broad Exception Catching</strong></h1>
+<p>Catching overly general exceptions.</p>
+<p>Example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">NetworkError</span>: Error {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> offline  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> timeout  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fetchData</span>() <span style="color:#66d9ef">throws</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">throw</span> NetworkError.timeout  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span> fetchData()  
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">catch</span> {  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;An error occurred.&#34;</span>) <span style="color:#75715e">// Too general, doesn&#39;t specify the actual issue  </span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Catching a general exception makes it difficult to diagnose specific problems.</p>
+<p><strong>Solution</strong>: Catch specific, meaningful exceptions.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">do</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span> fetchData()  
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">catch</span> NetworkError.offline {  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;No internet connection. Please check your network.&#34;</span>)  
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">catch</span> NetworkError.timeout {  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Request timed out. Try again later.&#34;</span>)  
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">catch</span> {  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;An unexpected error occurred: </span><span style="color:#e6db74">\(</span>error<span style="color:#e6db74">)</span><span style="color:#e6db74">.&#34;</span>)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Catching specific exceptions clarifies error handling, making debugging easier and providing better user feedback.</p>
+<h1 id="c-excessive-logging"><strong>c) Excessive Logging</strong></h1>
+<p>Logging redundant or irrelevant information.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fetchUserData</span>(userID: Int) {  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Starting data fetch.&#34;</span>)  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Fetching data for userID: </span><span style="color:#e6db74">\(</span>userID<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Simulated data fetching  </span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Data fetch in progress...&#34;</span>)  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Still fetching...&#34;</span>)  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Almost done...&#34;</span>)  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Data fetch completed for userID: </span><span style="color:#e6db74">\(</span>userID<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>fetchUserData(userID: <span style="color:#ae81ff">42</span>)
+</span></span></code></pre></div><p>In this example, multiple redundant logs clutter the output, making it harder to focus on important information.</p>
+<p><strong>Solution</strong>: Keep logs concise and relevant.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fetchUserData</span>(userID: Int) {  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Fetching data for userID: </span><span style="color:#e6db74">\(</span>userID<span style="color:#e6db74">)</span><span style="color:#e6db74">...&#34;</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Simulated data fetching  </span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Data fetch completed.&#34;</span>)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>fetchUserData(userID: <span style="color:#ae81ff">42</span>)
+</span></span></code></pre></div><p>Keeping logs concise and focused makes debugging easier and improves readability, ensuring only essential information is logged.</p>
+<h1 id="9-architectural-smells">9. Architectural Smells</h1>
+<h1 id="a-circular-dependencies">a) Circular Dependencies</h1>
+<p>Interdependent classes.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Engine</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> car: Car  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(car: Car) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.car = car  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Car</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> engine: Engine?  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>() {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.engine = Engine(car: <span style="color:#66d9ef">self</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In this example, <code>Car</code> depends on <code>Engine</code>, and <code>Engine</code> also depends on <code>Car</code>, creating a circular dependency.</p>
+<p><strong>Solution:</strong> Refactor to Remove Circular Dependency using Protocols.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">CarProtocol</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">start</span>()  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Engine</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">weak</span> <span style="color:#66d9ef">var</span> car: CarProtocol?  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(car: CarProtocol?) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.car = car  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">ignite</span>() {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Engine started.&#34;</span>)  
+</span></span><span style="display:flex;"><span>        car?.start()  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Car</span>: CarProtocol {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> engine: Engine?  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>() {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.engine = Engine(car: <span style="color:#66d9ef">self</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">start</span>() {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Car started.&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> car = Car()  
+</span></span><span style="display:flex;"><span>car.engine?.ignite()
+</span></span></code></pre></div><p>By using a protocol (<code>CarProtocol</code>) and a weak reference, the circular dependency is effectively removed, leading to more modular, testable, and maintainable code.</p>
+<h1 id="b-layer-violation"><strong>b) Layer Violation</strong></h1>
+<p>Bypassing established layers in application architecture.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">// Presentation Layer directly accessing Data Layer  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ViewController</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">loadData</span>() {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> database = Database()  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> data = database.fetchData()  <span style="color:#75715e">// Direct database access (layer violation)  </span>
+</span></span><span style="display:flex;"><span>        print(data)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Database</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fetchData</span>() -&gt; [String] {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> [<span style="color:#e6db74">&#34;Data item 1&#34;</span>, <span style="color:#e6db74">&#34;Data item 2&#34;</span>]  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>Solution</strong>: Enforce layer boundaries strictly.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">// Data Layer  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Database</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fetchData</span>() -&gt; [String] {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> [<span style="color:#e6db74">&#34;Data item 1&#34;</span>, <span style="color:#e6db74">&#34;Data item 2&#34;</span>]  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Business Logic Layer  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ViewModel</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">let</span> database = Database()  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">getDataForView</span>() -&gt; [String] {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> database.fetchData()  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Presentation Layer  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ViewController</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">let</span> viewModel = ViewModel()  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">loadData</span>() {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> data = viewModel.getDataForView()  <span style="color:#75715e">// Access via intermediate layer  </span>
+</span></span><span style="display:flex;"><span>        print(data)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Strictly enforcing layer boundaries through proper abstraction (like <code>ViewModel</code>) improves maintainability, reduces tight coupling, and preserves the intended architecture.</p>
+<h1 id="c-god-object"><strong>c) God Object</strong></h1>
+<p>Single classes dominating multiple responsibilities.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserManager</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">authenticateUser</span>(username: String, password: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// authentication logic  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">saveUserProfile</span>(userData: [String: Any]) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// save profile logic  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sendNotification</span>(message: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// notification logic  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">logActivity</span>(activity: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// activity logging logic  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In this example, <code>UserManager</code> handles authentication, data persistence, notifications, and logging—making it a God Object.</p>
+<p><strong>Solution</strong>: Refactor into smaller, focused classes.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AuthenticationService</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">authenticate</span>(username: String, password: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// authentication logic  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserProfileService</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">saveProfile</span>(userData: [String: Any]) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// save profile logic  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NotificationService</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sendNotification</span>(message: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// notification logic  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ActivityLogger</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">log</span>(activity: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// logging logic  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> authService = AuthenticationService()  
+</span></span><span style="display:flex;"><span>authService.authenticate(username: <span style="color:#e6db74">&#34;user&#34;</span>, password: <span style="color:#e6db74">&#34;1234&#34;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> profileService = UserProfileService()  
+</span></span><span style="display:flex;"><span>profileService.saveProfile(userData: [<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;John&#34;</span>])  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> notificationService = NotificationService()  
+</span></span><span style="display:flex;"><span>notificationService.sendNotification(message: <span style="color:#e6db74">&#34;Profile updated&#34;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> logger = ActivityLogger()  
+</span></span><span style="display:flex;"><span>logger.log(activity: <span style="color:#e6db74">&#34;User authenticated&#34;</span>)
+</span></span></code></pre></div><p>Refactoring a God Object into smaller, dedicated classes enhances readability, simplifies code maintenance, and adheres to the Single Responsibility Principle.</p>
+<h1 id="10-testing-smells">10. Testing Smells</h1>
+<h1 id="a-fragile-tests">a) Fragile Tests</h1>
+<p>Tests breaking easily with minor changes.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">// Implementation  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Calculator</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span>(<span style="color:#66d9ef">set</span>) <span style="color:#66d9ef">var</span> total = <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">_</span> value: Int) {  
+</span></span><span style="display:flex;"><span>        total <span style="color:#f92672">+=</span> value  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Fragile Test (depends on internal implementation detail `total`)  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">testCalculatorAdd</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> calculator = Calculator()  
+</span></span><span style="display:flex;"><span>    calculator.add(<span style="color:#ae81ff">5</span>)  
+</span></span><span style="display:flex;"><span>    assert(calculator.total == <span style="color:#ae81ff">5</span>) <span style="color:#75715e">// fragile, tied to internal state  </span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This test directly checks internal state, making it fragile if the implementation detail (<code>total</code>) changes.</p>
+<p><strong>Solution:</strong> Test Behaviors and Interfaces, not Implementation Details.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">// Improved Implementation  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Calculator</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> total = <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">_</span> value: Int) {  
+</span></span><span style="display:flex;"><span>        total <span style="color:#f92672">+=</span> value  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">currentTotal</span>() -&gt; Int {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> total  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Robust Test (testing behavior through public interfaces)  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">testCalculatorAdd</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> calculator = Calculator()  
+</span></span><span style="display:flex;"><span>    calculator.add(<span style="color:#ae81ff">5</span>)  
+</span></span><span style="display:flex;"><span>    assert(calculator.currentTotal() == <span style="color:#ae81ff">5</span>) <span style="color:#75715e">// test interface, not internal details  </span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Testing against clearly defined behaviors and public interfaces makes tests robust, less sensitive to minor changes, and easier to maintain.</p>
+<h1 id="b-slow-tests"><strong>b) Slow Tests</strong></h1>
+<p>Long-running tests reducing efficiency.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">testUserServiceFetchesUser</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> userService = UserService()  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> expectation = XCTestExpectation(description: <span style="color:#e6db74">&#34;Fetch user&#34;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    userService.fetchUser(userID: <span style="color:#ae81ff">42</span>) { user <span style="color:#66d9ef">in</span>  
+</span></span><span style="display:flex;"><span>        XCTAssertEqual(user.name, <span style="color:#e6db74">&#34;John Doe&#34;</span>)  
+</span></span><span style="display:flex;"><span>        expectation.fulfill()  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    wait(<span style="color:#66d9ef">for</span>: [expectation], timeout: <span style="color:#ae81ff">5</span>) <span style="color:#75715e">// Slow test due to actual network request  </span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This test is slow and unreliable because it depends on a live network request.</p>
+<p><strong>Solution</strong>: Optimize or mock external dependencies.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">// Mock UserService to avoid real network calls  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MockUserService</span>: UserServiceProtocol {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fetchUser</span>(userID: Int, completion: (User) -&gt; Void) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> mockUser = User(id: userID, name: <span style="color:#e6db74">&#34;John Doe&#34;</span>)  
+</span></span><span style="display:flex;"><span>        completion(mockUser)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">testUserServiceFetchesUserQuickly</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> mockService = MockUserService()  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> expectation = XCTestExpectation(description: <span style="color:#e6db74">&#34;Fetch user quickly&#34;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    mockService.fetchUser(userID: <span style="color:#ae81ff">42</span>) { user <span style="color:#66d9ef">in</span>  
+</span></span><span style="display:flex;"><span>        XCTAssertEqual(user.name, <span style="color:#e6db74">&#34;John Doe&#34;</span>)  
+</span></span><span style="display:flex;"><span>        expectation.fulfill()  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    wait(<span style="color:#66d9ef">for</span>: [expectation], timeout: <span style="color:#ae81ff">1</span>) <span style="color:#75715e">// Fast and reliable  </span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>By using mock services or stubs, we eliminate external dependencies, significantly speeding up tests and improving reliability and efficiency.</p>
+<h1 id="c-test-duplication"><strong>c) Test Duplication</strong></h1>
+<p>Repetitive test code.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">testUserInitialization</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> user = User(name: <span style="color:#e6db74">&#34;Alice&#34;</span>, age: <span style="color:#ae81ff">30</span>)  
+</span></span><span style="display:flex;"><span>    XCTAssertEqual(user.name, <span style="color:#e6db74">&#34;Alice&#34;</span>)  
+</span></span><span style="display:flex;"><span>    XCTAssertEqual(user.age, <span style="color:#ae81ff">30</span>)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">testUserAgeUpdate</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> user = User(name: <span style="color:#e6db74">&#34;Alice&#34;</span>, age: <span style="color:#ae81ff">30</span>)  
+</span></span><span style="display:flex;"><span>    user.updateAge(to: <span style="color:#ae81ff">31</span>)  
+</span></span><span style="display:flex;"><span>    XCTAssertEqual(user.age, <span style="color:#ae81ff">31</span>)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Here, the same initialization (<code>User(name: &quot;Alice&quot;, age: 30)</code>) is repeated.</p>
+<p><strong>Solution</strong>: Extract common test logic into reusable methods or fixtures.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> testUser: User!  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">override</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">setUp</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">super</span>.setUp()  
+</span></span><span style="display:flex;"><span>    testUser = User(name: <span style="color:#e6db74">&#34;Alice&#34;</span>, age: <span style="color:#ae81ff">30</span>)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">testUserInitialization</span>() {  
+</span></span><span style="display:flex;"><span>    XCTAssertEqual(testUser.name, <span style="color:#e6db74">&#34;Alice&#34;</span>)  
+</span></span><span style="display:flex;"><span>    XCTAssertEqual(testUser.age, <span style="color:#ae81ff">30</span>)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">testUserAgeUpdate</span>() {  
+</span></span><span style="display:flex;"><span>    testUser.updateAge(to: <span style="color:#ae81ff">31</span>)  
+</span></span><span style="display:flex;"><span>    XCTAssertEqual(testUser.age, <span style="color:#ae81ff">31</span>)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>By extracting repeated test setups into reusable fixtures or methods (<code>setUp()</code>), we reduce redundancy, simplify tests, and make them easier to maintain.</p>
+<h1 id="d-missing-test-coverage"><strong>d) Missing Test Coverage</strong></h1>
+<p>Lack of tests for critical code paths.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PaymentProcessor</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">process</span>(amount: Double) <span style="color:#66d9ef">throws</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> amount <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">else</span> {  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> PaymentError.invalidAmount  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Processing logic...  </span>
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">PaymentError</span>: Error {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> invalidAmount  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Existing test (covers only the positive case)  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">testProcessPaymentValidAmount</span>() <span style="color:#66d9ef">throws</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> processor = PaymentProcessor()  
+</span></span><span style="display:flex;"><span>    XCTAssertNoThrow(<span style="color:#66d9ef">try</span> processor.process(amount: <span style="color:#ae81ff">50</span>))  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Here, there’s missing test coverage for the negative scenario (invalid payment amounts), leaving critical logic untested.</p>
+<p><strong>Solution</strong>: Regularly review and expand test coverage.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">testProcessPaymentInvalidAmount</span>() <span style="color:#66d9ef">throws</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> processor = PaymentProcessor()  
+</span></span><span style="display:flex;"><span>    XCTAssertThrowsError(<span style="color:#66d9ef">try</span> processor.process(amount: <span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>)) { error <span style="color:#66d9ef">in</span>  
+</span></span><span style="display:flex;"><span>        XCTAssertEqual(error <span style="color:#66d9ef">as</span>? PaymentError, PaymentError.invalidAmount)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Expanding test coverage ensures all critical paths are validated, improving reliability and reducing potential errors.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Understanding and addressing code smells proactively helps maintain clean, efficient, and manageable Swift codebases. By recognizing common issues like the above ones, we can implement targeted refactoring strategies to enhance code quality.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2fbad-code-smell%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=http://localhost:1313/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=Bad%20Code%20Smells%3a%20The%20Silent%20Killers%20of%20Swift%20Elegance&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fbad-code-smell%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=http://localhost:1313/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fbad-code-smell%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=http://localhost:1313/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/http://localhost:1313/posts/bad-code-smell/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=http://localhost:1313/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=http%3a%2f%2flocalhost%3a1313%2fposts%2fbad-code-smell%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=http://localhost:1313/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fbad-code-smell%2f
+			&title=Bad%20Code%20Smells%3a%20The%20Silent%20Killers%20of%20Swift%20Elegance&summary=%3cp%3eUnderstanding%20code%20smells%20is%20essential%20for%20maintaining%20clean%2c%20efficient%2c%20and%20manageable%20Swift%20codebases.%20This%20tech%20blog%20explains%20various%20code%20smells%20that%20should%20be%20avoided%20by%20us%20as%20Swift%20developers%20to%20keep%20its%20elegance.%3c%2fp%3e&source=http%3a%2f%2flocalhost%3a1313%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=http://localhost:1313/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=Bad%20Code%20Smells%3a%20The%20Silent%20Killers%20of%20Swift%20Elegance&amp;body=Check out this site http%3a%2f%2flocalhost%3a1313%2fposts%2fbad-code-smell%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=http://localhost:1313/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyD3th39BbiGQuSy4MzLzZE76BrCZCSiqW8"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

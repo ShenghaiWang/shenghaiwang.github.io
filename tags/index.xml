@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Coding life</title>
+    <link>https://timwang.au/tags/</link>
+    <description>Recent content in Tags on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 23 Mar 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI</title>
+      <link>https://timwang.au/tags/ai/</link>
+      <pubDate>Sun, 23 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/ai/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Evolution</title>
+      <link>https://timwang.au/tags/evolution/</link>
+      <pubDate>Sun, 23 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/evolution/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bloaters</title>
+      <link>https://timwang.au/tags/bloaters/</link>
+      <pubDate>Sun, 23 Feb 2025 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/bloaters/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Code Efficiency</title>
+      <link>https://timwang.au/tags/code-efficiency/</link>
+      <pubDate>Sun, 23 Feb 2025 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/code-efficiency/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Code Smells</title>
+      <link>https://timwang.au/tags/code-smells/</link>
+      <pubDate>Sun, 23 Feb 2025 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/code-smells/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>DRY</title>
+      <link>https://timwang.au/tags/dry/</link>
+      <pubDate>Sun, 23 Feb 2025 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/dry/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>IOS</title>
+      <link>https://timwang.au/tags/ios/</link>
+      <pubDate>Sun, 23 Feb 2025 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/ios/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Swift</title>
+      <link>https://timwang.au/tags/swift/</link>
+      <pubDate>Sun, 23 Feb 2025 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/swift/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Swift ServerSide</title>
+      <link>https://timwang.au/tags/swift-serverside/</link>
+      <pubDate>Sun, 23 Feb 2025 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/swift-serverside/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>DynamicReplacement</title>
+      <link>https://timwang.au/tags/dynamicreplacement/</link>
+      <pubDate>Thu, 23 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/dynamicreplacement/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Data Redaction</title>
+      <link>https://timwang.au/tags/data-redaction/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/data-redaction/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Initializer</title>
+      <link>https://timwang.au/tags/initializer/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/initializer/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kotlin</title>
+      <link>https://timwang.au/tags/kotlin/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/kotlin/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Local Reasoning</title>
+      <link>https://timwang.au/tags/local-reasoning/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/local-reasoning/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Reference Type</title>
+      <link>https://timwang.au/tags/reference-type/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/reference-type/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Security</title>
+      <link>https://timwang.au/tags/security/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/security/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Software Enginnering</title>
+      <link>https://timwang.au/tags/software-enginnering/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/software-enginnering/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Type System</title>
+      <link>https://timwang.au/tags/type-system/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/type-system/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Value Type</title>
+      <link>https://timwang.au/tags/value-type/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/value-type/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Swift Testing</title>
+      <link>https://timwang.au/tags/swift-testing/</link>
+      <pubDate>Wed, 23 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/swift-testing/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Testing</title>
+      <link>https://timwang.au/tags/testing/</link>
+      <pubDate>Wed, 23 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/testing/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Embedded</title>
+      <link>https://timwang.au/tags/embedded/</link>
+      <pubDate>Fri, 23 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/embedded/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Codable</title>
+      <link>https://timwang.au/tags/codable/</link>
+      <pubDate>Sun, 23 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/codable/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Protocol</title>
+      <link>https://timwang.au/tags/protocol/</link>
+      <pubDate>Sun, 23 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/protocol/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Git</title>
+      <link>https://timwang.au/tags/git/</link>
+      <pubDate>Sat, 23 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/git/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Git Credential Helper</title>
+      <link>https://timwang.au/tags/git-credential-helper/</link>
+      <pubDate>Sat, 23 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/git-credential-helper/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Actor</title>
+      <link>https://timwang.au/tags/actor/</link>
+      <pubDate>Fri, 26 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/actor/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Concurrency</title>
+      <link>https://timwang.au/tags/concurrency/</link>
+      <pubDate>Fri, 26 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/concurrency/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Authentication</title>
+      <link>https://timwang.au/tags/authentication/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/authentication/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bundle</title>
+      <link>https://timwang.au/tags/bundle/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/bundle/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Debugger</title>
+      <link>https://timwang.au/tags/debugger/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/debugger/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>LLDB</title>
+      <link>https://timwang.au/tags/lldb/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/lldb/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Passkey</title>
+      <link>https://timwang.au/tags/passkey/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/passkey/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Password</title>
+      <link>https://timwang.au/tags/password/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/password/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Project Setup</title>
+      <link>https://timwang.au/tags/project-setup/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/project-setup/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Xcode</title>
+      <link>https://timwang.au/tags/xcode/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/xcode/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Keypath</title>
+      <link>https://timwang.au/tags/keypath/</link>
+      <pubDate>Tue, 26 Dec 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/keypath/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Macro</title>
+      <link>https://timwang.au/tags/macro/</link>
+      <pubDate>Tue, 26 Dec 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/macro/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Generics</title>
+      <link>https://timwang.au/tags/generics/</link>
+      <pubDate>Sun, 26 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/generics/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Structured Concurrency</title>
+      <link>https://timwang.au/tags/structured-concurrency/</link>
+      <pubDate>Tue, 26 Sep 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/structured-concurrency/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Property Observer</title>
+      <link>https://timwang.au/tags/property-observer/</link>
+      <pubDate>Sat, 26 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/property-observer/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Property Wrapper</title>
+      <link>https://timwang.au/tags/property-wrapper/</link>
+      <pubDate>Sat, 26 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/property-wrapper/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Result Builder</title>
+      <link>https://timwang.au/tags/result-builder/</link>
+      <pubDate>Sat, 26 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/result-builder/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Consistency</title>
+      <link>https://timwang.au/tags/consistency/</link>
+      <pubDate>Tue, 23 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/consistency/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>KISS</title>
+      <link>https://timwang.au/tags/kiss/</link>
+      <pubDate>Tue, 23 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/kiss/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Logger</title>
+      <link>https://timwang.au/tags/logger/</link>
+      <pubDate>Tue, 23 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/logger/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Test Coverage</title>
+      <link>https://timwang.au/tags/test-coverage/</link>
+      <pubDate>Tue, 23 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/test-coverage/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>AsyncSequence</title>
+      <link>https://timwang.au/tags/asyncsequence/</link>
+      <pubDate>Sat, 20 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/asyncsequence/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>ResultBuilder</title>
+      <link>https://timwang.au/tags/resultbuilder/</link>
+      <pubDate>Mon, 10 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/resultbuilder/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>PropertyWrapper</title>
+      <link>https://timwang.au/tags/propertywrapper/</link>
+      <pubDate>Fri, 10 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/propertywrapper/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Macros</title>
+      <link>https://timwang.au/tags/macros/</link>
+      <pubDate>Tue, 10 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/macros/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Programming</title>
+      <link>https://timwang.au/tags/programming/</link>
+      <pubDate>Tue, 10 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/tags/programming/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

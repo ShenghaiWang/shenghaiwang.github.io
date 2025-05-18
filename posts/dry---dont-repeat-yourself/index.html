@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    DRY - Don’t Repeat Yourself | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/dry---dont-repeat-yourself/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    DRY(Don’t Repeat Yourself) aims at reducing the repetition of code chunks and patterns, which was first defined in the book The Pragmatic Programmer as “every piece of knowledge must have a single, unambiguous, authoritative representation within a system.” In this article, we are going to discuss this principle in details.
+    "
+/>
+<meta property="og:description" content="
+    DRY(Don’t Repeat Yourself) aims at reducing the repetition of code chunks and patterns, which was first defined in the book The Pragmatic Programmer as “every piece of knowledge must have a single, unambiguous, authoritative representation within a system.” In this article, we are going to discuss this principle in details.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/dry---dont-repeat-yourself/feature.webp" />
+
+
+
+
+<meta property="og:title" content="DRY - Don’t Repeat Yourself" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/dry---dont-repeat-yourself/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-01-10T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/dry---dont-repeat-yourself/feature.webp">
+  <meta name="twitter:title" content="DRY - Don’t Repeat Yourself">
+  <meta name="twitter:description" content="DRY(Don’t Repeat Yourself) aims at reducing the repetition of code chunks and patterns, which was first defined in the book The Pragmatic Programmer as “every piece of knowledge must have a single, unambiguous, authoritative representation within a system.” In this article, we are going to discuss this principle in details.">
+
+
+  <meta itemprop="name" content="DRY - Don’t Repeat Yourself">
+  <meta itemprop="description" content="DRY(Don’t Repeat Yourself) aims at reducing the repetition of code chunks and patterns, which was first defined in the book The Pragmatic Programmer as “every piece of knowledge must have a single, unambiguous, authoritative representation within a system.” In this article, we are going to discuss this principle in details.">
+  <meta itemprop="datePublished" content="2023-01-10T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-01-10T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1014">
+  <meta itemprop="image" content="https://timwang.au/posts/dry---dont-repeat-yourself/feature.webp">
+  <meta itemprop="keywords" content="Swift,Programming">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+
+
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">DRY - Don’t Repeat Yourself</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Jan 10, 2023
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    6 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/programming"><span
+                                    class="tag bg-dark">Programming</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/dry---dont-repeat-yourself/feature.webp alt="DRY - Don’t Repeat Yourself">
+                        </figure>
+                    
+                
+
+                <p>DRY(<strong>D</strong>on’t <strong>R</strong>epeat <strong>Y</strong>ourself) aims at reducing the repetition of code chunks and patterns, which was first defined in the book The Pragmatic Programmer as “every piece of knowledge must have a single, unambiguous, authoritative representation within a system.” In this article, we are going to discuss this principle in details.</p>
+<h1 id="define-repetition">Define Repetition</h1>
+<p>When something happens <strong>more than one time</strong>, it is call repeating. It can be system functionalities, code chunks or certain patterns.</p>
+<h2 id="the-duplicated-code-chunks">The duplicated code chunks</h2>
+<p>It refers to the same code snippet that can be found more than once in the code base. Two pieces of code are also considered as the same if the differences are only in the names.</p>
+<h2 id="the-repeating-patterns">The repeating patterns</h2>
+<p>Repeating patterns can happen with different values, different types or different behaviours etc. Often we can find we need a common logic to process different values of same type. Or a common logic to process value of different types. For example, in the API code, even though the requests and responses of different api endpoints are not the same, but the pattern of initialising the requests, making the network call and parsing responses are very similar.</p>
+<h1 id="why-it-is-not-good">Why it is NOT good</h1>
+<h2 id="maintenance-issue">Maintenance issue</h2>
+<p>One obvious issue for having duplicated code chunks/patters comes from maintenance. If duplicated, when the logic requires updating, we would have to update all of them. Not to mention if we have only updated part of them, bugs are inevitable.</p>
+<h2 id="team-efficiency">Team efficiency</h2>
+<p>Calling reusable code is definitely easier and quicker than writing the logic ourselves. However, sometime it is arguable if we need to take long time to design and write the code that’s reusable. But considering the other benefits of code being dry, it is worthy for most cases.</p>
+<h2 id="code-quality">Code quality</h2>
+<p>Once we make effort to write reusable code, it usually ends up with better design and better code quality, which, as we all know, is super important for projects that last for a long time.</p>
+<h2 id="code-consistency">Code Consistency</h2>
+<p>Having code duplication is also harmful to code consistency. For instance, the duplicated code might be the same initially, but they could be updated to a different implementation by other developers later, which then would cause more troubles and impact code readability and reusability.</p>
+<h1 id="techniques-for-dry">Techniques for DRY</h1>
+<h2 id="function">Function</h2>
+<p>Many IDEs like(Android studio and Xcode etc.) provide refactor tools to make this process easier. Once the code is abstracted into an individual function, other places can call it to avoid code repetition.</p>
+<p>Additionally, when defining the function, design its parameters/arguments with care. A good function signature can make a big difference in terms of code reuse.</p>
+<p>In some cases, the place defining the method also plays a critical role in promoting code reuse. For example, we can define <code>toImage()</code> function that returns <code>Image</code> in a class named <code>Rectangle</code> . In contrast we can also add a method <code>getImage(from rectangle: Rectangle)</code> to <code>Image</code> class. It seems that both ways make sense. However, when thinking about code discovery, the former method might be easier to be found and reused by other developers without prior knowledge.</p>
+<h2 id="loop">Loop</h2>
+<p>Believe it or not, loop is actually a very direct and effective way of avoiding repetition. Sometimes, the code logic can be organised in a loop with some tweaks in the loop statements to avoid it. This is effectively true if you are familiar with <code>KeyPath</code> type in <code>Swift</code> , which can make an impossible loop function possible. Take a look at the example below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">AStruct</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> a: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> b: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> c: String  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> properties: [KeyPath&lt;AStruct, String&gt;] = [<span style="color:#960050;background-color:#1e0010">\</span>.a, <span style="color:#960050;background-color:#1e0010">\</span>.b, <span style="color:#960050;background-color:#1e0010">\</span>.c]  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> value = AStruct(a: <span style="color:#e6db74">&#34;a&#34;</span>, b: <span style="color:#e6db74">&#34;b&#34;</span>, c: <span style="color:#e6db74">&#34;c&#34;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>properties.forEach { keyPath <span style="color:#66d9ef">in</span>  
+</span></span><span style="display:flex;"><span>    print(value[keyPath: keyPath])  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="code-template--macro">Code template / Macro</h2>
+<p>Some languages(like c++) support code template and macro. The code will expand in compile time at the place of using the template and macro. This is similar to abstracting code into functions but in another form.</p>
+<p><code>Macro</code> is a feature in modern languages like <code>Swift</code>. Take a look at <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0382-expression-macros.md">this proposal</a> , which is to add <code>macro</code> support in <code>Swift</code>. It has been accepted and will be released in the future version of <code>Swift</code>.</p>
+<h2 id="class-protocol-and-inheritancepolymorphism">Class, Protocol and Inheritance/Polymorphism</h2>
+<p>Needless to say, All levels of abstraction like Class/protocol and Inheritance/Polymorphism can help on code duplication to some extent.</p>
+<h2 id="generics">Generics</h2>
+<p>Generics is another way of abstracting common logic to promote code pattern reuse.</p>
+<h2 id="configuration-and-data-structures">Configuration and Data Structures</h2>
+<p>This is much like design function parameters/arguments, by leveraging configuration and data structures, code logic can be reused for different cases.</p>
+<h2 id="consider-using-frameworkslibraries">Consider using frameworks/libraries</h2>
+<p>There are a lot of high quality frameworks/libraries that can be reused. Explore them first to avoid reinventing the wheels. The bright side of using them is to save the effort. Especially with the ones that have been proven to be bug free and efficient. <a href="https://github.com/apple/swift-algorithms">Swift Algorithms</a> is an good an example in this category.</p>
+<h2 id="code-generation">Code generation</h2>
+<p>As long as we can find common pattern in code, as software engineers, we can develop code generation tools to help us. You might already know <code>Swift</code> complier can automatically generate code to make <code>struct</code> type conform to protocols like <code>Codable</code> , <code>Hashable</code> etc. as long as the inner data types conform to these types. Also Xcode can automatically insert the code snippet for struct initialisers when you type in it.</p>
+<p>There are many other famous code generation tools out there waiting for use. Like <a href="https://github.com/tgriesser/apollo-codegen">Apollo-codegen</a>, <a href="https://swagger.io/tools/swagger-codegen/">Swagger Codegen</a>, <a href="https://kotlinlang.org/docs/ksp-overview.html">KSP</a>, <a href="https://jinja.palletsprojects.com/en/3.1.x/">Jinja</a>, <a href="https://github.com/krzysztofzablocki/Sourcery">Sourcery</a>, just naming a few. Once configured, they all generate code automatically and save a lot of effort and, of course, help to reduce code duplication.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>At last, DRY code plays a crucial role in our daily work and thinking with DRY mindset should be part of our routine. Techniques listed above are not a full list at all. Any level of concept abstraction can help on this and should be encouraged. With this mindset, we can surely improve on a regular basis.</p>
+<h1 id="disclaimer">Disclaimer</h1>
+<p>If you are working on efficiency critical systems(where, comparing code reuse, the real time response is more important) the points here we talked might not applicable.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fdry---dont-repeat-yourself%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=DRY%20-%20Don%e2%80%99t%20Repeat%20Yourself&url=https%3a%2f%2ftimwang.au%2fposts%2fdry---dont-repeat-yourself%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fdry---dont-repeat-yourself%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/dry---dont-repeat-yourself/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fdry---dont-repeat-yourself%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fdry---dont-repeat-yourself%2f
+			&title=DRY%20-%20Don%e2%80%99t%20Repeat%20Yourself&summary=%3cp%3eDRY%28%3cstrong%3eD%3c%2fstrong%3eon%e2%80%99t%20%3cstrong%3eR%3c%2fstrong%3eepeat%20%3cstrong%3eY%3c%2fstrong%3eourself%29%20aims%20at%20reducing%20the%20repetition%20of%20code%20chunks%20and%20patterns%2c%20which%20was%20first%20defined%20in%20the%20book%20The%20Pragmatic%20Programmer%20as%20%e2%80%9cevery%20piece%20of%20knowledge%20must%20have%20a%20single%2c%20unambiguous%2c%20authoritative%20representation%20within%20a%20system.%e2%80%9d%20In%20this%20article%2c%20we%20are%20going%20to%20discuss%20this%20principle%20in%20details.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=DRY%20-%20Don%e2%80%99t%20Repeat%20Yourself&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fdry---dont-repeat-yourself%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    Swifty Ways to Handle Data Redaction in the UI | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/swifty-ways-to-handle-data-redaction-in-the-ui/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    The Problem: Redacting Sensitive Info
+We’ve all been there — we need to display some sensitive info on the UI, but can’t just show it all. The naive approach? Implementing redaction logic every single time when need it. Yawn. 😴 One step further, we can wrap the logic into some common methods or objects. You know what, we can do even better! There are some seriously cool Swift techniques that can make our life easier.
+    "
+/>
+<meta property="og:description" content="
+    The Problem: Redacting Sensitive Info
+We’ve all been there — we need to display some sensitive info on the UI, but can’t just show it all. The naive approach? Implementing redaction logic every single time when need it. Yawn. 😴 One step further, we can wrap the logic into some common methods or objects. You know what, we can do even better! There are some seriously cool Swift techniques that can make our life easier.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/swifty-ways-to-handle-data-redaction-in-the-ui/feature.webp" />
+
+
+
+
+<meta property="og:title" content="Swifty Ways to Handle Data Redaction in the UI" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/swifty-ways-to-handle-data-redaction-in-the-ui/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-12-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-12-23T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/swifty-ways-to-handle-data-redaction-in-the-ui/feature.webp">
+  <meta name="twitter:title" content="Swifty Ways to Handle Data Redaction in the UI">
+  <meta name="twitter:description" content="The Problem: Redacting Sensitive Info We’ve all been there — we need to display some sensitive info on the UI, but can’t just show it all. The naive approach? Implementing redaction logic every single time when need it. Yawn. 😴 One step further, we can wrap the logic into some common methods or objects. You know what, we can do even better! There are some seriously cool Swift techniques that can make our life easier.">
+
+
+  <meta itemprop="name" content="Swifty Ways to Handle Data Redaction in the UI">
+  <meta itemprop="description" content="The Problem: Redacting Sensitive Info We’ve all been there — we need to display some sensitive info on the UI, but can’t just show it all. The naive approach? Implementing redaction logic every single time when need it. Yawn. 😴 One step further, we can wrap the logic into some common methods or objects. You know what, we can do even better! There are some seriously cool Swift techniques that can make our life easier.">
+  <meta itemprop="datePublished" content="2024-12-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-12-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="645">
+  <meta itemprop="image" content="https://timwang.au/posts/swifty-ways-to-handle-data-redaction-in-the-ui/feature.webp">
+  <meta itemprop="keywords" content="Swift,Data Redaction">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">Swifty Ways to Handle Data Redaction in the UI</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Dec 23, 2024
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    4 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/data-redaction"><span
+                                    class="tag bg-dark">Data Redaction</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/swifty-ways-to-handle-data-redaction-in-the-ui/feature.webp alt="Swifty Ways to Handle Data Redaction in the UI">
+                        </figure>
+                    
+                
+
+                <h1 id="the-problem-redacting-sensitive-info">The Problem: Redacting Sensitive Info</h1>
+<p>We’ve all been there — we need to display some sensitive info on the UI, but can’t just show it all. The naive approach? Implementing redaction logic every single time when need it. Yawn. 😴 One step further, we can wrap the logic into some common methods or objects. You know what, we can do even better! There are some seriously cool Swift techniques that can make our life easier.</p>
+<h1 id="method-1-computed-properties">Method 1: Computed Properties</h1>
+<p>Let’s kick things off with a classic approach — computed properties. Check this out:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">BankAccount</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> accountNumber: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> balance: Double  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">BankAccount</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> redactedAccountNumber: String {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> digitsToShow = <span style="color:#ae81ff">4</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> length = accountNumber.count  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> length <span style="color:#f92672">&gt;</span> digitsToShow <span style="color:#66d9ef">else</span> { <span style="color:#66d9ef">return</span> accountNumber }  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">\(</span>String<span style="color:#e6db74">(</span>repeating: <span style="color:#e6db74">&#34;*&#34;</span>, count: length <span style="color:#f92672">-</span> digitsToShow<span style="color:#e6db74">))\(</span>accountNumber.suffix<span style="color:#e6db74">(</span>digitsToShow<span style="color:#e6db74">))</span><span style="color:#e6db74">&#34;</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> redactedBalance: String {  
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">\(</span>balance<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>.map { char <span style="color:#66d9ef">in</span>  
+</span></span><span style="display:flex;"><span>            char == <span style="color:#e6db74">&#34;.&#34;</span> ? <span style="color:#e6db74">&#34;.&#34;</span> : <span style="color:#e6db74">&#34;*&#34;</span>  
+</span></span><span style="display:flex;"><span>        }.joined()  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> ac = BankAccount(accountNumber: <span style="color:#e6db74">&#34;1234567890&#34;</span>, balance: <span style="color:#ae81ff">123.45</span>)  
+</span></span><span style="display:flex;"><span>print(ac.redactedAccountNumber) <span style="color:#75715e">// ******7890  </span>
+</span></span><span style="display:flex;"><span>print(ac.redactedBalance) <span style="color:#75715e">// ***.**</span>
+</span></span></code></pre></div><p>With this setup, we can just use <code>redactedAccountNumber</code> and <code>redactedBalance</code> whenever we need the masked versions. Simple and effective!</p>
+<h1 id="method-2-property-wrappers">Method 2: Property Wrappers</h1>
+<p>Now, if we want to level up our Swift game, property wrappers are where it’s at. Check out this implementation below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">RedactableType</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> redacted: String { <span style="color:#66d9ef">get</span> }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">String</span>: RedactableType {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> redacted: String {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> digitsToShow = <span style="color:#ae81ff">4</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> length = count  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> length <span style="color:#f92672">&gt;</span> digitsToShow <span style="color:#66d9ef">else</span> { <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">self</span> }  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">\(</span>String<span style="color:#e6db74">(</span>repeating: <span style="color:#e6db74">&#34;*&#34;</span>, count: length <span style="color:#f92672">-</span> digitsToShow<span style="color:#e6db74">))\(</span>suffix<span style="color:#e6db74">(</span>digitsToShow<span style="color:#e6db74">))</span><span style="color:#e6db74">&#34;</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Double</span>: RedactableType {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> redacted: String {  
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">\(</span><span style="color:#66d9ef">self</span><span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>.map { char <span style="color:#66d9ef">in</span>  
+</span></span><span style="display:flex;"><span>            char == <span style="color:#e6db74">&#34;.&#34;</span> ? <span style="color:#e6db74">&#34;.&#34;</span> : <span style="color:#e6db74">&#34;*&#34;</span>  
+</span></span><span style="display:flex;"><span>        }.joined()  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>@propertyWrapper  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Redactable</span>&lt;Value: RedactableType&gt; {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> wrappedValue: Value  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> projectedValue: String {  
+</span></span><span style="display:flex;"><span>        wrappedValue.redacted  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">BankAccount</span> {  
+</span></span><span style="display:flex;"><span>    @Redactable <span style="color:#66d9ef">var</span> accountNumber: String  
+</span></span><span style="display:flex;"><span>    @Redactable <span style="color:#66d9ef">var</span> balance: Double  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> ac = BankAccount(accountNumber: <span style="color:#e6db74">&#34;1234567890&#34;</span>, balance: <span style="color:#ae81ff">123.45</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>print(ac.<span style="color:#960050;background-color:#1e0010">$</span>accountNumber) <span style="color:#75715e">// ******7890  </span>
+</span></span><span style="display:flex;"><span>print(ac.<span style="color:#960050;background-color:#1e0010">$</span>balance) <span style="color:#75715e">//***.**</span>
+</span></span></code></pre></div><p>In this example, we defined a <code>RedactableType</code> protocol to make our <code>Redactable</code> property wrapper can handle different type of values in a generic way. We extended <code>String</code> and <code>Double</code> types to conform to this protocol. Finally, we return the <code>redacted</code> as the projected value of the wrapper.</p>
+<p>Also, how cool is that <code>$</code> syntax? It&rsquo;s like magic! 🪄</p>
+<h1 id="string-interpolation">String interpolation</h1>
+<p>Last but not least, let’s talk about extending <code>DefaultStringInterpolation</code>. This method is like a ninja – it sneaks the redaction right into our string interpolation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">DefaultStringInterpolation</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">mutating</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">appendInterpolation</span>(toBeRedacted value: String) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> digitsToShow = <span style="color:#ae81ff">4</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> length = value.count  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> length <span style="color:#f92672">&lt;=</span> digitsToShow {  
+</span></span><span style="display:flex;"><span>            appendLiteral(value)  
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">let</span> redacted = <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">\(</span>String<span style="color:#e6db74">(</span>repeating: <span style="color:#e6db74">&#34;*&#34;</span>, count: length <span style="color:#f92672">-</span> digitsToShow<span style="color:#e6db74">))\(</span>value.suffix<span style="color:#e6db74">(</span>digitsToShow<span style="color:#e6db74">))</span><span style="color:#e6db74">&#34;</span>  
+</span></span><span style="display:flex;"><span>            appendLiteral(redacted)  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">mutating</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">appendInterpolation</span>(toBeRedacted value: Double) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> redacted = <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">\(</span>value<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>.map { char <span style="color:#66d9ef">in</span>  
+</span></span><span style="display:flex;"><span>            char == <span style="color:#e6db74">&#34;.&#34;</span> ? <span style="color:#e6db74">&#34;.&#34;</span> : <span style="color:#e6db74">&#34;*&#34;</span>  
+</span></span><span style="display:flex;"><span>        }.joined()  
+</span></span><span style="display:flex;"><span>        appendLiteral(redacted)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Account Number: </span><span style="color:#e6db74">\(</span>toBeRedacted: <span style="color:#e6db74">&#34;1234567890&#34;</span><span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>) <span style="color:#75715e">// Account Number: ******7890  </span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Account balance: </span><span style="color:#e6db74">\(</span>toBeRedacted: <span style="color:#ae81ff">123.45</span><span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>) <span style="color:#75715e">// Account balance: ***.**</span>
+</span></span></code></pre></div><p>Now that’s what I call smooth! 😎</p>
+<h1 id="swift-loggers-way">Swift logger’s way</h1>
+<p>SwiftLog’s privacy annotations (<code>.public</code>, <code>.private</code>, <code>.sensitive</code>) ensure that sensitive data is redacted in outputs where privacy is enforced, like console logs or remote logging platforms.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">os</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">let</span> <span style="color:#a6e22e">logger</span> = <span style="color:#a6e22e">Logger</span>(<span style="color:#a6e22e">subsystem</span>: <span style="color:#e6db74">&#34;my system&#34;</span>, <span style="color:#a6e22e">category</span>: <span style="color:#e6db74">&#34;my category&#34;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Configure privacy settings if needed (default behavior):  </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Sensitive data can be marked with .private; other values with .public  </span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">func</span> <span style="color:#a6e22e">trackEvent</span>(<span style="color:#a6e22e">_</span> <span style="color:#a6e22e">name</span>: <span style="color:#a6e22e">String</span>, <span style="color:#a6e22e">properties</span>: [<span style="color:#a6e22e">String</span>: <span style="color:#a6e22e">String</span>]) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Log event name as public  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">debug</span>(<span style="color:#e6db74">&#34;Event: </span><span style="color:#e6db74">\(</span>name, privacy: .<span style="color:#66d9ef">public</span><span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Iterate through properties, marking privacy appropriately  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">for</span> (<span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">value</span>) <span style="color:#a6e22e">in</span> <span style="color:#a6e22e">properties</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">if</span> <span style="color:#a6e22e">key</span> == <span style="color:#e6db74">&#34;userId&#34;</span> {  
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Mark userId as private  </span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">debug</span>(<span style="color:#e6db74">&#34;Property: </span><span style="color:#e6db74">\(</span>key<span style="color:#e6db74">)</span><span style="color:#e6db74"> = </span><span style="color:#e6db74">\(</span>value<span style="color:#e6db74">)</span><span style="color:#e6db74">, privacy: .private)&#34;</span>)  
+</span></span><span style="display:flex;"><span>        } <span style="color:#a6e22e">else</span> {  
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Non-sensitive properties can be public  </span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">debug</span>(<span style="color:#e6db74">&#34;Property: </span><span style="color:#e6db74">\(</span>key<span style="color:#e6db74">)</span><span style="color:#e6db74"> = </span><span style="color:#e6db74">\(</span>value<span style="color:#e6db74">)</span><span style="color:#e6db74">, privacy: .public)&#34;</span>)  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="wrapping-up">Wrapping Up</h1>
+<p>Whether you’re a fan of computed properties, property wrappers, or string interpolation, you’ve got options. Each method has its own flavour, so pick the one that vibes with your coding style.</p>
+<p>Happy coding! 🚀</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fswifty-ways-to-handle-data-redaction-in-the-ui%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=Swifty%20Ways%20to%20Handle%20Data%20Redaction%20in%20the%20UI&url=https%3a%2f%2ftimwang.au%2fposts%2fswifty-ways-to-handle-data-redaction-in-the-ui%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fswifty-ways-to-handle-data-redaction-in-the-ui%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/swifty-ways-to-handle-data-redaction-in-the-ui/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fswifty-ways-to-handle-data-redaction-in-the-ui%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fswifty-ways-to-handle-data-redaction-in-the-ui%2f
+			&title=Swifty%20Ways%20to%20Handle%20Data%20Redaction%20in%20the%20UI&summary=%3ch1%20id%3d%22the-problem-redacting-sensitive-info%22%3eThe%20Problem%3a%20Redacting%20Sensitive%20Info%3c%2fh1%3e%0a%3cp%3eWe%e2%80%99ve%20all%20been%20there%20%e2%80%94%20we%20need%20to%20display%20some%20sensitive%20info%20on%20the%20UI%2c%20but%20can%e2%80%99t%20just%20show%20it%20all.%20The%20naive%20approach%3f%20Implementing%20redaction%20logic%20every%20single%20time%20when%20need%20it.%20Yawn.%20%f0%9f%98%b4%20One%20step%20further%2c%20we%20can%20wrap%20the%20logic%20into%20some%20common%20methods%20or%20objects.%20You%20know%20what%2c%20we%20can%20do%20even%20better%21%20There%20are%20some%20seriously%20cool%20Swift%20techniques%20that%20can%20make%20our%20life%20easier.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=Swifty%20Ways%20to%20Handle%20Data%20Redaction%20in%20the%20UI&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fswifty-ways-to-handle-data-redaction-in-the-ui%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

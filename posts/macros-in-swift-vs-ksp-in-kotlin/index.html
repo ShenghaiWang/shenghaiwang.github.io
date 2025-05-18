@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    Macros in Swift vs. KSP in Kotlin | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/macros-in-swift-vs-ksp-in-kotlin/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    Preface
+In essence, these two technologies are completely different. While one is generating code by expanding the macro patterns, another is generating code freely based on the meta data stored in the complied code.
+    "
+/>
+<meta property="og:description" content="
+    Preface
+In essence, these two technologies are completely different. While one is generating code by expanding the macro patterns, another is generating code freely based on the meta data stored in the complied code.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/macros-in-swift-vs-ksp-in-kotlin/feature.webp" />
+
+
+
+
+<meta property="og:title" content="Macros in Swift vs. KSP in Kotlin" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/macros-in-swift-vs-ksp-in-kotlin/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-01-10T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/macros-in-swift-vs-ksp-in-kotlin/feature.webp">
+  <meta name="twitter:title" content="Macros in Swift vs. KSP in Kotlin">
+  <meta name="twitter:description" content="Preface In essence, these two technologies are completely different. While one is generating code by expanding the macro patterns, another is generating code freely based on the meta data stored in the complied code.">
+
+
+  <meta itemprop="name" content="Macros in Swift vs. KSP in Kotlin">
+  <meta itemprop="description" content="Preface In essence, these two technologies are completely different. While one is generating code by expanding the macro patterns, another is generating code freely based on the meta data stored in the complied code.">
+  <meta itemprop="datePublished" content="2023-01-10T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-01-10T00:00:00+00:00">
+  <meta itemprop="wordCount" content="692">
+  <meta itemprop="image" content="https://timwang.au/posts/macros-in-swift-vs-ksp-in-kotlin/feature.webp">
+  <meta itemprop="keywords" content="Swift,Macros">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+
+
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">Macros in Swift vs. KSP in Kotlin</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Jan 10, 2023
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    4 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/macros"><span
+                                    class="tag bg-dark">Macros</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/macros-in-swift-vs-ksp-in-kotlin/feature.webp alt="Macros in Swift vs. KSP in Kotlin">
+                        </figure>
+                    
+                
+
+                <h1 id="preface">Preface</h1>
+<p>In essence, these two technologies are completely different. While one is generating code by expanding the macro patterns, another is generating code freely based on the meta data stored in the complied code.</p>
+<p>However, Swift macro is not like the regular macro we know in many languages, where it is mainly a <code>string</code> manipulation. Instead, the macro expansion in Swift embraces <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">AST</a>, which makes its way of working similar to KSP. Since these are two important ways of generating code for mobile apps(iOS &amp; Android), let’s compare them so that we can better utilise them.</p>
+<blockquote>
+<p><a href="https://medium.com/@tim_wang#:~:text=Coding%20life-,Follow,-Help">Follow me</a> if you are interested in topics like this.</p></blockquote>
+<h1 id="what-is-macro-in-swift">What is Macro in Swift</h1>
+<p>In Swift, there are a lot of ways compiler can generate code. For example, conforming a <code>struct</code> type to protocols like <code>Codable</code>, <code>Equtable</code>etc., the compiler can potentially generated code needed for these protocols. <code>ResultBuilder</code> allows us to writing declarative code and the Swift compiler do the heavily lifting work by generating necessary code behind the scene. Just to name a few. For more, please refer to the picture below:</p>
+<p><a href="https://developer.apple.com/videos/play/wwdc2023/10167/?time=92">https://developer.apple.com/videos/play/wwdc2023/10167/?time=92</a></p>
+<p><code>Macro</code> is a new addition to this category and it is a big deal. Because not only is itself a very useful feature but it is also an enabler for many awesome features like <code>@Observerble</code>, <code>@Model</code>. Its super power is just like <code>PropertyWrapper</code> in Swift, which makes many great features like @State, @ObservedObject, @Published possible and paves the way for SwiftUI.</p>
+<p>In short, Swift compiler expands<code>Macro</code> based on the macro definition, which is similar to the <code>macro</code> in many languages. However, the design of Swift <code>macros</code> is also unique as it utilises <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">AST</a> instead of pure <code>string</code> manipulation and this makes this feature in Swift shine.</p>
+<h1 id="what-is-ksp-in-kotlin">What is KSP in Kotlin</h1>
+<p><a href="https://kotlinlang.org/docs/ksp-overview.html">Kotlin Symbol Processing (KSP)</a> is an API that we can use to develop lightweight compiler plugins and is an evolutionary version of their predecessor <a href="https://kotlinlang.org/docs/kapt.html">Kapt</a>. They rely on the information of the Annotations and AST from the compiled code.</p>
+<h1 id="what-are-in-common">What are in common</h1>
+<h2 id="all-about-code-generation">All about code generation</h2>
+<p>Both technologies aim to generate code and are great ways to <a href="https://medium.com/@tim_wang/dry-dont-repeat-yourself-bb2a3b247f7c">DRY</a> our code.</p>
+<h2 id="both-rely-on-ast">Both rely on AST</h2>
+<p>They both rely on <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">AST</a>, which means they are based on the complied code information and not are just <code>string</code> mapping or manipulation.</p>
+<h2 id="both-have-library-to-support-code-generating">Both have library to support code generating</h2>
+<p>In order the help code generating process, we have great libraries for both of them.<code>[SwiftSyntaxBuilder](https://github.com/apple/swift-syntax/tree/main/Sources/SwiftSyntaxBuilder)</code> is for generating Swift code and <code>[KotlinPoet](https://square.github.io/kotlinpoet/)</code> for Kotlin.</p>
+<h1 id="what-are-the-differences">What are the differences</h1>
+<h2 id="what-code-can-be-generated">What code can be generated</h2>
+<p>KSP gives us great freedom in terms generating code. We can implement any logic that suits the needs to generate code. For example, I have designed a solution to generate API network layer code based on the endpoint definitions using KSP, which is similar to Swagger generating API code based on API Schema. In my solution, it relies on Endpoint definition in Kotlin code.</p>
+<p>Comparatively speaking, Swift macro has a lot of limitation on the generated code because of the way it works. It has strictly two major types as below:</p>
+<p><strong><em>Freestanding macros</em></strong><em>: expression and declaration</em></p>
+<p><strong><em>Attached macros:</em></strong> <em>peer, accessor, member, member attribute and conformance</em></p>
+<p>In the following articles, I will go through all types of Swift macros and create some example usage for each of them.</p>
+<h2 id="when-to-generate-code">When to generate code</h2>
+<p>The Swift Macros are expanded in the complication process and the expanded code then is compiled together with the source code we write.</p>
+<p>Regarding code generating from KSP, the code we write is compiled first, then the KSP comes in to process the compiled code and generate code. The generated code is combined into source files and compiled at last.</p>
+<h2 id="where-the-code-to-be-generated">Where the code to be generated</h2>
+<p>The code generation for macros in Swift is a process of expanding code in places where macros are defined.</p>
+<p>KSP usually writes the generated code into new files.</p>
+<h2 id="special-features-for-swift-macros">Special features for Swift Macros</h2>
+<p>The <a href="https://developer.apple.com/videos/play/wwdc2023/10167/?time=280">design goal</a>s of the Swift Macro are clear and the solution is so elegant that, in Xcode, they can even offer <code>type check</code> , <code>unit test</code> , <code>inline debugging</code> for all the macros, which will be covered in the future articles.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fmacros-in-swift-vs-ksp-in-kotlin%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=Macros%20in%20Swift%20vs.%20KSP%20in%20Kotlin&url=https%3a%2f%2ftimwang.au%2fposts%2fmacros-in-swift-vs-ksp-in-kotlin%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fmacros-in-swift-vs-ksp-in-kotlin%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/macros-in-swift-vs-ksp-in-kotlin/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fmacros-in-swift-vs-ksp-in-kotlin%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fmacros-in-swift-vs-ksp-in-kotlin%2f
+			&title=Macros%20in%20Swift%20vs.%20KSP%20in%20Kotlin&summary=%3ch1%20id%3d%22preface%22%3ePreface%3c%2fh1%3e%0a%3cp%3eIn%20essence%2c%20these%20two%20technologies%20are%20completely%20different.%20While%20one%20is%20generating%20code%20by%20expanding%20the%20macro%20patterns%2c%20another%20is%20generating%20code%20freely%20based%20on%20the%20meta%20data%20stored%20in%20the%20complied%20code.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=Macros%20in%20Swift%20vs.%20KSP%20in%20Kotlin&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fmacros-in-swift-vs-ksp-in-kotlin%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

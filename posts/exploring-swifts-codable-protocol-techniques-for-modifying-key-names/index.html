@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    Exploring Swift’s Codable Protocol: Techniques for Modifying Key Names | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/exploring-swifts-codable-protocol-techniques-for-modifying-key-names/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    The Codable protocol in Swift is a powerful feature that enables the seamless transformation of data structures into external representations and vice versa. It provides a mechanism for encoding and decoding values to and from Data instances, facilitating the serialization and deserialization of data. Complementing this functionality, the Swift compiler offers an exceptional capability: it can automatically generate the necessary code to conform to the Codable protocol for struct types, provided they meet the required criteria. This compiler-generated code alleviates the burden of manual implementation, enhancing developer productivity and reducing the potential for errors. By leveraging the Codable protocol and its compiler support, developers can streamline the process of data exchange, ensuring consistent and efficient data handling across various components of their applications.
+    "
+/>
+<meta property="og:description" content="
+    The Codable protocol in Swift is a powerful feature that enables the seamless transformation of data structures into external representations and vice versa. It provides a mechanism for encoding and decoding values to and from Data instances, facilitating the serialization and deserialization of data. Complementing this functionality, the Swift compiler offers an exceptional capability: it can automatically generate the necessary code to conform to the Codable protocol for struct types, provided they meet the required criteria. This compiler-generated code alleviates the burden of manual implementation, enhancing developer productivity and reducing the potential for errors. By leveraging the Codable protocol and its compiler support, developers can streamline the process of data exchange, ensuring consistent and efficient data handling across various components of their applications.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/exploring-swifts-codable-protocol-techniques-for-modifying-key-names/feature.webp" />
+
+
+
+
+<meta property="og:title" content="Exploring Swift’s Codable Protocol: Techniques for Modifying Key Names" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/exploring-swifts-codable-protocol-techniques-for-modifying-key-names/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-05-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-05-23T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/exploring-swifts-codable-protocol-techniques-for-modifying-key-names/feature.webp">
+  <meta name="twitter:title" content="Exploring Swift’s Codable Protocol: Techniques for Modifying Key Names">
+  <meta name="twitter:description" content="The Codable protocol in Swift is a powerful feature that enables the seamless transformation of data structures into external representations and vice versa. It provides a mechanism for encoding and decoding values to and from Data instances, facilitating the serialization and deserialization of data. Complementing this functionality, the Swift compiler offers an exceptional capability: it can automatically generate the necessary code to conform to the Codable protocol for struct types, provided they meet the required criteria. This compiler-generated code alleviates the burden of manual implementation, enhancing developer productivity and reducing the potential for errors. By leveraging the Codable protocol and its compiler support, developers can streamline the process of data exchange, ensuring consistent and efficient data handling across various components of their applications.">
+
+
+  <meta itemprop="name" content="Exploring Swift’s Codable Protocol: Techniques for Modifying Key Names">
+  <meta itemprop="description" content="The Codable protocol in Swift is a powerful feature that enables the seamless transformation of data structures into external representations and vice versa. It provides a mechanism for encoding and decoding values to and from Data instances, facilitating the serialization and deserialization of data. Complementing this functionality, the Swift compiler offers an exceptional capability: it can automatically generate the necessary code to conform to the Codable protocol for struct types, provided they meet the required criteria. This compiler-generated code alleviates the burden of manual implementation, enhancing developer productivity and reducing the potential for errors. By leveraging the Codable protocol and its compiler support, developers can streamline the process of data exchange, ensuring consistent and efficient data handling across various components of their applications.">
+  <meta itemprop="datePublished" content="2024-05-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-05-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="880">
+  <meta itemprop="image" content="https://timwang.au/posts/exploring-swifts-codable-protocol-techniques-for-modifying-key-names/feature.webp">
+  <meta itemprop="keywords" content="Swift,Protocol,Codable">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">Exploring Swift’s Codable Protocol: Techniques for Modifying Key Names</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    May 23, 2024
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    5 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/protocol"><span
+                                    class="tag bg-dark">Protocol</span></a>
+                            
+                            <a href="https://timwang.au/tags/codable"><span
+                                    class="tag bg-dark">Codable</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/exploring-swifts-codable-protocol-techniques-for-modifying-key-names/feature.webp alt="Exploring Swift’s Codable Protocol: Techniques for Modifying Key Names">
+                        </figure>
+                    
+                
+
+                <p>The Codable protocol in Swift is a powerful feature that enables the seamless transformation of data structures into external representations and vice versa. It provides a mechanism for encoding and decoding values to and from Data instances, facilitating the serialization and deserialization of data. Complementing this functionality, the Swift compiler offers an exceptional capability: it can automatically generate the necessary code to conform to the Codable protocol for struct types, provided they meet the required criteria. This compiler-generated code alleviates the burden of manual implementation, enhancing developer productivity and reducing the potential for errors. By leveraging the Codable protocol and its compiler support, developers can streamline the process of data exchange, ensuring consistent and efficient data handling across various components of their applications.</p>
+<p>While the Codable protocol and its compiler support provide a robust and efficient solution for data encoding and decoding, there are instances where developers may need to implement the required methods manually. Such scenarios typically arise when handling JSON responses from APIs that adhere to different naming conventions or data structuring approaches. Swift’s design accommodates these situations, offering developers the flexibility to customize the behavior of Codable types as needed. This article will explore the techniques and best practices for tailoring Swift’s Codable types to align with specific requirements, ensuring seamless integration with external data sources and facilitating efficient data transformation within applications.</p>
+<p>In general, it is possible to modify key names, values, and data structures during the encoding and decoding processes. This article will primarily concentrate on the techniques for altering key names, while the remaining aspects, namely value and data structure manipulation, will be explored in subsequent articles.</p>
+<h1 id="without-any-customisation">Without any customisation</h1>
+<p>Let us take the following <code>struct</code> as an example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Person</span>: Codable {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> firstName: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> lastName: String  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> person = Person(firstName: <span style="color:#e6db74">&#34;Tim&#34;</span>, lastName: <span style="color:#e6db74">&#34;Wang&#34;</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> data = <span style="color:#66d9ef">try</span> JSONEncoder().encode(person)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> newPerson = <span style="color:#66d9ef">try</span> JSONDecoder().decode(Person.<span style="color:#66d9ef">self</span>, from: data)  
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">catch</span> {  
+</span></span><span style="display:flex;"><span>    print(error)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The conformance of the <code>Codable</code> protocol facilitates the automatic generation of the requisite <code>encode</code> and <code>decode</code> methods for the given struct by the compiler. Consequently, we can leverage the <code>JSONEncoder</code> and <code>JSONDecoder</code> classes to encode instances of the <code>Person</code> struct into data representations, or decode data back into <code>Person</code> instances, respectively.</p>
+<p>Upon decoding the data into its JSON string representation, as illustrated below, it becomes evident that the key names employed are “firstName” and “lastName”.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>{<span style="color:#e6db74">&#34;lastName&#34;</span>:<span style="color:#e6db74">&#34;Wang&#34;</span>,<span style="color:#e6db74">&#34;firstName&#34;</span>:<span style="color:#e6db74">&#34;Tim&#34;</span>}
+</span></span></code></pre></div><p>What if we want to use SnakeCase or some other key values?</p>
+<h1 id="use-keyencodingstrategy-and-keydecodingstrategy">Use keyEncodingStrategy and <code>keyDecodingStrategy</code></h1>
+<p>In the following example, we leverage the <code>convertToSnakeCase</code> and <code>convertFromSnakeCase</code> strategies during the encoding and decoding processes, respectively. Consequently, the JSON string representation employs the snake_case key names <code>first_name</code> and <code>last_name</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">do</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> person = Person(firstName: <span style="color:#e6db74">&#34;Tim&#34;</span>, lastName: <span style="color:#e6db74">&#34;Wang&#34;</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> encoder = JSONEncoder()  
+</span></span><span style="display:flex;"><span>    encoder.keyEncodingStrategy = .convertToSnakeCase  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> data = <span style="color:#66d9ef">try</span> encoder.encode(person)   
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// JSON String: {&#34;last_name&#34;:&#34;Wang&#34;,&#34;first_name&#34;:&#34;Tim&#34;}  </span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> decoder = JSONDecoder()  
+</span></span><span style="display:flex;"><span>    decoder.keyDecodingStrategy = .convertFromSnakeCase  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> newPerson = <span style="color:#66d9ef">try</span> decoder.decode(Person.<span style="color:#66d9ef">self</span>, from: data)  
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">catch</span> {  
+</span></span><span style="display:flex;"><span>    print(error)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The strategies are applied to all key names. However, if the requirement is to handle specific key names, the <code>.custom</code> strategy can be utilized, as demonstrated in the following example. In this case, only <code>first_name</code> key name is using SnakeCase.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">PersonCodingKeys</span>: String, CodingKey {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> firstName = <span style="color:#e6db74">&#34;first_name&#34;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> lastName  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> encoder = JSONEncoder()  
+</span></span><span style="display:flex;"><span>encoder.keyEncodingStrategy = .custom({ codingPath <span style="color:#66d9ef">in</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span> codingPath.last?.stringValue {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;firstName&#34;</span>: PersonCodingKeys.firstName  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">default</span>: PersonCodingKeys.lastName  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>})  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> data = <span style="color:#66d9ef">try</span> encoder.encode(person)  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// {&#34;first_name&#34;:&#34;Tim&#34;,&#34;lastName&#34;:&#34;Wang&#34;}</span>
+</span></span></code></pre></div><p>Please note, we cannot simply use <code>.custom</code> for <code>keyDecodingStrategy</code> like below. In order to make it work we need to define coding keys inside Person struct.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">// NOT WORK!!!  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> decoder = JSONDecoder()  
+</span></span><span style="display:flex;"><span>decoder.keyDecodingStrategy = .custom({ codingPath <span style="color:#66d9ef">in</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">switch</span> codingPath.last?.stringValue {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;first_name&#34;</span>: PersonCodingKeys.firstName  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">default</span>: PersonCodingKeys.lastName  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>})  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> newPerson = <span style="color:#66d9ef">try</span>? decoder.decode(Person.<span style="color:#66d9ef">self</span>, from: data)  
+</span></span><span style="display:flex;"><span>print(newPerson)
+</span></span></code></pre></div><p>While the <code>.custom</code> strategy provides flexibility, its implementation can be relatively verbose. Indeed, the following alternative method can achieve the same result in a more concise manner.</p>
+<h1 id="use-codingkeys-definition">Use CodingKeys definition</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Person</span>: Codable {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> firstName: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> lastName: String  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">CodingKeys</span>: String, CodingKey {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> firstName = <span style="color:#e6db74">&#34;first_name&#34;</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> lastName = <span style="color:#e6db74">&#34;last_name&#34;</span>  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> person = Person(firstName: <span style="color:#e6db74">&#34;Tim&#34;</span>, lastName: <span style="color:#e6db74">&#34;Wang&#34;</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> data = <span style="color:#66d9ef">try</span> JSONEncoder().encode(person)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> newPerson = <span style="color:#66d9ef">try</span> JSONDecoder().decode(Person.<span style="color:#66d9ef">self</span>, from: data)  
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">catch</span> {  
+</span></span><span style="display:flex;"><span>    print(error)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In this code snippet, we define <code>CodingKeys</code> within the <code>Person</code> struct, which will be automatically utilized by the <code>encode</code> and <code>decode</code> methods. We possess the capability to modify the values of these keys (e.g., snake_case, a combination of snake_case and non-snake_case keys, etc.) to suit our specific requirements, thereby providing maximum flexibility.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>We have investigated various techniques for modifying key names when conforming to the <code>Codable</code> protocol. In scenarios that a well-defined snake_case key name mapping exists, the snake_case strategy presents the most straightforward approach. For other cases, defining <code>CodingKeys</code> within the struct may be a more suitable choice. However, there may also be situations where the <code>.custom</code> strategy is needed. For instance, when the struct type is defined within an external library, and the source code cannot be modified.</p>
+<p>Ultimately, these methods provide a comprehensive set of tools, enabling us to handle JSON data with ease and flexibility.</p>
+<p>Please continue to follow along, as we will delve into the customization of values and data structures when utilizing Swift’s Codable protocol in upcoming articles.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fexploring-swifts-codable-protocol-techniques-for-modifying-key-names%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=Exploring%20Swift%e2%80%99s%20Codable%20Protocol%3a%20Techniques%20for%20Modifying%20Key%20Names&url=https%3a%2f%2ftimwang.au%2fposts%2fexploring-swifts-codable-protocol-techniques-for-modifying-key-names%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fexploring-swifts-codable-protocol-techniques-for-modifying-key-names%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/exploring-swifts-codable-protocol-techniques-for-modifying-key-names/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fexploring-swifts-codable-protocol-techniques-for-modifying-key-names%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fexploring-swifts-codable-protocol-techniques-for-modifying-key-names%2f
+			&title=Exploring%20Swift%e2%80%99s%20Codable%20Protocol%3a%20Techniques%20for%20Modifying%20Key%20Names&summary=%3cp%3eThe%20Codable%20protocol%20in%20Swift%20is%20a%20powerful%20feature%20that%20enables%20the%20seamless%20transformation%20of%20data%20structures%20into%20external%20representations%20and%20vice%20versa.%20It%20provides%20a%20mechanism%20for%20encoding%20and%20decoding%20values%20to%20and%20from%20Data%20instances%2c%20facilitating%20the%20serialization%20and%20deserialization%20of%20data.%20Complementing%20this%20functionality%2c%20the%20Swift%20compiler%20offers%20an%20exceptional%20capability%3a%20it%20can%20automatically%20generate%20the%20necessary%20code%20to%20conform%20to%20the%20Codable%20protocol%20for%20struct%20types%2c%20provided%20they%20meet%20the%20required%20criteria.%20This%20compiler-generated%20code%20alleviates%20the%20burden%20of%20manual%20implementation%2c%20enhancing%20developer%20productivity%20and%20reducing%20the%20potential%20for%20errors.%20By%20leveraging%20the%20Codable%20protocol%20and%20its%20compiler%20support%2c%20developers%20can%20streamline%20the%20process%20of%20data%20exchange%2c%20ensuring%20consistent%20and%20efficient%20data%20handling%20across%20various%20components%20of%20their%20applications.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=Exploring%20Swift%e2%80%99s%20Codable%20Protocol%3a%20Techniques%20for%20Modifying%20Key%20Names&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fexploring-swifts-codable-protocol-techniques-for-modifying-key-names%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

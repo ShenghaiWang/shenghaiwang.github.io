@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    Swift Actors | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/swift-actors/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    The actor model is a popular model for concurrency computing. Swift adopts this model and adds actor as an integral part of Swift concurrency since Swift 5.5. Swift actors encapsulate state variables and operations that defined upon states to ensure mutually exclusive access to these states. In this article, we are going to explore how to utilise this feature.
+    "
+/>
+<meta property="og:description" content="
+    The actor model is a popular model for concurrency computing. Swift adopts this model and adds actor as an integral part of Swift concurrency since Swift 5.5. Swift actors encapsulate state variables and operations that defined upon states to ensure mutually exclusive access to these states. In this article, we are going to explore how to utilise this feature.
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/swift-actors/feature.webp" />
+
+
+
+
+<meta property="og:title" content="Swift Actors" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/swift-actors/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-01-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-01-26T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/swift-actors/feature.webp">
+  <meta name="twitter:title" content="Swift Actors">
+  <meta name="twitter:description" content="The actor model is a popular model for concurrency computing. Swift adopts this model and adds actor as an integral part of Swift concurrency since Swift 5.5. Swift actors encapsulate state variables and operations that defined upon states to ensure mutually exclusive access to these states. In this article, we are going to explore how to utilise this feature.">
+
+
+  <meta itemprop="name" content="Swift Actors">
+  <meta itemprop="description" content="The actor model is a popular model for concurrency computing. Swift adopts this model and adds actor as an integral part of Swift concurrency since Swift 5.5. Swift actors encapsulate state variables and operations that defined upon states to ensure mutually exclusive access to these states. In this article, we are going to explore how to utilise this feature.">
+  <meta itemprop="datePublished" content="2024-01-26T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-01-26T00:00:00+00:00">
+  <meta itemprop="wordCount" content="933">
+  <meta itemprop="image" content="https://timwang.au/posts/swift-actors/feature.webp">
+  <meta itemprop="keywords" content="Swift,Concurrency,Actor">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">Swift Actors</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Jan 26, 2024
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    5 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/concurrency"><span
+                                    class="tag bg-dark">Concurrency</span></a>
+                            
+                            <a href="https://timwang.au/tags/actor"><span
+                                    class="tag bg-dark">Actor</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/swift-actors/feature.webp alt="Swift Actors">
+                        </figure>
+                    
+                
+
+                <p>The <strong>actor model</strong> is a popular model for concurrency computing. Swift adopts this model and adds actor as an integral part of Swift concurrency since Swift 5.5. Swift actors encapsulate state variables and operations that defined upon states to ensure mutually exclusive access to these states. In this article, we are going to explore how to utilise this feature.</p>
+<h1 id="define-an-actor">Define an actor</h1>
+<p>To define an actor, it’s just like to define a struct or class(Please note actor is a reference type).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>actor Account {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> ID: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> balance: Double  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(ID: String, balance: Double) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.ID = ID  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.balance = balance  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newTransaction</span>(of value: Double) {  
+</span></span><span style="display:flex;"><span>        balance <span style="color:#f92672">-=</span> value  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>If we have an <code>Account</code> actor above, the operations of accessing <code>balance</code> of the <code>Account</code> actor instance can only be done on the Actor-isolated context. For example, use <code>newTransaction</code> method defined in this actor like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> account = Account(ID: <span style="color:#e6db74">&#34;12345&#34;</span>, balance: <span style="color:#ae81ff">100</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>Task {  
+</span></span><span style="display:flex;"><span>    await account.newTransaction(of: <span style="color:#ae81ff">10</span>)  
+</span></span><span style="display:flex;"><span>    print(await account.balance)  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>If we try to access it directly like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>await account.balance = <span style="color:#ae81ff">100</span>
+</span></span></code></pre></div><p>The compiler will give us error <code>Actor-isolated property ‘balance’ can not be mutated from a non-isolated context</code> .</p>
+<p>In summary, Swift guarantees the safety of the states of actor instances by run these operations on the actor isolated context in sequence. This is a much easier and intuitive way to ensure data safety than using serial operation queue or some other mechanisms. It’s recommended to handle data safety in the Swift Structure concurrency world.</p>
+<h1 id="global-actors">Global actors</h1>
+<p>Sometimes, it is not always easy to model our data into actors. For example, some global states of the app are not part of any actors, but still need a controlled access to these global states in some cases. This is where global actor comes in.</p>
+<p>Before we dive into defining our own global actors, let’s explore the famous <code>MainActor</code> — a global actor that ensures the code running on Main thread in sequence. The following syntaxes can be used for <code>MainActor</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">// Specify variable to be accessed on Main Thread  </span>
+</span></span><span style="display:flex;"><span>@MainActor <span style="color:#66d9ef">var</span> globalVairable = <span style="color:#66d9ef">false</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Specify func to run on Main Thread  </span>
+</span></span><span style="display:flex;"><span>@MainActor <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">someFunc</span>() {  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;On Main thread&#34;</span>)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Specify a closure to run on Main Thread  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> callback: @MainActor () -&gt; Void = {  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;On Main thread&#34;</span>)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Specify a closure to run on Main Thread  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> callback2 = { @MainActor <span style="color:#66d9ef">in</span>  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;On Main thread&#34;</span>)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Specify all methods &amp; vairabls of a type to run on Main Thread  </span>
+</span></span><span style="display:flex;"><span>@MainActor  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SomeClass</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">run</span>() {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;On Main thread&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Run code block on main thread  </span>
+</span></span><span style="display:flex;"><span>await MainActor.run {  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;On Main thread&#34;</span>)  
+</span></span><span style="display:flex;"><span>}  
+</span></span></code></pre></div><p>Also, we can define our own global actors and use them in the similar fashion. The global actors defined by us will ensure the code running on an isolated context but not necessarily on main thread. For example, in the code snippet blow, we define a global actor <code>DBActor</code> first and use it to make sure data safety.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>@globalActor  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">DBActor</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> actor DBActor { }  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// The singleton actor instance to provide isolated context  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">let</span> shared = DBActor()   
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>@DBActor <span style="color:#66d9ef">var</span> globalDBVairable = <span style="color:#66d9ef">false</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>@DBActor <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">someFunc</span>() {  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;On DBActor Context&#34;</span>)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> callback: @DBActor () -&gt; Void = {  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;On DBActor Context&#34;</span>)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> callback2 = { @DBActor <span style="color:#66d9ef">in</span>  
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;On DBActor Context&#34;</span>)  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>@DBActor  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SomeClass2</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">run</span>() {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;On DBActor Context&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The code here marked with <code>DBActor</code> will run on the actor isolated context provided by the singleton <code>shared</code> instance of this global actor.</p>
+<p>Please note, apart from this syntax <code>MainActor.run</code> , we can use all other syntaxes that available for <code>MainActor</code> for our own global actor. Again, compared with serial operation queue, this global actor syntax is more concise and simpler.</p>
+<h1 id="refined-control-of-states">Refined control of States</h1>
+<p>By default, all states defined in actor are actor-isolated. However, this is too strict for some cases. For example, the <code>ID</code> property of the <code>Account</code> actor defined earlier is a read only property and it’s thread safe reading it. To allow it, we can use <code>nonisolated</code> keyword like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>actor Account {  
+</span></span><span style="display:flex;"><span>    nonisolated <span style="color:#66d9ef">let</span> ID: String <span style="color:#75715e">// Make it nonisolated  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> balance: Double  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(ID: String, balance: Double) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.ID = ID  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.balance = balance  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newTransaction</span>(of value: Double) {  
+</span></span><span style="display:flex;"><span>        balance <span style="color:#f92672">-=</span> value  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Similarly, we can mark a func nonisolated  </span>
+</span></span><span style="display:flex;"><span>    nonisolated <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">isSame</span>(with account: Account) -&gt; Bool {  
+</span></span><span style="display:flex;"><span>        ID == account.ID  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Please note, in a <code>nonisolated</code> function in an actor, we cannot access the actor’s <code>isolated</code> states. To be accurate, the types involved in a non-isolated declaration must all be <code>[Sendable](https://developer.apple.com/documentation/swift/sendable)</code> .</p>
+<h1 id="refined-control-of-actor-executors">Refined control of actor executors</h1>
+<p>So far, we know that conceptually, once the code is actor isolated, it will run synchronically and the memory safe will be guaranteed. The way Swift does it is to provide a default <code>unownedExecutor</code> for each actor to run the actor isolated code in sequence. If needed, we can override this property and provide our own executor like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>actor MyMainActor {   
+</span></span><span style="display:flex;"><span>    nonisolated <span style="color:#66d9ef">var</span> unownedExecutor: UnownedSerialExecutor {   
+</span></span><span style="display:flex;"><span>        MainActor.sharedUnownedExecutor  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">test</span>() {   
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;On main thread as the customised Executor is from MainActor.sharedUnownedExecutor&#34;</span>)   
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In the code above, we use <code>MainActor.sharedUnownedExecutor</code> as the executor of our <code>MyMainActor</code> , which results in all the isolated code in <code>MyMainActor</code> run on main thread in sequence. If need more details of how to implement an <code>unownedExecutor</code> from scratch, please refer to this <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0392-custom-actor-executors.md">proposal</a>.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>In conclusion, Swift Actor provides a simple model to ensure safely access shared states, which help write concise and readable code.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fswift-actors%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=Swift%20Actors&url=https%3a%2f%2ftimwang.au%2fposts%2fswift-actors%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fswift-actors%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/swift-actors/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fswift-actors%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fswift-actors%2f
+			&title=Swift%20Actors&summary=%3cp%3eThe%20%3cstrong%3eactor%20model%3c%2fstrong%3e%20is%20a%20popular%20model%20for%20concurrency%20computing.%20Swift%20adopts%20this%20model%20and%20adds%20actor%20as%20an%20integral%20part%20of%20Swift%20concurrency%20since%20Swift%205.5.%20Swift%20actors%20encapsulate%20state%20variables%20and%20operations%20that%20defined%20upon%20states%20to%20ensure%20mutually%20exclusive%20access%20to%20these%20states.%20In%20this%20article%2c%20we%20are%20going%20to%20explore%20how%20to%20utilise%20this%20feature.%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=Swift%20Actors&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fswift-actors%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

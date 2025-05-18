@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><title>
+    
+    KeyPath: One Hidden Gem in Swift | 
+    
+    Coding life
+</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://timwang.au/posts/keypath-one-hidden-gem-in-swift/" />
+<link rel="icon" type="image/png" href="https://timwang.au/img/favicon.ico">
+
+
+<meta name="description" content="
+    KeyPath in Swift provides a different way to access object properties apart from dot syntax, which adds flexibilities in coding practice. The KeyPath can also behave as a function since Swift 5.2 and this usage can been seen in many language APIs. For example:
+    "
+/>
+<meta property="og:description" content="
+    KeyPath in Swift provides a different way to access object properties apart from dot syntax, which adds flexibilities in coding practice. The KeyPath can also behave as a function since Swift 5.2 and this usage can been seen in many language APIs. For example:
+    " 
+/>
+
+    
+    
+        
+        
+    
+    <meta property="og:image" content="https://timwang.au/posts/keypath-one-hidden-gem-in-swift/feature.webp" />
+
+
+
+
+<meta property="og:title" content="KeyPath: one hidden gem in Swift" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timwang.au/posts/keypath-one-hidden-gem-in-swift/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-12-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-12-26T00:00:00+00:00" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://timwang.au/posts/keypath-one-hidden-gem-in-swift/feature.webp">
+  <meta name="twitter:title" content="KeyPath: one hidden gem in Swift">
+  <meta name="twitter:description" content="KeyPath in Swift provides a different way to access object properties apart from dot syntax, which adds flexibilities in coding practice. The KeyPath can also behave as a function since Swift 5.2 and this usage can been seen in many language APIs. For example:">
+
+
+  <meta itemprop="name" content="KeyPath: one hidden gem in Swift">
+  <meta itemprop="description" content="KeyPath in Swift provides a different way to access object properties apart from dot syntax, which adds flexibilities in coding practice. The KeyPath can also behave as a function since Swift 5.2 and this usage can been seen in many language APIs. For example:">
+  <meta itemprop="datePublished" content="2023-12-26T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-12-26T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1267">
+  <meta itemprop="image" content="https://timwang.au/posts/keypath-one-hidden-gem-in-swift/feature.webp">
+  <meta itemprop="keywords" content="Swift,Keypath">
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/main.min.css">
+
+
+
+
+
+<script src="https://timwang.au/bundle.js"></script>
+
+
+
+
+
+
+
+<script data-ad-client="ca-pub-2436585290223978" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-337R547PCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-337R547PCS');
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://timwang.au/katex/katex.min.css">
+<script defer src="https://timwang.au/katex/katex.min.js"></script>
+<script defer src="https://timwang.au/katex/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<script defer src="https://timwang.au/mermaid/mermaid.min.js"></script>
+</head>
+
+<body><header id="header">
+  <div class="top-bar">
+    <div class="container-md">
+
+      <div class="row align-items-center">
+        <div class="col-3 col-sm-4 social-buttons d-none d-sm-block">
+          <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+        </div>
+
+        <div class="ra-toggler col-3 col-sm-4 d-block d-sm-none">
+          <button class="bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <h2 class="title"><img src="https://timwang.au/img/favicon.png" width="80" /><a href="https://timwang.au/">Coding life</a></h2>
+        </div>
+
+        
+        <div class="col-3 col-sm-4">
+          <div class="col col-md-8 offset-md-4 d-none d-sm-block">
+            <form id="cse-search-box-form-id" class="input-group search-bar" onsubmit="return executeQuery('lg');"
+              role="search">
+              <input id="cse-search-input-box-id" type="text" class="form-control" placeholder="Search">
+              <button class="btn" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container-md">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item d-block d-sm-none">
+            <ul class="social-buttons">
+              <ul>
+    
+
+    
+
+    
+
+    
+
+    
+    <li>
+        <a href="https://github.com/ShenghaiWang" target="_blank">
+            <i class="fab fa-github"></i></a>
+    </li>
+    
+
+    
+
+    
+    <li>
+        <a href="https://www.linkedin.com/in/overocean/" target="_blank">
+            <i class="fab fa-linkedin"></i></a>
+    </li>
+    
+
+</ul>
+            </ul>
+          </li>
+
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/">
+              Home
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/posts/">
+              Posts
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/about/">
+              About
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link 
+              
+              " 
+              href="https://timwang.au/contact/">
+              Contact
+            </a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <form id="cse-search-box-form-id2" class="d-flex search-bar d-block d-sm-none"
+          onsubmit="return executeQuery('xs');" role="search">
+          <input id="cse-search-input-box-id2" type="text" class="form-control" placeholder="Search">
+          <button class="btn" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
+
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-content">
+    <div class="container-md">
+        <div class="row">
+            
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-left-offset"></div>
+                
+            </div>
+
+            <div class="col-md-12 col-lg-8 px-lg-4">
+                
+
+                <h1 class="title">KeyPath: one hidden gem in Swift</h1>
+
+                <div class="container-fluid px-0 mb-4">
+                    <div class="row align-items-end">
+                        <div class="col-md-4 date-time">
+                            <span class="date">
+    Dec 26, 2023
+</span>
+                            &centerdot;
+                            <span class="time-to-read">
+    7 mins read</span>
+                        </div>
+
+                        <div class="col-md-8 tags ">
+                            
+                            <a href="https://timwang.au/tags/swift"><span
+                                    class="tag bg-dark">Swift</span></a>
+                            
+                            <a href="https://timwang.au/tags/keypath"><span
+                                    class="tag bg-dark">Keypath</span></a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                    
+                        <figure>
+                            
+                            <img id="cover-image" src=https://timwang.au/posts/keypath-one-hidden-gem-in-swift/feature.webp alt="KeyPath: one hidden gem in Swift">
+                        </figure>
+                    
+                
+
+                <p><code>KeyPath</code> in Swift provides a different way to access object properties apart from <code>dot syntax</code>, which adds flexibilities in coding practice. The KeyPath can also <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0249-key-path-literal-function-expressions.md">behave as a function</a> since Swift 5.2 and this usage can been seen in many language APIs. For example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">User</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> name: String  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> users: [User] = []  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Using closure  </span>
+</span></span><span style="display:flex;"><span>users.map { $0.name }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Using keypath  </span>
+</span></span><span style="display:flex;"><span>users.map(<span style="color:#960050;background-color:#1e0010">\</span>.name)
+</span></span></code></pre></div><p>In this article, we are going to explore how KeyPath can help us.</p>
+<h1 id="work-with-dynamicmemberlookup">Work with @dynamicMemberLookup</h1>
+<p>This should be one of the most widely known use cases that KeyPath shines. It is a feature added to Swift 5.1 and the original proposal is <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0252-keypath-dynamic-member-lookup.md">here</a>. Without KeyPath, we could have use @dynamicMemberLookup like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>@dynamicMemberLookup  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">User</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Address</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> city: String  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> postcode: String  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> name: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> address: Address  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">subscript</span>(dynamicMember member: String) -&gt; String {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">switch</span> member {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;city&#34;</span>: <span style="color:#66d9ef">return</span> address.city  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;postcode&#34;</span>: <span style="color:#66d9ef">return</span> address.postcode  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">default</span>: <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&#34;</span>  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> user = User(name: <span style="color:#e6db74">&#34;Tim&#34;</span>, address: .<span style="color:#66d9ef">init</span>(city: <span style="color:#e6db74">&#34;Sydney&#34;</span>, postcode: <span style="color:#e6db74">&#34;2000&#34;</span>))  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>print(user.city)  
+</span></span><span style="display:flex;"><span>print(user.postcode)
+</span></span></code></pre></div><p>With the above setup, @dynamicMemberLookup enables us to access <code>city</code> and <code>postcode</code> at user level even though they are properties of <code>address</code> property of the <code>User</code>.</p>
+<p>However, this approach is limited: we have to handle <code>member</code> parameter as a <code>String</code>, which is error prone. Also, one <code>subscript</code> method can only return one type etc. With KeyPath, it becomes much better. Let’s see the example below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>@dynamicMemberLookup  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">User</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Address</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> city: String  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> postcode: String  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> distance: Measurement&lt;UnitLength&gt;  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> name: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> address: Address  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Using KeyPath  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">subscript</span>&lt;Value&gt;(dynamicMember keypath: KeyPath&lt;Address, Value&gt;) -&gt; Value {  
+</span></span><span style="display:flex;"><span>        address[keyPath: keypath]  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> user = User(name: <span style="color:#e6db74">&#34;Tim&#34;</span>, address: .<span style="color:#66d9ef">init</span>(city: <span style="color:#e6db74">&#34;Sydney&#34;</span>,   
+</span></span><span style="display:flex;"><span>                                            postcode: <span style="color:#e6db74">&#34;2000&#34;</span>,  
+</span></span><span style="display:flex;"><span>                                            distance: .<span style="color:#66d9ef">init</span>(value: <span style="color:#ae81ff">500</span>, unit: .kilometers)))  
+</span></span><span style="display:flex;"><span>print(user.city)  
+</span></span><span style="display:flex;"><span>print(user.postcode)  
+</span></span><span style="display:flex;"><span>print(user.distance)
+</span></span></code></pre></div><p>Now, with fewer lines of code, we have a more powerful dynamicMemberLookup method. As the <code>subscript</code> method is a generic method, it can handle different types(<code>String</code> and <code>Measurement&lt;UnitLength&gt;</code> in this case).</p>
+<h1 id="process-properties-in-batches">Process properties in batches</h1>
+<p>KeyPath instances are values and we can store them in collection types like array, set and dictionary etc. By doing so, we group KeyPaths together and can process the values they refer to in batches.</p>
+<p>In the following example, we store the default values in a dictionary where KeyPath is the key and reset the device to its default state using one loop in <code>resetToDefault</code> method. This is convenient because we do not need to write properties line by line in this method. Even we add new defaults in the dictionary, we don’t need to update this method at all.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Device</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">let</span> defaults: [ReferenceWritableKeyPath&lt;Device, Int&gt;: Int] = [<span style="color:#960050;background-color:#1e0010">\</span>.volume: <span style="color:#ae81ff">3</span>,  
+</span></span><span style="display:flex;"><span>                                                                        <span style="color:#960050;background-color:#1e0010">\</span>.bassLevel: <span style="color:#ae81ff">2</span>,  
+</span></span><span style="display:flex;"><span>                                                                        <span style="color:#960050;background-color:#1e0010">\</span>.trebleLevel: <span style="color:#ae81ff">2</span>,  
+</span></span><span style="display:flex;"><span>                                                                        <span style="color:#960050;background-color:#1e0010">\</span>.noiseCancellingLevel: <span style="color:#ae81ff">5</span>]  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> volume: Int  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> bassLevel: Int  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> trebleLevel: Int  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> noiseCancellingLevel: Int  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(volume: Int, noiseCancellingLevel: Int, bassLevel: Int, trebleLevel: Int) {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.volume = volume  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.noiseCancellingLevel = noiseCancellingLevel  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.bassLevel = bassLevel  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.trebleLevel = trebleLevel  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Reset all property values to defaults  </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">resetToDefault</span>() {  
+</span></span><span style="display:flex;"><span>        Device.defaults.forEach { key, value <span style="color:#66d9ef">in</span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">self</span>[keyPath: key] = value  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Here, we are using <code>ReferenceWritableKeyPath</code> so that we can write values using <code>self</code> to this device class.</p>
+<h1 id="work-with-enum-to-manage-the-flow">Work with Enum to manage the flow</h1>
+<p>Another use case that I found KeyPath is helpful is that we can use it along with <code>Enum</code> to do the flow control. Let’s imagine we need to take actions based on user’s input. For this we can have the code written like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> userInput: String?  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Action</span>: String {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> up, down, <span style="color:#66d9ef">left</span>, <span style="color:#66d9ef">right</span>  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ActionManager</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> upAction: () -&gt; Void {{ }}  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> downAction: () -&gt; Void {{ }}  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> leftAction: () -&gt; Void {{ }}  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> rightAction: () -&gt; Void {{ }}  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> actionHandlers: [Action: KeyPath&lt;ActionManager, () -&gt; Void&gt;] = [.up: <span style="color:#960050;background-color:#1e0010">\</span>.upAction,  
+</span></span><span style="display:flex;"><span>                                                                        .down: <span style="color:#960050;background-color:#1e0010">\</span>.downAction,  
+</span></span><span style="display:flex;"><span>                                                                        .<span style="color:#66d9ef">left</span>: <span style="color:#960050;background-color:#1e0010">\</span>.leftAction,  
+</span></span><span style="display:flex;"><span>                                                                        .<span style="color:#66d9ef">right</span>: <span style="color:#960050;background-color:#1e0010">\</span>.rightAction]  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> actionManager = ActionManager()  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> userInput,  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> action = Action(rawValue: userInput),  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> keypath = actionManager.actionHandlers[action]  {  
+</span></span><span style="display:flex;"><span>    actionManager[keyPath: keypath]()  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>With the help of the KeyPath, we define the mapping logic in a dictionary and use it in the main control flow. You might argue this wouldn’t help much. It is true to some extent. However, the usage of KeyPath here decouples the action mapping logic from the main control flow. And the obvious benefit gained here is that this separated mapping is easier to maintain.</p>
+<p>For instance, if we need to add new action cases, we do not need to touch the main flow. What we need to to is to add the new enum cases, define the action handler for them and hook them in the <code>actionHandlers</code> dictionary. And the best part is that all these can be done within a small block of code, which is easier to handle and less probability of introducing bugs.</p>
+<h1 id="identity-keypath">Identity KeyPath</h1>
+<p>When we are in a KeyPath context, we can use identify KeyPath <code>.self</code> to access to the object itself. Even though it’s identical to object itself, and in most cases we can use the variable itself for the same purpose, it does provide some flexibility sometimes.</p>
+<p>Imagine we have log function that uses KeyPath to print out values like below. We can use <code>.self</code> the whole value.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Customer</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> name: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> age: Int  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">logMe</span>&lt;Value&gt;(keyPath: KeyPath&lt;Customer, Value&gt;) {  
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">\(</span>keyPath<span style="color:#e6db74">)</span><span style="color:#e6db74">: </span><span style="color:#e6db74">\(</span><span style="color:#66d9ef">self</span>[keyPath: keyPath]<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> customer = Customer(name: <span style="color:#e6db74">&#34;Tim&#34;</span>, age: <span style="color:#ae81ff">40</span>)  
+</span></span><span style="display:flex;"><span>customer.logMe(keyPath: <span style="color:#960050;background-color:#1e0010">\</span>.name) <span style="color:#75715e">// Will print: \Customer.name: Tim  </span>
+</span></span><span style="display:flex;"><span>customer.logMe(keyPath: <span style="color:#960050;background-color:#1e0010">\</span>.age) <span style="color:#75715e">// Will print: \Customer.age: 40  </span>
+</span></span><span style="display:flex;"><span>customer.logMe(keyPath: <span style="color:#960050;background-color:#1e0010">\</span>.<span style="color:#66d9ef">self</span>) <span style="color:#75715e">// Will print: \Customer.self: Customer(name: &#34;Tim&#34;, age: 40)</span>
+</span></span></code></pre></div><h1 id="sorting-arrays-using-keypath">Sorting arrays using KeyPath</h1>
+<p>As we know, if we need to sort an array, we can use the <code>sort</code> or <code>sorted</code> methods in Swift like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">User</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> firstName: String  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> lastName: String  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> users: [User] = []  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> sorted = users.sorted { $0.firstName <span style="color:#f92672">&gt;</span> $1.firstName }  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Or  </span>
+</span></span><span style="display:flex;"><span>users.sort { $0.firstName <span style="color:#f92672">&gt;</span> $1.firstName }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Or implement Comparable on User so that can call `sorted` or `sort` without paramaters   </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">User</span>: Comparable {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#f92672">&lt;</span> (lhs: User, rhs: User) -&gt; Bool {  
+</span></span><span style="display:flex;"><span>        lhs.firstName <span style="color:#f92672">&gt;</span> rhs.firstName  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> anotherSorted = users.sorted()  
+</span></span><span style="display:flex;"><span>users.sort()
+</span></span></code></pre></div><p>The above approach works. But what if we want to sort <code>users</code> based on <code>lastName</code> ? If we add the following extension to <code>Array</code> using KeyPath, we have the flexibility to choose sorting criteria with ease.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Array</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sorted</span>&lt;Value: Comparable&gt;(on keypath: KeyPath&lt;Element, Value&gt;,   
+</span></span><span style="display:flex;"><span>                                   by areInIncreasingOrder: (Value, Value) <span style="color:#66d9ef">throws</span> -&gt; Bool) <span style="color:#66d9ef">rethrows</span> -&gt; [Element] {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> sorted {  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span> areInIncreasingOrder($0[keyPath: keypath], $1[keyPath: keypath])  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">mutating</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sort</span>&lt;Value: Comparable&gt;(on keypath: KeyPath&lt;Element, Value&gt;,  
+</span></span><span style="display:flex;"><span>                                 by areInIncreasingOrder: (Value, Value) <span style="color:#66d9ef">throws</span> -&gt; Bool) <span style="color:#66d9ef">rethrows</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> sort {  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span> areInIncreasingOrder($0[keyPath: keypath], $1[keyPath: keypath])  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Now we can do  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> sortedByFirstName = users.sorted(on: <span style="color:#960050;background-color:#1e0010">\</span>.firstName, by: <span style="color:#f92672">&gt;</span>)  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> sortedByLastName = users.sorted(on: <span style="color:#960050;background-color:#1e0010">\</span>.lastName, by: <span style="color:#f92672">&gt;</span>)  
+</span></span><span style="display:flex;"><span>users.sort(on: <span style="color:#960050;background-color:#1e0010">\</span>.firstName, by: <span style="color:#f92672">&gt;</span>)  
+</span></span><span style="display:flex;"><span>users.sort(on: <span style="color:#960050;background-color:#1e0010">\</span>.lastName, by: <span style="color:#f92672">&gt;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Or sort in the opposite order  </span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> sortedByFirstName = users.sorted(on: <span style="color:#960050;background-color:#1e0010">\</span>.firstName, by: <span style="color:#f92672">&lt;</span>)  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> sortedByLastName = users.sorted(on: <span style="color:#960050;background-color:#1e0010">\</span>.lastName, by: <span style="color:#f92672">&lt;</span>)  
+</span></span><span style="display:flex;"><span>users.sort(on: <span style="color:#960050;background-color:#1e0010">\</span>.firstName, by: <span style="color:#f92672">&lt;</span>)  
+</span></span><span style="display:flex;"><span>users.sort(on: <span style="color:#960050;background-color:#1e0010">\</span>.lastName, by: <span style="color:#f92672">&lt;</span>)
+</span></span></code></pre></div><p>As we can see, the usage of KeyPath in this extension give us the freedom in sorting arrays. This syntax is more concise if we need to refer to a deeper level of the value. Also, because we only specify the property once using KeyPath, it reduces the possibility of writing buggy code like <code>$0.firstName &gt; $1.lastName</code> , where we wrongly compare <code>firstName</code> with <code>lastName</code> .</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>KeyPath is a standalone value and, compared with dot syntax that we have to use it along with variables, this decoupling gives us freedom to access to property values. Using it right can help us write expressive and concise code.</p>
+
+
+                <div id="social-media-share">
+	<p><i>Sharing is caring!</i></p>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftimwang.au%2fposts%2fkeypath-one-hidden-gem-in-swift%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=https://timwang.au/icons/48px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=KeyPath%3a%20one%20hidden%20gem%20in%20Swift&url=https%3a%2f%2ftimwang.au%2fposts%2fkeypath-one-hidden-gem-in-swift%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/x.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2ftimwang.au%2fposts%2fkeypath-one-hidden-gem-in-swift%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/https://timwang.au/posts/keypath-one-hidden-gem-in-swift/"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/pinterest.png>
+	    </a>
+
+	    <a  href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3a%2f%2ftimwang.au%2fposts%2fkeypath-one-hidden-gem-in-swift%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2ftimwang.au%2fposts%2fkeypath-one-hidden-gem-in-swift%2f
+			&title=KeyPath%3a%20one%20hidden%20gem%20in%20Swift&summary=%3cp%3e%3ccode%3eKeyPath%3c%2fcode%3e%20in%20Swift%20provides%20a%20different%20way%20to%20access%20object%20properties%20apart%20from%20%3ccode%3edot%20syntax%3c%2fcode%3e%2c%20which%20adds%20flexibilities%20in%20coding%20practice.%20The%20KeyPath%20can%20also%20%3ca%20href%3d%22https%3a%2f%2fgithub.com%2fapple%2fswift-evolution%2fblob%2fmain%2fproposals%2f0249-key-path-literal-function-expressions.md%22%3ebehave%20as%20a%20function%3c%2fa%3e%20since%20Swift%205.2%20and%20this%20usage%20can%20been%20seen%20in%20many%20language%20APIs.%20For%20example%3a%3c%2fp%3e&source=https%3a%2f%2ftimwang.au%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=KeyPath%3a%20one%20hidden%20gem%20in%20Swift&amp;body=Check out this site https%3a%2f%2ftimwang.au%2fposts%2fkeypath-one-hidden-gem-in-swift%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=https://timwang.au/icons/48px/email.png>
+	    </a>
+	</div>
+</div>
+
+
+
+
+                
+                <br>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = '';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+
+            <div class="col-lg-2 d-none d-xl-block">
+                <div class="ad-right-offset"></div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-center py-5">
+    <p>
+        
+        © 2025  Tim Wang
+        
+    </p>
+</footer>
+
+
+<script async src="https://cse.google.com/cse.js?cx=AIzaSyDwPbN1tZoMa6RdVZ_fNQSpv0QuuJ9igJ0"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+</body>
+
+</html>

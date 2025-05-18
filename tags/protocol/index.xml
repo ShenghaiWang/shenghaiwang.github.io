@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Protocol on Coding life</title>
+    <link>https://timwang.au/tags/protocol/</link>
+    <description>Recent content in Protocol on Coding life</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 23 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://timwang.au/tags/protocol/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Exploring Swift’s Codable Protocol</title>
+      <link>https://timwang.au/posts/exploring-swifts-codable-protocol/</link>
+      <pubDate>Sun, 23 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/exploring-swifts-codable-protocol/</guid>
+      <description>&lt;p&gt;In the previous article, we explored techniques for modifying key names when working with the Codable protocol in Swift. This article will focus on customizing the values within JSON data. The desired transformations can be accomplished by implementing custom encode/decode methods. Specifically, within these methods, we can leverage the &lt;strong&gt;Keyed Container&lt;/strong&gt;, &lt;strong&gt;Unkeyed Container&lt;/strong&gt;, and &lt;strong&gt;Single Value Container&lt;/strong&gt; types to handle encoding values into and decoding values from JSON data. In this article, we will explore the &lt;strong&gt;Keyed Container&lt;/strong&gt;, leaving the remaining types to be covered in subsequent articles.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Exploring Swift’s Codable Protocol: Techniques for Modifying Key Names</title>
+      <link>https://timwang.au/posts/exploring-swifts-codable-protocol-techniques-for-modifying-key-names/</link>
+      <pubDate>Thu, 23 May 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/exploring-swifts-codable-protocol-techniques-for-modifying-key-names/</guid>
+      <description>&lt;p&gt;The Codable protocol in Swift is a powerful feature that enables the seamless transformation of data structures into external representations and vice versa. It provides a mechanism for encoding and decoding values to and from Data instances, facilitating the serialization and deserialization of data. Complementing this functionality, the Swift compiler offers an exceptional capability: it can automatically generate the necessary code to conform to the Codable protocol for struct types, provided they meet the required criteria. This compiler-generated code alleviates the burden of manual implementation, enhancing developer productivity and reducing the potential for errors. By leveraging the Codable protocol and its compiler support, developers can streamline the process of data exchange, ensuring consistent and efficient data handling across various components of their applications.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The beauty of Swift Language – protocol</title>
+      <link>https://timwang.au/posts/the-beauty-of-swift-language--protocol/</link>
+      <pubDate>Fri, 26 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://timwang.au/posts/the-beauty-of-swift-language--protocol/</guid>
+      <description>&lt;p&gt;Swift promotes protocol oriented programming and the protocol in Swift is designed to provide rich functionalities to support this goal. Conceptually, it is like interface in Kotlin and C# but with many syntax and functionality differences. In this article, we are going to focus on the wonderful design of the protocol in Swift.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
